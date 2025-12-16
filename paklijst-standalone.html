@@ -67,6 +67,12 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
     .btn-disabled {
       background: rgba(255, 255, 255, 0.15);
       color: rgba(255, 255, 255, 0.4);
@@ -79,6 +85,13 @@
       border: 1px solid rgba(255, 255, 255, 0.25);
       padding: 18px;
       width: auto;
+    }
+
+    .btn-small {
+      padding: 12px 20px;
+      font-size: 14px;
+      width: auto;
+      display: inline-block;
     }
 
     /* Start screen */
@@ -179,6 +192,10 @@
       gap: 12px;
     }
 
+    .options-grid.single-col {
+      grid-template-columns: 1fr;
+    }
+
     /* Option card - UNSELECTED */
     .option-card {
       background: rgba(255, 255, 255, 0.12);
@@ -189,6 +206,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
+      min-height: 44px;
     }
 
     .option-card:active {
@@ -245,6 +263,65 @@
       box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
     }
 
+    /* Text input styling */
+    .text-input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 18px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .text-input:focus {
+      border-color: white;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .text-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .date-input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+      -webkit-appearance: none;
+    }
+
+    .date-input:focus {
+      border-color: white;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .date-input::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 8px;
+    }
+
     /* Bottom navigation */
     .bottom-nav {
       position: fixed;
@@ -263,6 +340,262 @@
     }
 
     .bottom-nav .btn {
+      flex: 1;
+    }
+
+    /* Weather card */
+    .weather-card {
+      padding: 20px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .weather-location {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .weather-icon {
+      font-size: 48px;
+    }
+
+    .weather-temp {
+      font-size: 48px;
+      font-weight: 700;
+    }
+
+    .weather-desc {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 16px;
+    }
+
+    .weather-details {
+      display: flex;
+      justify-content: space-around;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .weather-detail {
+      text-align: center;
+    }
+
+    .weather-detail-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .weather-detail-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Pre-trip todos */
+    .pretodo-card {
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .pretodo-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .pretodo-icon {
+      font-size: 24px;
+    }
+
+    .pretodo-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .pretodo-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pretodo-item.done {
+      background: rgba(34, 197, 94, 0.2);
+    }
+
+    .pretodo-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: transparent;
+      flex-shrink: 0;
+    }
+
+    .pretodo-item.done .pretodo-check {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: white;
+    }
+
+    .pretodo-text {
+      flex: 1;
+      font-size: 14px;
+      color: white;
+    }
+
+    .pretodo-item.done .pretodo-text {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    .pretodo-urgent {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: #ef4444;
+      color: white;
+      font-weight: 600;
+    }
+
+    .pretodo-info {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    /* Companions */
+    .companion-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+
+    .companion-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .companion-info {
+      flex: 1;
+    }
+
+    .companion-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .companion-type {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .companion-remove {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .add-companion-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .add-companion-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal {
+      background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+      border-radius: 24px;
+      padding: 24px;
+      width: 100%;
+      max-width: 360px;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .modal-buttons .btn {
       flex: 1;
     }
 
@@ -367,6 +700,26 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
 
+    .item-row.dragging {
+      opacity: 0.5;
+      transform: scale(1.02);
+    }
+
+    .item-row.drag-over {
+      border: 2px dashed white;
+    }
+
+    .drag-handle {
+      cursor: grab;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 16px;
+      padding: 4px;
+    }
+
+    .item-row.selected .drag-handle {
+      color: #a78bfa;
+    }
+
     .item-check {
       width: 26px;
       height: 26px;
@@ -410,6 +763,44 @@
       font-weight: 600;
     }
 
+    /* Add item input */
+    .add-item-row {
+      display: flex;
+      gap: 8px;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .add-item-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .add-item-input:focus {
+      border-color: white;
+    }
+
+    .add-item-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .add-item-btn {
+      padding: 12px 16px;
+      background: white;
+      color: #7c3aed;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     /* Packing list screen - green theme */
     .list-screen {
       background: linear-gradient(135deg, #14b8a6 0%, #10b981 50%, #22c55e 100%);
@@ -421,6 +812,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 16px 0;
+      gap: 8px;
     }
 
     .list-back {
@@ -430,12 +822,36 @@
       cursor: pointer;
       background: none;
       border: none;
+      padding: 8px;
     }
 
     .list-title {
       font-size: 20px;
       font-weight: 700;
       color: white;
+    }
+
+    .list-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn:active {
+      transform: scale(0.95);
     }
 
     /* Progress card */
@@ -494,6 +910,33 @@
       color: white;
     }
 
+    /* Companion tabs */
+    .companion-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .companion-tab {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 20px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .companion-tab.active {
+      background: white;
+      color: #10b981;
+    }
+
     /* List item row */
     .list-item-row {
       display: flex;
@@ -505,6 +948,14 @@
 
     .list-item-row.checked {
       background: rgba(255, 255, 255, 0.1);
+    }
+
+    .list-item-row.dragging {
+      opacity: 0.5;
+    }
+
+    .list-item-row.drag-over {
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .list-check {
@@ -615,12 +1066,50 @@
     .fade-in {
       animation: fadeIn 0.3s ease;
     }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* Share toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 200;
+      animation: toastIn 0.3s ease;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
   </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
 const questions=[
+  {id:"destinationName",question:"Waar ga je naartoe?",type:"text",placeholder:"bijv. Barcelona, Bali, New York...",hint:"Vul je bestemming in"},
+  {id:"travelDates",question:"Wanneer reis je?",type:"dates",hint:"Selecteer je reisdata"},
+  {id:"nationality",question:"Wat is je nationaliteit?",type:"single",options:[
+    {value:"nl",label:"Nederlands",icon:"🇳🇱",desc:"Nederland"},
+    {value:"be",label:"Belgisch",icon:"🇧🇪",desc:"België"},
+    {value:"de",label:"Duits",icon:"🇩🇪",desc:"Duitsland"},
+    {value:"other",label:"Anders",icon:"🌍",desc:"Overig"}
+  ]},
   {id:"tripType",question:"Wat voor reis maak je?",type:"multiple",options:[
     {value:"vacation",label:"Vakantie",icon:"🏖️",desc:"Relaxen & genieten"},
     {value:"business",label:"Zakenreis",icon:"💼",desc:"Werk & meetings"},
@@ -635,6 +1124,7 @@ const questions=[
     {value:"friends",label:"Met vrienden",icon:"👯",desc:"Vriendengroep"},
     {value:"group",label:"Grote groep",icon:"👥",desc:"Groepsreis"}
   ]},
+  {id:"companions",question:"Wie gaan er mee?",type:"companions",condition:a=>a.travelers && a.travelers !== "solo",hint:"Voeg je reisgenoten toe"},
   {id:"transport",question:"Hoe reis je?",type:"multiple",options:[
     {value:"plane",label:"Vliegtuig",icon:"✈️",desc:"Door de lucht"},
     {value:"car",label:"Auto",icon:"🚗",desc:"Over de weg"},
@@ -757,14 +1247,104 @@ const items={
     {id:"sleepMask",name:"Slaapmasker",weight:30,transport:["plane"]},
     {id:"earplugs",name:"Oordoppen",weight:10},
     {id:"packingCubes",name:"Packing cubes",weight:200}
+  ]},
+  kids:{name:"Kinderen",icon:"👶",items:[
+    {id:"diapers",name:"Luiers",weight:500},
+    {id:"babyFood",name:"Babyvoeding",weight:400},
+    {id:"toys",name:"Speelgoed",weight:300},
+    {id:"stroller",name:"Buggy",weight:8000},
+    {id:"kidClothes",name:"Kinderkleding (extra)",weight:600}
   ]}
+};
+
+// Mock weather data based on destination keywords
+const getWeatherData = (destination, startDate) => {
+  const dest = (destination || '').toLowerCase();
+  const month = startDate ? new Date(startDate).getMonth() : new Date().getMonth();
+  const isWinter = month >= 10 || month <= 2;
+
+  // Tropical destinations
+  if (dest.includes('bali') || dest.includes('thailand') || dest.includes('vietnam') || dest.includes('indonesia')) {
+    return { temp: 30, icon: '🌴', desc: 'Tropisch warm', humidity: 80, rain: 60 };
+  }
+  // Beach destinations
+  if (dest.includes('barcelona') || dest.includes('spain') || dest.includes('spanje') || dest.includes('mallorca') || dest.includes('ibiza')) {
+    return isWinter ? { temp: 14, icon: '🌤️', desc: 'Mild', humidity: 65, rain: 30 } : { temp: 28, icon: '☀️', desc: 'Zonnig & warm', humidity: 55, rain: 10 };
+  }
+  if (dest.includes('greece') || dest.includes('griekenland') || dest.includes('kreta') || dest.includes('rhodes')) {
+    return isWinter ? { temp: 12, icon: '🌤️', desc: 'Mild', humidity: 70, rain: 40 } : { temp: 32, icon: '☀️', desc: 'Heet & zonnig', humidity: 45, rain: 5 };
+  }
+  // Cold destinations
+  if (dest.includes('norway') || dest.includes('noorwegen') || dest.includes('iceland') || dest.includes('ijsland') || dest.includes('finland')) {
+    return isWinter ? { temp: -5, icon: '❄️', desc: 'Koud & sneeuw', humidity: 80, rain: 40 } : { temp: 15, icon: '🌤️', desc: 'Fris', humidity: 70, rain: 35 };
+  }
+  // City trips
+  if (dest.includes('paris') || dest.includes('parijs') || dest.includes('london') || dest.includes('londen') || dest.includes('amsterdam')) {
+    return isWinter ? { temp: 6, icon: '🌧️', desc: 'Koel & regenachtig', humidity: 85, rain: 60 } : { temp: 22, icon: '🌤️', desc: 'Aangenaam', humidity: 60, rain: 30 };
+  }
+  if (dest.includes('new york') || dest.includes('nyc')) {
+    return isWinter ? { temp: 2, icon: '❄️', desc: 'Koud', humidity: 65, rain: 35 } : { temp: 28, icon: '☀️', desc: 'Warm & vochtig', humidity: 70, rain: 40 };
+  }
+  // Default
+  return { temp: 20, icon: '🌤️', desc: 'Aangenaam weer verwacht', humidity: 60, rain: 25 };
+};
+
+// Pre-trip todos based on destination and nationality
+const getPreTripTodos = (answers) => {
+  const todos = [];
+  const dest = (answers.destinationName || '').toLowerCase();
+  const duration = answers.duration;
+  const nationality = answers.nationality;
+
+  // Always needed
+  todos.push({ id: 'passport_check', text: 'Paspoort geldigheid checken (min. 6 maanden)', urgent: true });
+  todos.push({ id: 'insurance', text: 'Reisverzekering afsluiten', urgent: true });
+
+  // Visa requirements (simplified mock)
+  const visaCountries = ['usa', 'amerika', 'united states', 'australia', 'australië', 'china', 'india', 'russia', 'rusland', 'brazil', 'brazilië'];
+  if (visaCountries.some(c => dest.includes(c))) {
+    todos.push({ id: 'visa', text: 'Visum aanvragen', urgent: true, info: 'Kan weken duren!' });
+  }
+
+  // ESTA for USA
+  if (dest.includes('usa') || dest.includes('amerika') || dest.includes('united states') || dest.includes('new york') || dest.includes('los angeles') || dest.includes('miami')) {
+    if (nationality === 'nl' || nationality === 'be' || nationality === 'de') {
+      todos.push({ id: 'esta', text: 'ESTA aanvragen', urgent: true, info: '€21, min. 72u vooraf' });
+    }
+  }
+
+  // Vaccinations for tropical/exotic destinations
+  const vaccinationDests = ['thailand', 'bali', 'indonesia', 'indonesië', 'vietnam', 'india', 'africa', 'afrika', 'brazil', 'brazilië', 'peru', 'colombia'];
+  if (vaccinationDests.some(c => dest.includes(c))) {
+    todos.push({ id: 'vaccinations', text: 'Vaccinaties checken bij GGD', urgent: true, info: 'Hepatitis A/B, DTP' });
+    todos.push({ id: 'malaria', text: 'Malariapillen overwegen', urgent: false });
+  }
+
+  // Long trips
+  if (duration === 'month' || duration === 'long') {
+    todos.push({ id: 'mail', text: 'Post laten vasthouden/doorsturen', urgent: false });
+    todos.push({ id: 'bills', text: 'Automatische betalingen checken', urgent: false });
+    todos.push({ id: 'plants', text: 'Planten/huisdieren regelen', urgent: false });
+  }
+
+  // General
+  todos.push({ id: 'copies', text: 'Kopieën documenten maken (digitaal)', urgent: false });
+  todos.push({ id: 'bank', text: 'Bank informeren over reis', urgent: false });
+  todos.push({ id: 'phone', text: 'Buitenlandbundel activeren', urgent: false });
+
+  return todos;
 };
 
 const formatWeight = g => g >= 1000 ? `${(g/1000).toFixed(1)} kg` : `${g}g`;
 
 const getRecommended = (ans) => {
   const r = {};
+  const hasKids = (ans.companions || []).some(c => c.type === 'child' || c.type === 'baby');
+
   Object.entries(items).forEach(([k, c]) => {
+    // Skip kids category if no kids
+    if (k === 'kids' && !hasKids) return;
+
     const f = c.items.filter(i => {
       if (i.always) return true;
       if (i.climate && !i.climate.includes(ans.climate)) return false;
@@ -779,7 +1359,40 @@ const getRecommended = (ans) => {
   return r;
 };
 
-let state = { screen: "start", answers: {}, step: 0, selected: {}, list: null };
+let state = {
+  screen: "start",
+  answers: {},
+  step: 0,
+  selected: {},
+  list: null,
+  preTodos: {},
+  activeCompanion: 'all',
+  modal: null,
+  customItems: {}
+};
+
+// Try to load from localStorage
+try {
+  const saved = localStorage.getItem('paklijst_state');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    if (parsed.list) {
+      state = { ...state, ...parsed };
+    }
+  }
+} catch(e) {}
+
+const saveState = () => {
+  try {
+    localStorage.setItem('paklijst_state', JSON.stringify({
+      answers: state.answers,
+      selected: state.selected,
+      list: state.list,
+      preTodos: state.preTodos,
+      customItems: state.customItems
+    }));
+  } catch(e) {}
+};
 
 const render = () => {
   const app = document.getElementById("app");
@@ -791,11 +1404,16 @@ const render = () => {
         <h1 class="start-title">Paklijst</h1>
         <p class="start-subtitle">Slimme paklijst voor jouw reis.<br>Nooit meer iets vergeten.</p>
         <button class="btn btn-primary" onclick="startQuiz()">Start vragenlijst →</button>
+        ${state.list ? '<button class="btn btn-secondary" style="margin-top: 12px;" onclick="resumeList()">Verder met vorige lijst</button>' : ''}
       </div>`;
   }
   else if (state.screen === "quiz") { renderQuiz(); }
+  else if (state.screen === "weather") { renderWeather(); }
+  else if (state.screen === "pretodos") { renderPreTodos(); }
   else if (state.screen === "suggestions") { renderSuggestions(); }
   else if (state.screen === "list") { renderList(); }
+
+  if (state.modal) { renderModal(); }
 };
 
 const getVisibleQuestions = () => questions.filter(q => !q.condition || q.condition(state.answers));
@@ -806,7 +1424,67 @@ const renderQuiz = () => {
   const progress = ((state.step + 1) / vq.length) * 100;
   const isMulti = q.type === "multiple";
   const ans = state.answers[q.id];
-  const canNext = isMulti ? (ans && ans.length > 0) : !!ans;
+
+  let canNext = false;
+  if (q.type === 'text') canNext = ans && ans.trim().length > 0;
+  else if (q.type === 'dates') canNext = state.answers.startDate;
+  else if (q.type === 'companions') canNext = true; // Optional
+  else if (isMulti) canNext = ans && ans.length > 0;
+  else canNext = !!ans;
+
+  let content = '';
+
+  if (q.type === 'text') {
+    content = `
+      <div class="input-group">
+        <input type="text" class="text-input" placeholder="${q.placeholder || ''}"
+          value="${ans || ''}" oninput="updateText('${q.id}', this.value)" autofocus>
+      </div>`;
+  } else if (q.type === 'dates') {
+    content = `
+      <div class="input-group">
+        <label class="input-label">Vertrek</label>
+        <input type="date" class="date-input" value="${state.answers.startDate || ''}"
+          onchange="updateDate('startDate', this.value)">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Terug</label>
+        <input type="date" class="date-input" value="${state.answers.endDate || ''}"
+          onchange="updateDate('endDate', this.value)">
+      </div>`;
+  } else if (q.type === 'companions') {
+    const companions = state.answers.companions || [];
+    content = `
+      <div class="companions-list">
+        ${companions.map((c, i) => `
+          <div class="companion-card">
+            <div class="companion-avatar">${c.type === 'baby' ? '👶' : c.type === 'child' ? '🧒' : '👤'}</div>
+            <div class="companion-info">
+              <div class="companion-name">${c.name}</div>
+              <div class="companion-type">${c.type === 'adult' ? 'Volwassene' : c.type === 'child' ? 'Kind' : 'Baby'}</div>
+            </div>
+            <button class="companion-remove" onclick="removeCompanion(${i})">✕</button>
+          </div>
+        `).join('')}
+        <div class="add-companion-btn" onclick="showAddCompanion()">
+          <span>➕</span> Reisgenoot toevoegen
+        </div>
+      </div>`;
+  } else {
+    content = `
+      <div class="options-grid">
+        ${q.options.map(o => {
+          const sel = isMulti ? (ans || []).includes(o.value) : ans === o.value;
+          return `
+            <div class="option-card ${sel ? 'selected' : ''}" onclick="selectOption('${q.id}','${o.value}',${isMulti})">
+              ${sel ? '<div class="option-check">✓</div>' : ''}
+              <div class="option-icon">${o.icon}</div>
+              <div class="option-label">${o.label}</div>
+              <div class="option-desc">${o.desc || ''}</div>
+            </div>`;
+        }).join('')}
+      </div>`;
+  }
 
   document.getElementById("app").innerHTML = `
     <div class="container fade-in">
@@ -822,20 +1500,8 @@ const renderQuiz = () => {
 
       <div class="glass question-card">
         <h2 class="question-title">${q.question}</h2>
-        <p class="question-hint">${isMulti ? 'Tik om te selecteren (meerdere mogelijk)' : 'Kies één optie'}</p>
-
-        <div class="options-grid">
-          ${q.options.map(o => {
-            const sel = isMulti ? (ans || []).includes(o.value) : ans === o.value;
-            return `
-              <div class="option-card ${sel ? 'selected' : ''}" onclick="selectOption('${q.id}','${o.value}',${isMulti})">
-                ${sel ? '<div class="option-check">✓</div>' : ''}
-                <div class="option-icon">${o.icon}</div>
-                <div class="option-label">${o.label}</div>
-                <div class="option-desc">${o.desc || ''}</div>
-              </div>`;
-          }).join('')}
-        </div>
+        <p class="question-hint">${q.hint || (isMulti ? 'Tik om te selecteren (meerdere mogelijk)' : 'Kies één optie')}</p>
+        ${content}
       </div>
     </div>
 
@@ -843,8 +1509,83 @@ const renderQuiz = () => {
       <div class="bottom-nav-inner">
         ${state.step > 0 ? '<button class="btn btn-back" onclick="prevStep()">←</button>' : ''}
         <button class="btn ${canNext ? 'btn-primary' : 'btn-disabled'}" onclick="nextStep()">
-          ${state.step === vq.length - 1 ? 'Bekijk suggesties →' : 'Volgende →'}
+          ${state.step === vq.length - 1 ? 'Bekijk weer & tips →' : 'Volgende →'}
         </button>
+      </div>
+    </div>`;
+};
+
+const renderWeather = () => {
+  const weather = getWeatherData(state.answers.destinationName, state.answers.startDate);
+  const dest = state.answers.destinationName || 'Je bestemming';
+
+  document.getElementById("app").innerHTML = `
+    <div class="container fade-in" style="padding-bottom: 100px;">
+      <h1 class="page-title">Weer voorspelling</h1>
+      <p class="page-subtitle">Verwacht weer voor ${dest}</p>
+
+      <div class="glass weather-card">
+        <div class="weather-location">📍 ${dest}</div>
+        <div class="weather-main">
+          <span class="weather-icon">${weather.icon}</span>
+          <span class="weather-temp">${weather.temp}°C</span>
+        </div>
+        <div class="weather-desc">${weather.desc}</div>
+        <div class="weather-details">
+          <div class="weather-detail">
+            <div class="weather-detail-label">💧 Luchtvochtigheid</div>
+            <div class="weather-detail-value">${weather.humidity}%</div>
+          </div>
+          <div class="weather-detail">
+            <div class="weather-detail-label">🌧️ Kans op regen</div>
+            <div class="weather-detail-value">${weather.rain}%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass" style="padding: 16px; margin-bottom: 16px;">
+        <p style="font-size: 13px; color: rgba(255,255,255,0.7); text-align: center;">
+          ℹ️ Dit is een voorspelling gebaseerd op historische data. Check dichter bij vertrek het actuele weer.
+        </p>
+      </div>
+    </div>
+
+    <div class="bottom-nav glass-dark">
+      <div class="bottom-nav-inner">
+        <button class="btn btn-back" onclick="backFromWeather()">←</button>
+        <button class="btn btn-primary" onclick="goToPreTodos()">Pre-trip checklist →</button>
+      </div>
+    </div>`;
+};
+
+const renderPreTodos = () => {
+  const todos = getPreTripTodos(state.answers);
+
+  document.getElementById("app").innerHTML = `
+    <div class="container fade-in" style="padding-bottom: 100px;">
+      <h1 class="page-title">Voor vertrek</h1>
+      <p class="page-subtitle">Regel dit voordat je gaat</p>
+
+      <div class="glass pretodo-card">
+        <div class="pretodo-header">
+          <span class="pretodo-icon">📋</span>
+          <span class="pretodo-title">To-do's</span>
+        </div>
+        ${todos.map(todo => `
+          <div class="pretodo-item ${state.preTodos[todo.id] ? 'done' : ''}" onclick="togglePreTodo('${todo.id}')">
+            <div class="pretodo-check">✓</div>
+            <span class="pretodo-text">${todo.text}</span>
+            ${todo.urgent ? '<span class="pretodo-urgent">Belangrijk</span>' : ''}
+            ${todo.info ? `<span class="pretodo-info">${todo.info}</span>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="bottom-nav glass-dark">
+      <div class="bottom-nav-inner">
+        <button class="btn btn-back" onclick="backFromPreTodos()">←</button>
+        <button class="btn btn-primary" onclick="goToSuggestions()">Naar paklijst →</button>
       </div>
     </div>`;
 };
@@ -857,6 +1598,16 @@ const renderSuggestions = () => {
       if (sel) {
         const it = rec[ck]?.items.find(i => i.id === iid);
         if (it) { totalW += it.weight; count++; }
+      }
+    });
+  });
+
+  // Add custom items
+  Object.entries(state.customItems).forEach(([ck, its]) => {
+    its.forEach(it => {
+      if (state.selected[ck]?.[it.id]) {
+        totalW += it.weight;
+        count++;
       }
     });
   });
@@ -880,24 +1631,38 @@ const renderSuggestions = () => {
       <div>`;
 
   Object.entries(rec).forEach(([ck, cat]) => {
+    const customInCat = state.customItems[ck] || [];
+    const allItems = [...cat.items, ...customInCat];
     const selInCat = Object.values(state.selected[ck] || {}).filter(Boolean).length;
+
     html += `
       <div class="glass category-card">
         <div class="category-header">
           <span class="category-icon">${cat.icon}</span>
           <span class="category-name">${cat.name}</span>
-          <span class="category-count">${selInCat}/${cat.items.length}</span>
+          <span class="category-count">${selInCat}/${allItems.length}</span>
         </div>
         <div class="items-container">
-          ${cat.items.map(it => {
+          ${allItems.map(it => {
             const sel = state.selected[ck]?.[it.id];
             return `
-              <div class="item-row ${sel ? 'selected' : ''}" onclick="toggleItem('${ck}','${it.id}')">
+              <div class="item-row ${sel ? 'selected' : ''}"
+                onclick="toggleItem('${ck}','${it.id}')"
+                draggable="true"
+                ondragstart="dragStart(event,'${ck}','${it.id}')"
+                ondragover="dragOver(event)"
+                ondrop="drop(event,'${ck}','${it.id}')">
+                <span class="drag-handle">⋮⋮</span>
                 <div class="item-check">✓</div>
                 <span class="item-name">${it.name}</span>
                 <span class="item-weight">${formatWeight(it.weight)}</span>
               </div>`;
           }).join('')}
+        </div>
+        <div class="add-item-row">
+          <input type="text" class="add-item-input" placeholder="+ Item toevoegen..."
+            id="add-${ck}" onkeypress="handleAddItem(event, '${ck}')">
+          <button class="add-item-btn" onclick="addCustomItem('${ck}')">+</button>
         </div>
       </div>`;
   });
@@ -905,6 +1670,7 @@ const renderSuggestions = () => {
   html += `</div></div>
     <div class="bottom-nav glass-dark">
       <div class="bottom-nav-inner">
+        <button class="btn btn-back" onclick="backFromSuggestions()">←</button>
         <button class="btn ${count > 0 ? 'btn-primary' : 'btn-disabled'}" onclick="createList()">
           Maak paklijst (${count} items) →
         </button>
@@ -915,6 +1681,9 @@ const renderSuggestions = () => {
 };
 
 const renderList = () => {
+  const companions = state.answers.companions || [];
+  const showTabs = companions.length > 0;
+
   let totalW = 0, checkedW = 0, total = 0, checked = 0;
   Object.values(state.list).forEach(c => {
     c.items.forEach(i => {
@@ -930,10 +1699,23 @@ const renderList = () => {
     <div class="list-screen">
       <div class="container fade-in">
         <div class="list-header">
-          <button class="list-back" onclick="restart()">← Opnieuw</button>
+          <button class="list-back" onclick="backFromList()">← Terug</button>
           <span class="list-title">Mijn Paklijst</span>
-          <div style="width: 70px;"></div>
+          <div class="list-actions">
+            <button class="action-btn" onclick="shareList()" title="Delen">📤</button>
+            <button class="action-btn" onclick="restart()" title="Opnieuw">🔄</button>
+          </div>
         </div>
+
+        ${showTabs ? `
+          <div class="companion-tabs">
+            <button class="companion-tab ${state.activeCompanion === 'all' ? 'active' : ''}" onclick="setActiveCompanion('all')">Alles</button>
+            <button class="companion-tab ${state.activeCompanion === 'me' ? 'active' : ''}" onclick="setActiveCompanion('me')">Ik</button>
+            ${companions.map((c, i) => `
+              <button class="companion-tab ${state.activeCompanion === i ? 'active' : ''}" onclick="setActiveCompanion(${i})">${c.name}</button>
+            `).join('')}
+          </div>
+        ` : ''}
 
         <div class="glass progress-card">
           <div class="progress-stats">
@@ -966,7 +1748,11 @@ const renderList = () => {
         </div>
         <div>
           ${cat.items.map((it, idx) => `
-            <div class="list-item-row ${it.checked ? 'checked' : ''}">
+            <div class="list-item-row ${it.checked ? 'checked' : ''}"
+              draggable="true"
+              ondragstart="dragStartList(event,'${ck}',${idx})"
+              ondragover="dragOver(event)"
+              ondrop="dropList(event,'${ck}',${idx})">
               <div class="list-check" onclick="toggleCheck('${ck}',${idx})">${it.checked ? '✓' : ''}</div>
               <div class="list-item-info">
                 <div class="list-item-name">${it.name}${(it.quantity || 1) > 1 ? ` (${it.quantity}x)` : ''}</div>
@@ -979,6 +1765,11 @@ const renderList = () => {
               </div>
               <button class="delete-btn" onclick="deleteItem('${ck}',${idx})">✕</button>
             </div>`).join('')}
+          <div class="add-item-row" style="padding: 12px;">
+            <input type="text" class="add-item-input" placeholder="+ Item toevoegen..."
+              id="addlist-${ck}" onkeypress="handleAddListItem(event, '${ck}')">
+            <button class="add-item-btn" onclick="addListItem('${ck}')">+</button>
+          </div>
         </div>
       </div>`;
   });
@@ -987,7 +1778,50 @@ const renderList = () => {
   document.getElementById("app").innerHTML = html;
 };
 
+const renderModal = () => {
+  const modal = state.modal;
+  let modalHtml = '';
+
+  if (modal.type === 'addCompanion') {
+    modalHtml = `
+      <div class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+          <h3 class="modal-title">Reisgenoot toevoegen</h3>
+          <div class="input-group">
+            <label class="input-label">Naam</label>
+            <input type="text" class="text-input" id="companion-name" placeholder="Naam">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Type</label>
+            <div class="options-grid single-col">
+              <div class="option-card ${modal.companionType === 'adult' ? 'selected' : ''}" onclick="setCompanionType('adult')">
+                <span class="option-icon">👤</span>
+                <span class="option-label">Volwassene</span>
+              </div>
+              <div class="option-card ${modal.companionType === 'child' ? 'selected' : ''}" onclick="setCompanionType('child')">
+                <span class="option-icon">🧒</span>
+                <span class="option-label">Kind (2-12 jaar)</span>
+              </div>
+              <div class="option-card ${modal.companionType === 'baby' ? 'selected' : ''}" onclick="setCompanionType('baby')">
+                <span class="option-icon">👶</span>
+                <span class="option-label">Baby (0-2 jaar)</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-buttons">
+            <button class="btn btn-secondary" onclick="closeModal()">Annuleren</button>
+            <button class="btn btn-primary" onclick="confirmAddCompanion()">Toevoegen</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById("app").insertAdjacentHTML('beforeend', modalHtml);
+};
+
+// Event handlers
 window.startQuiz = () => { state.screen = "quiz"; state.step = 0; render(); };
+window.resumeList = () => { state.screen = "list"; render(); };
 
 window.selectOption = (qid, val, multi) => {
   if (multi) {
@@ -999,6 +1833,9 @@ window.selectOption = (qid, val, multi) => {
   render();
 };
 
+window.updateText = (qid, val) => { state.answers[qid] = val; };
+window.updateDate = (field, val) => { state.answers[field] = val; render(); };
+
 window.prevStep = () => { if (state.step > 0) { state.step--; render(); } };
 
 window.nextStep = () => {
@@ -1006,10 +1843,62 @@ window.nextStep = () => {
   const q = vq[state.step];
   const isMulti = q.type === "multiple";
   const ans = state.answers[q.id];
-  const canNext = isMulti ? (ans && ans.length > 0) : !!ans;
+
+  let canNext = false;
+  if (q.type === 'text') canNext = ans && ans.trim().length > 0;
+  else if (q.type === 'dates') canNext = state.answers.startDate;
+  else if (q.type === 'companions') canNext = true;
+  else if (isMulti) canNext = ans && ans.length > 0;
+  else canNext = !!ans;
+
   if (!canNext) return;
   if (state.step < vq.length - 1) { state.step++; render(); }
-  else { state.screen = "suggestions"; render(); }
+  else { state.screen = "weather"; render(); }
+};
+
+window.backFromWeather = () => { state.screen = "quiz"; render(); };
+window.goToPreTodos = () => { state.screen = "pretodos"; render(); };
+window.backFromPreTodos = () => { state.screen = "weather"; render(); };
+window.goToSuggestions = () => { state.screen = "suggestions"; render(); };
+window.backFromSuggestions = () => { state.screen = "pretodos"; render(); };
+window.backFromList = () => { state.screen = "suggestions"; render(); };
+
+window.togglePreTodo = (id) => {
+  state.preTodos[id] = !state.preTodos[id];
+  saveState();
+  render();
+};
+
+window.showAddCompanion = () => {
+  state.modal = { type: 'addCompanion', companionType: 'adult' };
+  render();
+};
+
+window.setCompanionType = (type) => {
+  state.modal.companionType = type;
+  render();
+};
+
+window.closeModal = (event) => {
+  if (!event || event.target === event.currentTarget) {
+    state.modal = null;
+    render();
+  }
+};
+
+window.confirmAddCompanion = () => {
+  const name = document.getElementById('companion-name').value.trim();
+  if (!name) return;
+
+  if (!state.answers.companions) state.answers.companions = [];
+  state.answers.companions.push({ name, type: state.modal.companionType });
+  state.modal = null;
+  render();
+};
+
+window.removeCompanion = (idx) => {
+  state.answers.companions.splice(idx, 1);
+  render();
 };
 
 window.toggleItem = (ck, iid) => {
@@ -1018,45 +1907,174 @@ window.toggleItem = (ck, iid) => {
   render();
 };
 
+window.addCustomItem = (ck) => {
+  const input = document.getElementById(`add-${ck}`);
+  const name = input.value.trim();
+  if (!name) return;
+
+  if (!state.customItems[ck]) state.customItems[ck] = [];
+  const id = 'custom_' + Date.now();
+  state.customItems[ck].push({ id, name, weight: 100 });
+
+  if (!state.selected[ck]) state.selected[ck] = {};
+  state.selected[ck][id] = true;
+
+  input.value = '';
+  render();
+};
+
+window.handleAddItem = (e, ck) => {
+  if (e.key === 'Enter') addCustomItem(ck);
+};
+
+window.addListItem = (ck) => {
+  const input = document.getElementById(`addlist-${ck}`);
+  const name = input.value.trim();
+  if (!name) return;
+
+  state.list[ck].items.push({ id: 'custom_' + Date.now(), name, weight: 100, checked: false, quantity: 1 });
+  input.value = '';
+  saveState();
+  render();
+};
+
+window.handleAddListItem = (e, ck) => {
+  if (e.key === 'Enter') addListItem(ck);
+};
+
+// Drag and drop
+let dragData = null;
+
+window.dragStart = (e, ck, iid) => {
+  dragData = { ck, iid, type: 'suggestion' };
+  e.target.classList.add('dragging');
+};
+
+window.dragStartList = (e, ck, idx) => {
+  dragData = { ck, idx, type: 'list' };
+  e.target.classList.add('dragging');
+};
+
+window.dragOver = (e) => {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+};
+
+window.drop = (e, ck, iid) => {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  // For now just visual feedback, could implement reordering
+  dragData = null;
+  render();
+};
+
+window.dropList = (e, ck, idx) => {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (dragData && dragData.type === 'list' && dragData.ck === ck) {
+    const items = state.list[ck].items;
+    const [moved] = items.splice(dragData.idx, 1);
+    items.splice(idx, 0, moved);
+    saveState();
+  }
+  dragData = null;
+  render();
+};
+
 window.createList = () => {
   const rec = getRecommended(state.answers);
   const list = {};
+
   Object.entries(state.selected).forEach(([ck, its]) => {
     const sel = [];
     Object.entries(its).forEach(([iid, s]) => {
       if (s) {
-        const it = rec[ck]?.items.find(i => i.id === iid);
+        // Check in recommended items
+        let it = rec[ck]?.items.find(i => i.id === iid);
+        // Check in custom items
+        if (!it && state.customItems[ck]) {
+          it = state.customItems[ck].find(i => i.id === iid);
+        }
         if (it) sel.push({ ...it, checked: false, quantity: 1 });
       }
     });
-    if (sel.length > 0) list[ck] = { name: rec[ck].name, icon: rec[ck].icon, items: sel };
+    if (sel.length > 0) list[ck] = { name: rec[ck]?.name || 'Custom', icon: rec[ck]?.icon || '📦', items: sel };
   });
+
   if (Object.keys(list).length === 0) return;
   state.list = list;
   state.screen = "list";
+  saveState();
   render();
 };
 
 window.toggleCheck = (ck, idx) => {
   state.list[ck].items[idx].checked = !state.list[ck].items[idx].checked;
+  saveState();
   render();
 };
 
 window.changeQty = (ck, idx, d) => {
   const it = state.list[ck].items[idx];
   it.quantity = Math.max(1, (it.quantity || 1) + d);
+  saveState();
   render();
 };
 
 window.deleteItem = (ck, idx) => {
   state.list[ck].items.splice(idx, 1);
   if (state.list[ck].items.length === 0) delete state.list[ck];
+  saveState();
   render();
+};
+
+window.setActiveCompanion = (c) => {
+  state.activeCompanion = c;
+  render();
+};
+
+window.shareList = async () => {
+  let text = '🧳 Mijn Paklijst\n\n';
+  Object.entries(state.list).forEach(([ck, cat]) => {
+    text += `${cat.icon} ${cat.name}\n`;
+    cat.items.forEach(it => {
+      const check = it.checked ? '✅' : '⬜';
+      text += `${check} ${it.name}${(it.quantity || 1) > 1 ? ` (${it.quantity}x)` : ''}\n`;
+    });
+    text += '\n';
+  });
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Mijn Paklijst', text });
+    } catch(e) {
+      copyToClipboard(text);
+    }
+  } else {
+    copyToClipboard(text);
+  }
+};
+
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Gekopieerd naar klembord!');
+  }).catch(() => {
+    showToast('Kon niet kopiëren');
+  });
+};
+
+const showToast = (msg) => {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
 };
 
 window.restart = () => {
   if (confirm('Opnieuw beginnen? Je paklijst wordt gewist.')) {
-    state = { screen: "start", answers: {}, step: 0, selected: {}, list: null };
+    state = { screen: "start", answers: {}, step: 0, selected: {}, list: null, preTodos: {}, activeCompanion: 'all', modal: null, customItems: {} };
+    localStorage.removeItem('paklijst_state');
     render();
   }
 };
