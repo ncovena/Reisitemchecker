@@ -18,20 +18,68 @@
     }
   </script>
   <style>
-    * { -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
-    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    .glass-dark { background: rgba(0,0,0,0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    .card-hover { transition: all 0.2s ease; }
-    .card-hover:active { transform: scale(0.98); }
-    .selected-card { background: white; color: #4f46e5; box-shadow: 0 10px 40px rgba(79,70,229,0.3); }
-    .unselected-card { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.15); }
-    .checkmark { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; margin: 0; }
+
+    /* Glass effects */
+    .glass {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .glass-dark {
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* Card styles */
+    .card-hover {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .card-hover:active { transform: scale(0.97); }
+
+    /* SELECTED card - very obvious */
+    .selected-card {
+      background: white !important;
+      color: #7c3aed !important;
+      box-shadow: 0 8px 32px rgba(124,58,237,0.35), 0 0 0 3px rgba(124,58,237,0.3);
+      transform: scale(1.02);
+      border: none !important;
+    }
+
+    /* UNSELECTED card - clearly visible but muted */
+    .unselected-card {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+    .unselected-card:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    /* Checkmark circle */
+    .check-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* Animations */
     .fade-in { animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .progress-ring { transition: stroke-dashoffset 0.5s ease; }
-    .bounce-in { animation: bounceIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    .bounce-in { animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
     @keyframes bounceIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .pop-in { animation: popIn 0.2s ease; }
+    @keyframes popIn { from { transform: scale(0.9); } to { transform: scale(1); } }
   </style>
 </head>
 <body class="bg-slate-900">
@@ -52,26 +100,26 @@ const questions=[
     {value:"friends",label:"Met vrienden",icon:"👯",desc:"Vriendengroep"},
     {value:"group",label:"Grote groep",icon:"👥",desc:"Groepsreis"}
   ]},
-  {id:"transport",question:"Hoe reis je erheen?",type:"single",options:[
+  {id:"transport",question:"Hoe reis je? (meerdere mogelijk)",type:"multiple",options:[
     {value:"plane",label:"Vliegtuig",icon:"✈️",desc:"Door de lucht"},
     {value:"car",label:"Auto",icon:"🚗",desc:"Over de weg"},
     {value:"train",label:"Trein",icon:"🚂",desc:"Over het spoor"},
     {value:"boat",label:"Boot",icon:"🚢",desc:"Over het water"},
     {value:"bus",label:"Bus",icon:"🚌",desc:"Met de bus"}
   ]},
-  {id:"airline",question:"Welke airline?",type:"single",condition:a=>a.transport==="plane",options:[
-    {value:"klm",label:"KLM",icon:"🔵",desc:"12kg cabin",baggage:{cabin:12,checked:23}},
-    {value:"transavia",label:"Transavia",icon:"🟢",desc:"10kg cabin",baggage:{cabin:10,checked:20}},
-    {value:"ryanair",label:"Ryanair",icon:"🟡",desc:"10kg cabin",baggage:{cabin:10,checked:20}},
-    {value:"easyjet",label:"EasyJet",icon:"🟠",desc:"15kg cabin",baggage:{cabin:15,checked:23}},
-    {value:"other",label:"Anders",icon:"⚪",desc:"Standaard",baggage:{cabin:10,checked:23}}
+  {id:"airline",question:"Welke airline?",type:"single",condition:a=>(a.transport||[]).includes("plane"),options:[
+    {value:"klm",label:"KLM",icon:"🔵",desc:"12kg handbagage",baggage:{cabin:12,checked:23}},
+    {value:"transavia",label:"Transavia",icon:"🟢",desc:"10kg handbagage",baggage:{cabin:10,checked:20}},
+    {value:"ryanair",label:"Ryanair",icon:"🟡",desc:"10kg handbagage",baggage:{cabin:10,checked:20}},
+    {value:"easyjet",label:"EasyJet",icon:"🟠",desc:"15kg handbagage",baggage:{cabin:15,checked:23}},
+    {value:"other",label:"Anders",icon:"⚪",desc:"Standaard limiet",baggage:{cabin:10,checked:23}}
   ]},
-  {id:"destination",question:"Type bestemming?",type:"single",options:[
+  {id:"destination",question:"Type bestemming? (meerdere mogelijk)",type:"multiple",options:[
     {value:"beach",label:"Strand",icon:"🏖️",desc:"Zon, zee & zand"},
     {value:"city",label:"Stad",icon:"🏙️",desc:"Cultuur & shoppen"},
     {value:"mountain",label:"Bergen",icon:"🏔️",desc:"Natuur & wandelen"},
     {value:"nature",label:"Natuur",icon:"🏕️",desc:"Camping & outdoor"},
-    {value:"mixed",label:"Mix",icon:"🗺️",desc:"Van alles wat"}
+    {value:"rural",label:"Platteland",icon:"🌾",desc:"Rust & ruimte"}
   ]},
   {id:"climate",question:"Hoe is het weer daar?",type:"single",options:[
     {value:"hot",label:"Warm",icon:"☀️",desc:"25°C of meer"},
@@ -85,25 +133,25 @@ const questions=[
     {value:"week",label:"Week",icon:"📆",desc:"4-7 dagen"},
     {value:"twoweeks",label:"2 Weken",icon:"🗓️",desc:"8-14 dagen"},
     {value:"month",label:"Maand",icon:"📋",desc:"2-4 weken"},
-    {value:"long",label:"Lang",icon:"🌍",desc:"Meer dan maand"}
+    {value:"long",label:"Langer",icon:"🌍",desc:"Meer dan maand"}
   ]},
   {id:"activities",question:"Wat ga je doen?",type:"multiple",options:[
-    {value:"swimming",label:"Zwemmen",icon:"🏊"},
-    {value:"hiking",label:"Wandelen",icon:"🥾"},
-    {value:"cycling",label:"Fietsen",icon:"🚴"},
-    {value:"nightlife",label:"Uitgaan",icon:"🎉"},
-    {value:"sightseeing",label:"Sightseeing",icon:"📸"},
-    {value:"beach",label:"Strand",icon:"🏖️"},
-    {value:"running",label:"Hardlopen",icon:"🏃"},
-    {value:"yoga",label:"Yoga",icon:"🧘"}
+    {value:"swimming",label:"Zwemmen",icon:"🏊",desc:"Pool of zee"},
+    {value:"hiking",label:"Wandelen",icon:"🥾",desc:"Trekking"},
+    {value:"cycling",label:"Fietsen",icon:"🚴",desc:"Op de fiets"},
+    {value:"nightlife",label:"Uitgaan",icon:"🎉",desc:"Nachtleven"},
+    {value:"sightseeing",label:"Sightseeing",icon:"📸",desc:"Bezienswaardigheden"},
+    {value:"beach",label:"Strand",icon:"🏖️",desc:"Zonnen"},
+    {value:"running",label:"Hardlopen",icon:"🏃",desc:"Joggen"},
+    {value:"yoga",label:"Yoga",icon:"🧘",desc:"Fitness"}
   ]},
-  {id:"tech",question:"Welke tech mee?",type:"multiple",options:[
-    {value:"laptop",label:"Laptop",icon:"💻"},
-    {value:"camera",label:"Camera",icon:"📷"},
-    {value:"tablet",label:"Tablet",icon:"📱"},
-    {value:"ereader",label:"E-reader",icon:"📖"},
-    {value:"gaming",label:"Gaming",icon:"🎮"},
-    {value:"none",label:"Alleen phone",icon:"📵"}
+  {id:"tech",question:"Welke tech neem je mee?",type:"multiple",options:[
+    {value:"laptop",label:"Laptop",icon:"💻",desc:"Werken onderweg"},
+    {value:"camera",label:"Camera",icon:"📷",desc:"Foto's maken"},
+    {value:"tablet",label:"Tablet",icon:"📱",desc:"Entertainment"},
+    {value:"ereader",label:"E-reader",icon:"📖",desc:"Boeken lezen"},
+    {value:"gaming",label:"Gaming",icon:"🎮",desc:"Switch etc"},
+    {value:"none",label:"Alleen telefoon",icon:"📵",desc:"Minimaal"}
   ]}
 ];
 
@@ -127,12 +175,14 @@ const items={
     {id:"sweater",name:"Trui / Sweater",weight:400,climate:["cold","mild","variable"]},
     {id:"jacket",name:"Jas",weight:800,climate:["cold","variable"]},
     {id:"raincoat",name:"Regenjas",weight:300,climate:["tropical","variable"]},
-    {id:"swimwear",name:"Zwemkleding",weight:150,activities:["swimming","beach"]}
+    {id:"swimwear",name:"Zwemkleding",weight:150,activities:["swimming","beach"]},
+    {id:"dressyOutfit",name:"Nette outfit",weight:500,activities:["nightlife"]}
   ]},
   shoes:{name:"Schoenen",icon:"👟",items:[
     {id:"sneakers",name:"Sneakers",weight:700},
     {id:"sandals",name:"Sandalen / Slippers",weight:300,climate:["hot","tropical"]},
-    {id:"hikingBoots",name:"Wandelschoenen",weight:900,activities:["hiking"]}
+    {id:"hikingBoots",name:"Wandelschoenen",weight:900,activities:["hiking"]},
+    {id:"dressyShoes",name:"Nette schoenen",weight:500,activities:["nightlife"]}
   ]},
   toiletries:{name:"Toilettas",icon:"🧴",items:[
     {id:"toothbrush",name:"Tandenborstel + pasta",weight:130,always:true},
@@ -149,6 +199,7 @@ const items={
     {id:"laptop",name:"Laptop",weight:1500,tech:["laptop"]},
     {id:"laptopCharger",name:"Laptop oplader",weight:300,tech:["laptop"]},
     {id:"camera",name:"Camera",weight:500,tech:["camera"]},
+    {id:"cameraCharger",name:"Camera oplader",weight:100,tech:["camera"]},
     {id:"tablet",name:"Tablet",weight:500,tech:["tablet"]},
     {id:"ereader",name:"E-reader",weight:200,tech:["ereader"]},
     {id:"headphones",name:"Koptelefoon",weight:250}
@@ -163,7 +214,8 @@ const items={
     {id:"sunglasses",name:"Zonnebril",weight:50,climate:["hot","tropical","mild"]},
     {id:"hat",name:"Pet / Hoed",weight:100,climate:["hot","tropical"]},
     {id:"umbrella",name:"Paraplu",weight:300,climate:["tropical","variable"]},
-    {id:"daypack",name:"Dagtas",weight:400}
+    {id:"daypack",name:"Dagtas",weight:400},
+    {id:"beachBag",name:"Strandtas",weight:200,destination:["beach"]}
   ]},
   travel:{name:"Reiscomfort",icon:"✈️",items:[
     {id:"neckPillow",name:"Nekkussen",weight:200,transport:["plane","bus","train"]},
@@ -174,7 +226,23 @@ const items={
 };
 
 const formatWeight=g=>g>=1000?`${(g/1000).toFixed(1)} kg`:`${g}g`;
-const getRecommended=(ans)=>{const r={};Object.entries(items).forEach(([k,c])=>{const f=c.items.filter(i=>{if(i.always)return true;if(i.climate&&!i.climate.includes(ans.climate))return false;if(i.activities&&!i.activities.some(a=>(ans.activities||[]).includes(a)))return false;if(i.tech&&!i.tech.some(t=>(ans.tech||[]).includes(t)))return false;if(i.transport&&!i.transport.includes(ans.transport))return false;return true;});if(f.length>0)r[k]={...c,items:f};});return r;};
+
+const getRecommended=(ans)=>{
+  const r={};
+  Object.entries(items).forEach(([k,c])=>{
+    const f=c.items.filter(i=>{
+      if(i.always)return true;
+      if(i.climate&&!i.climate.includes(ans.climate))return false;
+      if(i.activities&&!i.activities.some(a=>(ans.activities||[]).includes(a)))return false;
+      if(i.tech&&!i.tech.some(t=>(ans.tech||[]).includes(t)))return false;
+      if(i.transport&&!i.transport.some(t=>(ans.transport||[]).includes(t)))return false;
+      if(i.destination&&!i.destination.some(d=>(ans.destination||[]).includes(d)))return false;
+      return true;
+    });
+    if(f.length>0)r[k]={...c,items:f};
+  });
+  return r;
+};
 
 let state={screen:"start",answers:{},step:0,selected:{},list:null};
 
@@ -183,14 +251,14 @@ const render=()=>{
 
   if(state.screen==="start"){
     app.innerHTML=`
-      <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 flex items-center justify-center p-6">
-        <div class="text-center max-w-md fade-in">
-          <div class="w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/20 glass flex items-center justify-center bounce-in">
-            <span class="text-6xl">🧳</span>
+      <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 flex items-center justify-center p-6">
+        <div class="text-center max-w-sm fade-in">
+          <div class="w-28 h-28 mx-auto mb-8 rounded-3xl bg-white/20 glass flex items-center justify-center bounce-in shadow-2xl">
+            <span class="text-5xl">🧳</span>
           </div>
-          <h1 class="text-4xl font-extrabold text-white mb-3 tracking-tight">Paklijst</h1>
-          <p class="text-white/70 text-lg mb-10 leading-relaxed">Slimme paklijst voor jouw reis.<br>Nooit meer iets vergeten.</p>
-          <button onclick="startQuiz()" class="w-full bg-white text-purple-600 px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-purple-900/30 card-hover">
+          <h1 class="text-4xl font-extrabold text-white mb-4 tracking-tight">Paklijst</h1>
+          <p class="text-white/80 text-lg mb-10 leading-relaxed">Slimme paklijst voor jouw reis.<br>Nooit meer iets vergeten.</p>
+          <button onclick="startQuiz()" class="w-full bg-white text-purple-600 px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-purple-900/40 card-hover">
             Start vragenlijst →
           </button>
         </div>
@@ -212,50 +280,50 @@ const renderQuiz=()=>{
   const canNext=isMulti?(ans&&ans.length>0):!!ans;
 
   document.getElementById("app").innerHTML=`
-    <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 p-4 pb-32">
-      <div class="max-w-lg mx-auto pt-4 fade-in">
+    <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 p-4 pb-28">
+      <div class="max-w-md mx-auto pt-4 fade-in">
         <!-- Progress -->
-        <div class="mb-8">
-          <div class="flex justify-between items-center mb-3">
-            <span class="text-white/60 text-sm font-medium">Stap ${state.step+1} van ${vq.length}</span>
-            <span class="text-white font-bold">${Math.round(progress)}%</span>
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-white/70 text-sm font-medium">Stap ${state.step+1} van ${vq.length}</span>
+            <span class="text-white font-bold text-sm">${Math.round(progress)}%</span>
           </div>
-          <div class="h-2 bg-white/20 rounded-full overflow-hidden">
-            <div class="h-full bg-white rounded-full transition-all duration-500" style="width:${progress}%"></div>
+          <div class="h-2.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-white rounded-full transition-all duration-500 ease-out" style="width:${progress}%"></div>
           </div>
         </div>
 
-        <!-- Question -->
-        <div class="glass rounded-3xl p-6 border border-white/20 shadow-2xl">
+        <!-- Question Card -->
+        <div class="glass rounded-3xl p-6 border border-white/25 shadow-2xl">
           <h2 class="text-2xl font-bold text-white mb-2 text-center">${q.question}</h2>
-          ${isMulti?'<p class="text-white/50 text-center text-sm mb-6">Selecteer alles wat van toepassing is</p>':'<p class="text-white/50 text-center text-sm mb-6">Kies een optie</p>'}
+          <p class="text-white/60 text-center text-sm mb-6">${isMulti?'Tik om te selecteren (meerdere mogelijk)':'Kies één optie'}</p>
 
           <div class="grid grid-cols-2 gap-3">
             ${q.options.map(o=>{
               const sel=isMulti?(ans||[]).includes(o.value):ans===o.value;
               return`
                 <button onclick="selectOption('${q.id}','${o.value}',${isMulti})"
-                  class="p-4 rounded-2xl text-left card-hover relative overflow-hidden ${sel?'selected-card':'unselected-card'}">
-                  ${sel?'<div class="absolute top-2 right-2 checkmark bg-purple-500 text-white">✓</div>':''}
+                  class="p-4 rounded-2xl text-left card-hover relative ${sel?'selected-card pop-in':'unselected-card'}">
+                  ${sel?`<div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center text-xs font-bold shadow-lg">✓</div>`:''}
                   <div class="text-3xl mb-2">${o.icon}</div>
-                  <div class="font-semibold text-base">${o.label}</div>
-                  ${o.desc?`<div class="text-xs mt-1 ${sel?'text-purple-400':'text-white/50'}">${o.desc}</div>`:''}
+                  <div class="font-semibold text-base ${sel?'text-purple-600':'text-white'}">${o.label}</div>
+                  <div class="text-xs mt-1 ${sel?'text-purple-400':'text-white/60'}">${o.desc||''}</div>
                 </button>`;
             }).join('')}
           </div>
         </div>
       </div>
 
-      <!-- Fixed bottom navigation -->
+      <!-- Navigation -->
       <div class="fixed bottom-0 left-0 right-0 p-4 glass-dark border-t border-white/10">
-        <div class="max-w-lg mx-auto flex gap-3">
+        <div class="max-w-md mx-auto flex gap-3">
           ${state.step>0?`
-            <button onclick="prevStep()" class="px-6 py-4 rounded-2xl font-semibold text-white bg-white/10 border border-white/20 card-hover">
+            <button onclick="prevStep()" class="px-5 py-4 rounded-2xl font-semibold text-white bg-white/15 border border-white/25 card-hover">
               ←
             </button>`:''}
-          <button onclick="nextStep()"
-            class="flex-1 py-4 rounded-2xl font-bold text-lg card-hover ${canNext?'bg-white text-purple-600 shadow-lg':'bg-white/10 text-white/30 cursor-not-allowed'}">
-            ${state.step===vq.length-1?'Bekijk suggesties':'Volgende'}
+          <button onclick="nextStep()" ${!canNext?'disabled':''}
+            class="flex-1 py-4 rounded-2xl font-bold text-lg card-hover ${canNext?'bg-white text-purple-600 shadow-lg':'bg-white/10 text-white/40'}">
+            ${state.step===vq.length-1?'Bekijk suggesties →':'Volgende →'}
           </button>
         </div>
       </div>
@@ -272,21 +340,21 @@ const renderSuggestions=()=>{
   });
 
   let html=`
-    <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 pb-32">
-      <div class="max-w-lg mx-auto p-4 pt-6 fade-in">
+    <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 pb-28">
+      <div class="max-w-md mx-auto p-4 pt-6 fade-in">
         <h1 class="text-2xl font-bold text-white mb-1">Aanbevolen items</h1>
-        <p class="text-white/60 mb-6">Tik om items te selecteren</p>
+        <p class="text-white/70 mb-5">Tik om items te selecteren voor je paklijst</p>
 
-        <!-- Stats -->
-        <div class="glass rounded-2xl p-5 mb-6 border border-white/20 sticky top-4 z-10">
+        <!-- Stats Bar -->
+        <div class="glass rounded-2xl p-4 mb-5 border border-white/25 sticky top-4 z-10 shadow-lg">
           <div class="flex justify-between items-center">
             <div>
-              <div class="text-white/60 text-xs uppercase tracking-wide mb-1">Geselecteerd</div>
-              <div class="text-white text-3xl font-bold">${count}</div>
+              <div class="text-white/60 text-xs uppercase tracking-wide font-medium">Geselecteerd</div>
+              <div class="text-white text-2xl font-bold">${count} items</div>
             </div>
             <div class="text-right">
-              <div class="text-white/60 text-xs uppercase tracking-wide mb-1">Totaal gewicht</div>
-              <div class="text-white text-3xl font-bold">${formatWeight(totalW)}</div>
+              <div class="text-white/60 text-xs uppercase tracking-wide font-medium">Totaal gewicht</div>
+              <div class="text-white text-2xl font-bold">${formatWeight(totalW)}</div>
             </div>
           </div>
         </div>
@@ -297,20 +365,21 @@ const renderSuggestions=()=>{
     const selInCat=Object.values(state.selected[ck]||{}).filter(Boolean).length;
     html+=`
       <div class="glass rounded-2xl border border-white/20 overflow-hidden">
-        <div class="p-4 flex items-center gap-3 border-b border-white/10">
+        <div class="p-4 flex items-center gap-3 border-b border-white/15 bg-white/5">
           <span class="text-2xl">${cat.icon}</span>
           <span class="font-semibold text-white flex-1">${cat.name}</span>
-          <span class="bg-white/20 px-3 py-1 rounded-full text-sm text-white font-medium">${selInCat}/${cat.items.length}</span>
+          <span class="bg-white/25 px-3 py-1 rounded-full text-sm text-white font-medium">${selInCat}/${cat.items.length}</span>
         </div>
-        <div class="p-3 grid gap-2">
+        <div class="p-2">
           ${cat.items.map(it=>{
             const sel=state.selected[ck]?.[it.id];
             return`
               <button onclick="toggleItem('${ck}','${it.id}')"
-                class="p-4 rounded-xl text-left flex items-center gap-4 card-hover ${sel?'bg-white':'bg-white/5 border border-white/10'}">
-                <div class="checkmark ${sel?'bg-purple-500 text-white':'bg-white/10 text-transparent border-2 border-white/30'}">✓</div>
-                <span class="flex-1 font-medium ${sel?'text-purple-600':'text-white'}">${it.name}</span>
-                <span class="${sel?'text-purple-400':'text-white/40'} text-sm font-medium">${formatWeight(it.weight)}</span>
+                class="w-full p-3.5 rounded-xl text-left flex items-center gap-3 card-hover mb-1.5 transition-all
+                  ${sel?'bg-white shadow-md':'bg-white/5 hover:bg-white/10'}">
+                <div class="check-circle ${sel?'bg-purple-500 text-white shadow':'bg-white/15 border-2 border-white/30 text-transparent'}">✓</div>
+                <span class="flex-1 font-medium ${sel?'text-purple-600':'text-white/90'}">${it.name}</span>
+                <span class="${sel?'text-purple-400 font-semibold':'text-white/50'} text-sm">${formatWeight(it.weight)}</span>
               </button>`;
           }).join('')}
         </div>
@@ -319,10 +388,10 @@ const renderSuggestions=()=>{
 
   html+=`</div></div>
     <div class="fixed bottom-0 left-0 right-0 p-4 glass-dark border-t border-white/10">
-      <div class="max-w-lg mx-auto">
-        <button onclick="createList()"
-          class="w-full py-4 rounded-2xl font-bold text-lg card-hover ${count>0?'bg-white text-purple-600 shadow-lg':'bg-white/10 text-white/30 cursor-not-allowed'}">
-          Maak paklijst (${count} items)
+      <div class="max-w-md mx-auto">
+        <button onclick="createList()" ${count===0?'disabled':''}
+          class="w-full py-4 rounded-2xl font-bold text-lg card-hover ${count>0?'bg-white text-purple-600 shadow-lg':'bg-white/10 text-white/40'}">
+          Maak paklijst (${count} items) →
         </button>
       </div>
     </div>
@@ -337,31 +406,31 @@ const renderList=()=>{
   const progress=total>0?(checked/total)*100:0;
 
   let html=`
-    <div class="min-h-screen bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 pb-8">
-      <div class="max-w-lg mx-auto p-4 pt-6 fade-in">
-        <div class="flex items-center justify-between mb-6">
-          <button onclick="restart()" class="text-white/70 font-medium">← Opnieuw</button>
+    <div class="min-h-screen bg-gradient-to-br from-teal-500 via-emerald-500 to-green-500 pb-6">
+      <div class="max-w-md mx-auto p-4 pt-5 fade-in">
+        <div class="flex items-center justify-between mb-5">
+          <button onclick="restart()" class="text-white/80 font-medium text-sm">← Opnieuw</button>
           <h1 class="text-xl font-bold text-white">Mijn Paklijst</h1>
           <div class="w-16"></div>
         </div>
 
         <!-- Progress Card -->
-        <div class="glass rounded-3xl p-6 mb-6 border border-white/20">
+        <div class="glass rounded-3xl p-5 mb-5 border border-white/25 shadow-lg">
           <div class="flex justify-between items-start mb-4">
             <div>
-              <div class="text-white/60 text-sm mb-1">Ingepakt</div>
-              <div class="text-white text-4xl font-bold">${checked}<span class="text-2xl text-white/50">/${total}</span></div>
+              <div class="text-white/70 text-sm mb-1">Ingepakt</div>
+              <div class="text-white text-3xl font-bold">${checked}<span class="text-xl text-white/60">/${total}</span></div>
             </div>
             <div class="text-right">
-              <div class="text-white/60 text-sm mb-1">Gewicht</div>
-              <div class="text-white text-2xl font-bold">${formatWeight(checkedW)}</div>
-              <div class="text-white/50 text-sm">van ${formatWeight(totalW)}</div>
+              <div class="text-white/70 text-sm mb-1">Gewicht</div>
+              <div class="text-white text-xl font-bold">${formatWeight(checkedW)}</div>
+              <div class="text-white/60 text-sm">van ${formatWeight(totalW)}</div>
             </div>
           </div>
-          <div class="h-4 bg-white/20 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-green-300 to-emerald-400 rounded-full transition-all duration-500" style="width:${progress}%"></div>
+          <div class="h-3.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-white rounded-full transition-all duration-500 ease-out" style="width:${progress}%"></div>
           </div>
-          ${progress===100?'<p class="text-center text-white mt-4 font-semibold">🎉 Alles ingepakt! Goede reis!</p>':''}
+          ${progress===100?'<p class="text-center text-white mt-4 font-semibold text-lg">🎉 Alles ingepakt! Goede reis!</p>':''}
         </div>
 
         <div class="space-y-4">`;
@@ -370,28 +439,31 @@ const renderList=()=>{
     const catChecked=cat.items.filter(i=>i.checked).length;
     html+=`
       <div class="glass rounded-2xl border border-white/20 overflow-hidden">
-        <div class="p-4 flex items-center gap-3 border-b border-white/10">
+        <div class="p-4 flex items-center gap-3 border-b border-white/15 bg-white/5">
           <span class="text-2xl">${cat.icon}</span>
           <span class="font-semibold text-white flex-1">${cat.name}</span>
-          <span class="bg-white/20 px-3 py-1 rounded-full text-sm text-white font-medium">${catChecked}/${cat.items.length}</span>
+          <span class="bg-white/25 px-3 py-1 rounded-full text-sm text-white font-medium">${catChecked}/${cat.items.length}</span>
         </div>
         <div class="divide-y divide-white/10">
           ${cat.items.map((it,idx)=>`
-            <div class="p-4 flex items-center gap-3 ${it.checked?'bg-white/5':''}">
+            <div class="p-4 flex items-center gap-3 ${it.checked?'bg-white/10':''}">
               <button onclick="toggleCheck('${ck}',${idx})"
-                class="w-7 h-7 rounded-full flex items-center justify-center card-hover ${it.checked?'bg-emerald-400 text-white':'border-2 border-white/40'}">
+                class="w-7 h-7 rounded-full flex items-center justify-center card-hover flex-shrink-0
+                  ${it.checked?'bg-white text-emerald-500 shadow':'border-2 border-white/40 text-transparent'}">
                 ${it.checked?'✓':''}
               </button>
-              <div class="flex-1 ${it.checked?'opacity-50':''}">
-                <p class="text-white font-medium ${it.checked?'line-through':''}">${it.name}</p>
-                <p class="text-white/50 text-sm">${formatWeight(it.weight*(it.quantity||1))}</p>
+              <div class="flex-1 min-w-0 ${it.checked?'opacity-60':''}">
+                <p class="text-white font-medium truncate ${it.checked?'line-through':''}">
+                  ${it.name}${(it.quantity||1)>1?` <span class="text-white/60">(${it.quantity}x)</span>`:''}
+                </p>
+                <p class="text-white/60 text-sm">${formatWeight(it.weight*(it.quantity||1))}</p>
               </div>
-              <div class="flex items-center gap-2">
-                <button onclick="changeQty('${ck}',${idx},-1)" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold card-hover">-</button>
+              <div class="flex items-center gap-1.5 flex-shrink-0">
+                <button onclick="changeQty('${ck}',${idx},-1)" class="w-8 h-8 rounded-full bg-white/15 text-white font-bold card-hover">−</button>
                 <span class="text-white w-5 text-center font-medium">${it.quantity||1}</span>
-                <button onclick="changeQty('${ck}',${idx},1)" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold card-hover">+</button>
+                <button onclick="changeQty('${ck}',${idx},1)" class="w-8 h-8 rounded-full bg-white/15 text-white font-bold card-hover">+</button>
               </div>
-              <button onclick="deleteItem('${ck}',${idx})" class="text-red-300 p-2 card-hover">✕</button>
+              <button onclick="deleteItem('${ck}',${idx})" class="text-red-300/80 p-1 card-hover flex-shrink-0 text-lg">✕</button>
             </div>`).join('')}
         </div>
       </div>`;
@@ -408,9 +480,9 @@ window.selectOption=(qid,val,multi)=>{
   render();
 };
 window.prevStep=()=>{if(state.step>0){state.step--;render();}};
-window.nextStep=()=>{const vq=getVisibleQuestions();if(state.step<vq.length-1){state.step++;render();}else{state.screen="suggestions";render();}};
+window.nextStep=()=>{const vq=getVisibleQuestions();const q=vq[state.step];const isMulti=q.type==="multiple";const ans=state.answers[q.id];const canNext=isMulti?(ans&&ans.length>0):!!ans;if(!canNext)return;if(state.step<vq.length-1){state.step++;render();}else{state.screen="suggestions";render();}};
 window.toggleItem=(ck,iid)=>{if(!state.selected[ck])state.selected[ck]={};state.selected[ck][iid]=!state.selected[ck][iid];render();};
-window.createList=()=>{const rec=getRecommended(state.answers);const list={};Object.entries(state.selected).forEach(([ck,its])=>{const sel=[];Object.entries(its).forEach(([iid,s])=>{if(s){const it=rec[ck]?.items.find(i=>i.id===iid);if(it)sel.push({...it,checked:false,quantity:1});}});if(sel.length>0)list[ck]={name:rec[ck].name,icon:rec[ck].icon,items:sel};});state.list=list;state.screen="list";render();};
+window.createList=()=>{const rec=getRecommended(state.answers);const list={};Object.entries(state.selected).forEach(([ck,its])=>{const sel=[];Object.entries(its).forEach(([iid,s])=>{if(s){const it=rec[ck]?.items.find(i=>i.id===iid);if(it)sel.push({...it,checked:false,quantity:1});}});if(sel.length>0)list[ck]={name:rec[ck].name,icon:rec[ck].icon,items:sel};});if(Object.keys(list).length===0)return;state.list=list;state.screen="list";render();};
 window.toggleCheck=(ck,idx)=>{state.list[ck].items[idx].checked=!state.list[ck].items[idx].checked;render();};
 window.changeQty=(ck,idx,d)=>{const it=state.list[ck].items[idx];it.quantity=Math.max(1,(it.quantity||1)+d);render();};
 window.deleteItem=(ck,idx)=>{state.list[ck].items.splice(idx,1);if(state.list[ck].items.length===0)delete state.list[ck];render();};
