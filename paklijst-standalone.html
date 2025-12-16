@@ -3,47 +3,410 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Paklijst Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>body{font-family:'Inter',system-ui,sans-serif;}</style>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .glass-dark { background: rgba(0,0,0,0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .card-hover { transition: all 0.2s ease; }
+    .card-hover:active { transform: scale(0.98); }
+    .selected-card { background: white; color: #4f46e5; box-shadow: 0 10px 40px rgba(79,70,229,0.3); }
+    .unselected-card { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.15); }
+    .checkmark { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-ring { transition: stroke-dashoffset 0.5s ease; }
+    .bounce-in { animation: bounceIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    @keyframes bounceIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
 </head>
-<body>
+<body class="bg-slate-900">
 <div id="app"></div>
 <script>
-const questions=[{id:"tripType",question:"Wat voor soort reis maak je?",type:"single",options:[{value:"vacation",label:"Vakantie",icon:"🏖️"},{value:"business",label:"Zakenreis",icon:"💼"},{value:"backpacking",label:"Backpacken",icon:"🎒"},{value:"roadtrip",label:"Roadtrip",icon:"🚗"},{value:"adventure",label:"Avontuur",icon:"🏔️"}]},{id:"travelers",question:"Met wie reis je?",type:"single",options:[{value:"solo",label:"Alleen",icon:"🧍"},{value:"couple",label:"Als koppel",icon:"💑"},{value:"family",label:"Gezin met kinderen",icon:"👨‍👩‍👧‍👦"},{value:"friends",label:"Met vrienden",icon:"👯"},{value:"group",label:"Grote groep",icon:"👥"}]},{id:"transport",question:"Hoe reis je naar je bestemming?",type:"single",options:[{value:"plane",label:"Vliegtuig",icon:"✈️"},{value:"car",label:"Auto",icon:"🚗"},{value:"train",label:"Trein",icon:"🚂"},{value:"boat",label:"Boot/Cruise",icon:"🚢"},{value:"bus",label:"Bus",icon:"🚌"}]},{id:"airline",question:"Met welke luchtvaartmaatschappij?",type:"single",condition:a=>a.transport==="plane",options:[{value:"klm",label:"KLM",baggage:{cabin:12,checked:23}},{value:"transavia",label:"Transavia",baggage:{cabin:10,checked:20}},{value:"ryanair",label:"Ryanair",baggage:{cabin:10,checked:20}},{value:"easyjet",label:"EasyJet",baggage:{cabin:15,checked:23}},{value:"other",label:"Anders",baggage:{cabin:10,checked:23}}]},{id:"destination",question:"Wat voor type bestemming?",type:"single",options:[{value:"beach",label:"Strand",icon:"🏖️"},{value:"city",label:"Stad",icon:"🏙️"},{value:"mountain",label:"Bergen",icon:"🏔️"},{value:"nature",label:"Natuur/Camping",icon:"🏕️"},{value:"mixed",label:"Combinatie",icon:"🗺️"}]},{id:"climate",question:"Wat is het klimaat?",type:"single",options:[{value:"hot",label:"Warm (25°C+)",icon:"☀️"},{value:"mild",label:"Mild (15-25°C)",icon:"🌤️"},{value:"cold",label:"Koud (<15°C)",icon:"❄️"},{value:"tropical",label:"Tropisch",icon:"🌴"},{value:"variable",label:"Wisselend",icon:"🌦️"}]},{id:"duration",question:"Hoe lang duurt je reis?",type:"single",options:[{value:"weekend",label:"1-3 dagen",icon:"📅"},{value:"week",label:"4-7 dagen",icon:"📆"},{value:"twoweeks",label:"1-2 weken",icon:"🗓️"},{value:"month",label:"2-4 weken",icon:"📋"},{value:"long",label:"Meer dan een maand",icon:"🌍"}]},{id:"activities",question:"Welke activiteiten ga je doen?",type:"multiple",options:[{value:"swimming",label:"Zwemmen",icon:"🏊"},{value:"hiking",label:"Wandelen",icon:"🥾"},{value:"cycling",label:"Fietsen",icon:"🚴"},{value:"nightlife",label:"Uitgaan",icon:"🎉"},{value:"sightseeing",label:"Sightseeing",icon:"📸"},{value:"beach",label:"Strand",icon:"🏖️"},{value:"running",label:"Hardlopen",icon:"🏃"},{value:"yoga",label:"Yoga/Fitness",icon:"🧘"}]},{id:"tech",question:"Welke tech neem je mee?",type:"multiple",options:[{value:"laptop",label:"Laptop",icon:"💻"},{value:"camera",label:"Camera",icon:"📷"},{value:"tablet",label:"Tablet",icon:"📱"},{value:"ereader",label:"E-reader",icon:"📖"},{value:"gaming",label:"Gaming",icon:"🎮"},{value:"none",label:"Alleen telefoon",icon:"📵"}]}];
+const questions=[
+  {id:"tripType",question:"Wat voor reis maak je?",type:"single",options:[
+    {value:"vacation",label:"Vakantie",icon:"🏖️",desc:"Relaxen & genieten"},
+    {value:"business",label:"Zakenreis",icon:"💼",desc:"Werk & meetings"},
+    {value:"backpacking",label:"Backpacken",icon:"🎒",desc:"Avontuurlijk reizen"},
+    {value:"roadtrip",label:"Roadtrip",icon:"🚗",desc:"Op de weg"},
+    {value:"adventure",label:"Avontuur",icon:"🏔️",desc:"Actief & sportief"}
+  ]},
+  {id:"travelers",question:"Met wie reis je?",type:"single",options:[
+    {value:"solo",label:"Alleen",icon:"🧍",desc:"Solo adventure"},
+    {value:"couple",label:"Als koppel",icon:"💑",desc:"Romantisch"},
+    {value:"family",label:"Met gezin",icon:"👨‍👩‍👧‍👦",desc:"Familie trip"},
+    {value:"friends",label:"Met vrienden",icon:"👯",desc:"Vriendengroep"},
+    {value:"group",label:"Grote groep",icon:"👥",desc:"Groepsreis"}
+  ]},
+  {id:"transport",question:"Hoe reis je erheen?",type:"single",options:[
+    {value:"plane",label:"Vliegtuig",icon:"✈️",desc:"Door de lucht"},
+    {value:"car",label:"Auto",icon:"🚗",desc:"Over de weg"},
+    {value:"train",label:"Trein",icon:"🚂",desc:"Over het spoor"},
+    {value:"boat",label:"Boot",icon:"🚢",desc:"Over het water"},
+    {value:"bus",label:"Bus",icon:"🚌",desc:"Met de bus"}
+  ]},
+  {id:"airline",question:"Welke airline?",type:"single",condition:a=>a.transport==="plane",options:[
+    {value:"klm",label:"KLM",icon:"🔵",desc:"12kg cabin",baggage:{cabin:12,checked:23}},
+    {value:"transavia",label:"Transavia",icon:"🟢",desc:"10kg cabin",baggage:{cabin:10,checked:20}},
+    {value:"ryanair",label:"Ryanair",icon:"🟡",desc:"10kg cabin",baggage:{cabin:10,checked:20}},
+    {value:"easyjet",label:"EasyJet",icon:"🟠",desc:"15kg cabin",baggage:{cabin:15,checked:23}},
+    {value:"other",label:"Anders",icon:"⚪",desc:"Standaard",baggage:{cabin:10,checked:23}}
+  ]},
+  {id:"destination",question:"Type bestemming?",type:"single",options:[
+    {value:"beach",label:"Strand",icon:"🏖️",desc:"Zon, zee & zand"},
+    {value:"city",label:"Stad",icon:"🏙️",desc:"Cultuur & shoppen"},
+    {value:"mountain",label:"Bergen",icon:"🏔️",desc:"Natuur & wandelen"},
+    {value:"nature",label:"Natuur",icon:"🏕️",desc:"Camping & outdoor"},
+    {value:"mixed",label:"Mix",icon:"🗺️",desc:"Van alles wat"}
+  ]},
+  {id:"climate",question:"Hoe is het weer daar?",type:"single",options:[
+    {value:"hot",label:"Warm",icon:"☀️",desc:"25°C of meer"},
+    {value:"mild",label:"Mild",icon:"🌤️",desc:"15-25°C"},
+    {value:"cold",label:"Koud",icon:"❄️",desc:"Onder 15°C"},
+    {value:"tropical",label:"Tropisch",icon:"🌴",desc:"Warm & vochtig"},
+    {value:"variable",label:"Wisselend",icon:"🌦️",desc:"Onvoorspelbaar"}
+  ]},
+  {id:"duration",question:"Hoe lang ga je?",type:"single",options:[
+    {value:"weekend",label:"Weekend",icon:"📅",desc:"1-3 dagen"},
+    {value:"week",label:"Week",icon:"📆",desc:"4-7 dagen"},
+    {value:"twoweeks",label:"2 Weken",icon:"🗓️",desc:"8-14 dagen"},
+    {value:"month",label:"Maand",icon:"📋",desc:"2-4 weken"},
+    {value:"long",label:"Lang",icon:"🌍",desc:"Meer dan maand"}
+  ]},
+  {id:"activities",question:"Wat ga je doen?",type:"multiple",options:[
+    {value:"swimming",label:"Zwemmen",icon:"🏊"},
+    {value:"hiking",label:"Wandelen",icon:"🥾"},
+    {value:"cycling",label:"Fietsen",icon:"🚴"},
+    {value:"nightlife",label:"Uitgaan",icon:"🎉"},
+    {value:"sightseeing",label:"Sightseeing",icon:"📸"},
+    {value:"beach",label:"Strand",icon:"🏖️"},
+    {value:"running",label:"Hardlopen",icon:"🏃"},
+    {value:"yoga",label:"Yoga",icon:"🧘"}
+  ]},
+  {id:"tech",question:"Welke tech mee?",type:"multiple",options:[
+    {value:"laptop",label:"Laptop",icon:"💻"},
+    {value:"camera",label:"Camera",icon:"📷"},
+    {value:"tablet",label:"Tablet",icon:"📱"},
+    {value:"ereader",label:"E-reader",icon:"📖"},
+    {value:"gaming",label:"Gaming",icon:"🎮"},
+    {value:"none",label:"Alleen phone",icon:"📵"}
+  ]}
+];
 
-const items={essentials:{name:"Essentials",icon:"📋",items:[{id:"passport",name:"Paspoort/ID",weight:50,always:true},{id:"wallet",name:"Portemonnee",weight:100,always:true},{id:"phone",name:"Telefoon",weight:200,always:true},{id:"phoneCharger",name:"Telefoonoplader",weight:50,always:true},{id:"keys",name:"Sleutels",weight:100,always:true},{id:"travelDocs",name:"Reisdocumenten",weight:30,always:true},{id:"creditCard",name:"Creditcard",weight:5,always:true},{id:"cash",name:"Contant geld",weight:20,always:true}]},clothing:{name:"Kleding",icon:"👕",items:[{id:"tshirts",name:"T-shirts (5x)",weight:750},{id:"pants",name:"Lange broeken (2x)",weight:800},{id:"shorts",name:"Korte broeken (2x)",weight:400,climate:["hot","tropical","mild"]},{id:"underwear",name:"Ondergoed (7x)",weight:350},{id:"socks",name:"Sokken (5 paar)",weight:200},{id:"sleepwear",name:"Slaapkleding",weight:200},{id:"sweater",name:"Trui/Sweater",weight:400,climate:["cold","mild","variable"]},{id:"jacket",name:"Jas",weight:800,climate:["cold","variable"]},{id:"raincoat",name:"Regenjas",weight:300,climate:["tropical","variable"]},{id:"swimwear",name:"Zwemkleding",weight:150,activities:["swimming","beach"]}]},shoes:{name:"Schoenen",icon:"👟",items:[{id:"sneakers",name:"Sneakers",weight:700},{id:"sandals",name:"Sandalen/Slippers",weight:300,climate:["hot","tropical"]},{id:"hikingBoots",name:"Wandelschoenen",weight:900,activities:["hiking"]}]},toiletries:{name:"Toiletartikelen",icon:"🧴",items:[{id:"toothbrush",name:"Tandenborstel",weight:30,always:true},{id:"toothpaste",name:"Tandpasta",weight:100,always:true},{id:"deodorant",name:"Deodorant",weight:100,always:true},{id:"shampoo",name:"Shampoo",weight:200},{id:"sunscreen",name:"Zonnebrand",weight:150,climate:["hot","tropical","mild"]},{id:"lipbalm",name:"Lippenbalsem",weight:15},{id:"hairbrush",name:"Haarborstel",weight:80},{id:"mosquitoRepellent",name:"Anti-muggenspray",weight:100,climate:["tropical"]}]},electronics:{name:"Elektronica",icon:"📱",items:[{id:"powerbank",name:"Powerbank",weight:300},{id:"adapter",name:"Reisstekker",weight:100},{id:"laptop",name:"Laptop",weight:1500,tech:["laptop"]},{id:"laptopCharger",name:"Laptop oplader",weight:300,tech:["laptop"]},{id:"camera",name:"Camera",weight:500,tech:["camera"]},{id:"cameraCharger",name:"Camera oplader",weight:100,tech:["camera"]},{id:"tablet",name:"Tablet",weight:500,tech:["tablet"]},{id:"ereader",name:"E-reader",weight:200,tech:["ereader"]},{id:"headphones",name:"Koptelefoon",weight:250},{id:"earbuds",name:"Oordopjes",weight:50}]},health:{name:"Gezondheid",icon:"💊",items:[{id:"firstAid",name:"EHBO-setje",weight:200},{id:"painkillers",name:"Pijnstillers",weight:30},{id:"bandaids",name:"Pleisters",weight:20},{id:"handSanitizer",name:"Handgel",weight:100},{id:"tissues",name:"Zakdoekjes",weight:50}]},accessories:{name:"Accessoires",icon:"🎒",items:[{id:"sunglasses",name:"Zonnebril",weight:50,climate:["hot","tropical","mild"]},{id:"hat",name:"Pet/Hoed",weight:100,climate:["hot","tropical"]},{id:"scarf",name:"Sjaal",weight:150,climate:["cold"]},{id:"umbrella",name:"Paraplu",weight:300,climate:["tropical","variable"]},{id:"daypack",name:"Dagtas",weight:400},{id:"beachBag",name:"Strandtas",weight:200,destination:["beach"]}]},travel:{name:"Reisgemak",icon:"✈️",items:[{id:"neckPillow",name:"Nekkussen",weight:200,transport:["plane","bus","train"]},{id:"sleepMask",name:"Slaapmasker",weight:30,transport:["plane"]},{id:"earplugs",name:"Oordoppen",weight:10},{id:"packingCubes",name:"Packing cubes",weight:200},{id:"laundryBag",name:"Waszak",weight:50}]}};
+const items={
+  essentials:{name:"Essentials",icon:"✨",items:[
+    {id:"passport",name:"Paspoort / ID",weight:50,always:true},
+    {id:"wallet",name:"Portemonnee",weight:100,always:true},
+    {id:"phone",name:"Telefoon + oplader",weight:250,always:true},
+    {id:"keys",name:"Sleutels",weight:100,always:true},
+    {id:"travelDocs",name:"Reisdocumenten",weight:30,always:true},
+    {id:"creditCard",name:"Creditcard",weight:5,always:true},
+    {id:"cash",name:"Contant geld",weight:20,always:true}
+  ]},
+  clothing:{name:"Kleding",icon:"👕",items:[
+    {id:"tshirts",name:"T-shirts (5x)",weight:750},
+    {id:"pants",name:"Lange broeken (2x)",weight:800},
+    {id:"shorts",name:"Korte broeken (2x)",weight:400,climate:["hot","tropical","mild"]},
+    {id:"underwear",name:"Ondergoed (7x)",weight:350},
+    {id:"socks",name:"Sokken (5 paar)",weight:200},
+    {id:"sleepwear",name:"Slaapkleding",weight:200},
+    {id:"sweater",name:"Trui / Sweater",weight:400,climate:["cold","mild","variable"]},
+    {id:"jacket",name:"Jas",weight:800,climate:["cold","variable"]},
+    {id:"raincoat",name:"Regenjas",weight:300,climate:["tropical","variable"]},
+    {id:"swimwear",name:"Zwemkleding",weight:150,activities:["swimming","beach"]}
+  ]},
+  shoes:{name:"Schoenen",icon:"👟",items:[
+    {id:"sneakers",name:"Sneakers",weight:700},
+    {id:"sandals",name:"Sandalen / Slippers",weight:300,climate:["hot","tropical"]},
+    {id:"hikingBoots",name:"Wandelschoenen",weight:900,activities:["hiking"]}
+  ]},
+  toiletries:{name:"Toilettas",icon:"🧴",items:[
+    {id:"toothbrush",name:"Tandenborstel + pasta",weight:130,always:true},
+    {id:"deodorant",name:"Deodorant",weight:100,always:true},
+    {id:"shampoo",name:"Shampoo",weight:200},
+    {id:"sunscreen",name:"Zonnebrand",weight:150,climate:["hot","tropical","mild"]},
+    {id:"lipbalm",name:"Lippenbalsem",weight:15},
+    {id:"hairbrush",name:"Haarborstel",weight:80},
+    {id:"mosquitoRepellent",name:"Anti-muggenspray",weight:100,climate:["tropical"]}
+  ]},
+  electronics:{name:"Elektronica",icon:"🔌",items:[
+    {id:"powerbank",name:"Powerbank",weight:300},
+    {id:"adapter",name:"Reisstekker",weight:100},
+    {id:"laptop",name:"Laptop",weight:1500,tech:["laptop"]},
+    {id:"laptopCharger",name:"Laptop oplader",weight:300,tech:["laptop"]},
+    {id:"camera",name:"Camera",weight:500,tech:["camera"]},
+    {id:"tablet",name:"Tablet",weight:500,tech:["tablet"]},
+    {id:"ereader",name:"E-reader",weight:200,tech:["ereader"]},
+    {id:"headphones",name:"Koptelefoon",weight:250}
+  ]},
+  health:{name:"Gezondheid",icon:"💊",items:[
+    {id:"firstAid",name:"EHBO-setje",weight:200},
+    {id:"painkillers",name:"Pijnstillers",weight:30},
+    {id:"bandaids",name:"Pleisters",weight:20},
+    {id:"handSanitizer",name:"Handgel",weight:100}
+  ]},
+  accessories:{name:"Accessoires",icon:"🎒",items:[
+    {id:"sunglasses",name:"Zonnebril",weight:50,climate:["hot","tropical","mild"]},
+    {id:"hat",name:"Pet / Hoed",weight:100,climate:["hot","tropical"]},
+    {id:"umbrella",name:"Paraplu",weight:300,climate:["tropical","variable"]},
+    {id:"daypack",name:"Dagtas",weight:400}
+  ]},
+  travel:{name:"Reiscomfort",icon:"✈️",items:[
+    {id:"neckPillow",name:"Nekkussen",weight:200,transport:["plane","bus","train"]},
+    {id:"sleepMask",name:"Slaapmasker",weight:30,transport:["plane"]},
+    {id:"earplugs",name:"Oordoppen",weight:10},
+    {id:"packingCubes",name:"Packing cubes",weight:200}
+  ]}
+};
 
-const formatWeight=g=>g>=1000?`${(g/1000).toFixed(1)} kg`:`${g} g`;
-
-const getRecommended=(ans)=>{const r={};Object.entries(items).forEach(([k,c])=>{const f=c.items.filter(i=>{if(i.always)return true;if(i.climate&&!i.climate.includes(ans.climate))return false;if(i.activities&&!i.activities.some(a=>(ans.activities||[]).includes(a)))return false;if(i.tech&&!i.tech.some(t=>(ans.tech||[]).includes(t)))return false;if(i.transport&&!i.transport.includes(ans.transport))return false;if(i.destination&&!i.destination.includes(ans.destination))return false;return true;});if(f.length>0)r[k]={...c,items:f};});return r;};
+const formatWeight=g=>g>=1000?`${(g/1000).toFixed(1)} kg`:`${g}g`;
+const getRecommended=(ans)=>{const r={};Object.entries(items).forEach(([k,c])=>{const f=c.items.filter(i=>{if(i.always)return true;if(i.climate&&!i.climate.includes(ans.climate))return false;if(i.activities&&!i.activities.some(a=>(ans.activities||[]).includes(a)))return false;if(i.tech&&!i.tech.some(t=>(ans.tech||[]).includes(t)))return false;if(i.transport&&!i.transport.includes(ans.transport))return false;return true;});if(f.length>0)r[k]={...c,items:f};});return r;};
 
 let state={screen:"start",answers:{},step:0,selected:{},list:null};
 
-const render=()=>{const app=document.getElementById("app");if(state.screen==="start"){app.innerHTML=`<div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4"><div class="text-center max-w-lg"><div class="text-8xl mb-6">🧳</div><h1 class="text-4xl font-bold text-white mb-4">Paklijst Generator</h1><p class="text-white/80 text-lg mb-8">Beantwoord een paar vragen en krijg een gepersonaliseerde paklijst.</p><button onclick="startQuiz()" class="bg-white text-indigo-600 px-8 py-4 rounded-2xl font-bold text-lg">Start</button></div></div>`;}
-else if(state.screen==="quiz"){renderQuiz();}
-else if(state.screen==="suggestions"){renderSuggestions();}
-else if(state.screen==="list"){renderList();}};
+const render=()=>{
+  const app=document.getElementById("app");
+
+  if(state.screen==="start"){
+    app.innerHTML=`
+      <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 flex items-center justify-center p-6">
+        <div class="text-center max-w-md fade-in">
+          <div class="w-32 h-32 mx-auto mb-8 rounded-3xl bg-white/20 glass flex items-center justify-center bounce-in">
+            <span class="text-6xl">🧳</span>
+          </div>
+          <h1 class="text-4xl font-extrabold text-white mb-3 tracking-tight">Paklijst</h1>
+          <p class="text-white/70 text-lg mb-10 leading-relaxed">Slimme paklijst voor jouw reis.<br>Nooit meer iets vergeten.</p>
+          <button onclick="startQuiz()" class="w-full bg-white text-purple-600 px-8 py-5 rounded-2xl font-bold text-lg shadow-xl shadow-purple-900/30 card-hover">
+            Start vragenlijst →
+          </button>
+        </div>
+      </div>`;
+  }
+  else if(state.screen==="quiz"){renderQuiz();}
+  else if(state.screen==="suggestions"){renderSuggestions();}
+  else if(state.screen==="list"){renderList();}
+};
 
 const getVisibleQuestions=()=>questions.filter(q=>!q.condition||q.condition(state.answers));
 
-const renderQuiz=()=>{const vq=getVisibleQuestions();const q=vq[state.step];const progress=((state.step+1)/vq.length)*100;const isMulti=q.type==="multiple";const ans=state.answers[q.id];const canNext=isMulti?(ans&&ans.length>0):!!ans;
-document.getElementById("app").innerHTML=`<div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4 flex items-center justify-center"><div class="w-full max-w-2xl"><div class="mb-6"><div class="flex justify-between text-white/80 text-sm mb-2"><span>Vraag ${state.step+1}/${vq.length}</span><span>${Math.round(progress)}%</span></div><div class="h-2 bg-white/20 rounded-full"><div class="h-full bg-white rounded-full transition-all" style="width:${progress}%"></div></div></div><div class="bg-white/10 backdrop-blur rounded-3xl p-6 border border-white/20"><h2 class="text-2xl font-bold text-white mb-6 text-center">${q.question}</h2><div class="grid grid-cols-2 gap-3 mb-6">${q.options.map(o=>{const sel=isMulti?(ans||[]).includes(o.value):ans===o.value;return`<button onclick="selectOption('${q.id}','${o.value}',${isMulti})" class="p-4 rounded-2xl text-left transition-all ${sel?'bg-white text-indigo-600 scale-105':'bg-white/10 text-white border border-white/20'}"><div class="flex items-center gap-2">${o.icon?`<span class="text-xl">${o.icon}</span>`:''}<span class="font-medium">${o.label}</span></div></button>`;}).join('')}</div>${isMulti?'<p class="text-white/60 text-center text-sm mb-4">Meerdere opties mogelijk</p>':''}<div class="flex gap-4">${state.step>0?'<button onclick="prevStep()" class="flex-1 py-4 rounded-2xl font-semibold text-white bg-white/10 border border-white/20">Terug</button>':''}<button onclick="nextStep()" class="${canNext?'bg-white text-indigo-600':'bg-white/20 text-white/50 cursor-not-allowed'} flex-1 py-4 rounded-2xl font-semibold">${state.step===vq.length-1?'Bekijk suggesties':'Volgende'}</button></div></div></div></div>`;};
+const renderQuiz=()=>{
+  const vq=getVisibleQuestions();
+  const q=vq[state.step];
+  const progress=((state.step+1)/vq.length)*100;
+  const isMulti=q.type==="multiple";
+  const ans=state.answers[q.id];
+  const canNext=isMulti?(ans&&ans.length>0):!!ans;
 
-const renderSuggestions=()=>{const rec=getRecommended(state.answers);let totalW=0,count=0;Object.entries(state.selected).forEach(([ck,its])=>{Object.entries(its).forEach(([iid,sel])=>{if(sel){const it=rec[ck]?.items.find(i=>i.id===iid);if(it){totalW+=it.weight;count++;}}});});
-let html=`<div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4"><div class="max-w-4xl mx-auto"><div class="text-center mb-6 pt-6"><h1 class="text-3xl font-bold text-white mb-2">Aanbevolen Items</h1></div><div class="bg-white/10 backdrop-blur rounded-2xl p-4 mb-6 border border-white/20 sticky top-4 z-10"><div class="flex justify-between text-white"><div><span class="font-bold text-2xl">${count}</span> items</div><div><span class="font-bold text-2xl">${formatWeight(totalW)}</span></div></div></div><div class="space-y-4 mb-24">`;
-Object.entries(rec).forEach(([ck,cat])=>{const selInCat=Object.values(state.selected[ck]||{}).filter(Boolean).length;html+=`<div class="bg-white/10 backdrop-blur rounded-2xl border border-white/20"><div class="p-4 flex items-center justify-between text-white"><div class="flex items-center gap-3"><span class="text-2xl">${cat.icon}</span><span class="font-semibold text-lg">${cat.name}</span><span class="bg-white/20 px-2 py-0.5 rounded-full text-sm">${selInCat}/${cat.items.length}</span></div></div><div class="px-4 pb-4 grid grid-cols-1 md:grid-cols-2 gap-2">${cat.items.map(it=>{const sel=state.selected[ck]?.[it.id];return`<button onclick="toggleItem('${ck}','${it.id}')" class="p-3 rounded-xl text-left flex justify-between ${sel?'bg-white text-indigo-600':'bg-white/5 text-white'}"><span>${it.name}</span><span class="${sel?'text-indigo-400':'text-white/50'} text-sm">${formatWeight(it.weight)}</span></button>`;}).join('')}</div></div>`;});
-html+=`</div><div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50"><button onclick="createList()" class="${count>0?'bg-white text-indigo-600':'bg-white/20 text-white/50 cursor-not-allowed'} w-full py-4 rounded-2xl font-bold text-lg">Maak paklijst (${count})</button></div></div></div>`;
-document.getElementById("app").innerHTML=html;};
+  document.getElementById("app").innerHTML=`
+    <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 p-4 pb-32">
+      <div class="max-w-lg mx-auto pt-4 fade-in">
+        <!-- Progress -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-white/60 text-sm font-medium">Stap ${state.step+1} van ${vq.length}</span>
+            <span class="text-white font-bold">${Math.round(progress)}%</span>
+          </div>
+          <div class="h-2 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-white rounded-full transition-all duration-500" style="width:${progress}%"></div>
+          </div>
+        </div>
 
-const renderList=()=>{let totalW=0,checkedW=0,total=0,checked=0;Object.values(state.list).forEach(c=>{c.items.forEach(i=>{const q=i.quantity||1;total+=q;totalW+=i.weight*q;if(i.checked){checked+=q;checkedW+=i.weight*q;}});});const progress=total>0?(checked/total)*100:0;
-let html=`<div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4"><div class="max-w-4xl mx-auto"><div class="flex items-center justify-between mb-6 pt-4"><button onclick="restart()" class="text-white/80">← Opnieuw</button><h1 class="text-2xl font-bold text-white">Mijn Paklijst</h1><div class="w-16"></div></div><div class="bg-white/10 backdrop-blur rounded-2xl p-6 mb-6 border border-white/20"><div class="flex justify-between items-center mb-4"><div><p class="text-white/60 text-sm">Voortgang</p><p class="text-white text-3xl font-bold">${checked}/${total}</p></div><div class="text-right"><p class="text-white/60 text-sm">Ingepakt</p><p class="text-white text-3xl font-bold">${formatWeight(checkedW)}</p></div></div><div class="h-3 bg-white/20 rounded-full"><div class="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full transition-all" style="width:${progress}%"></div></div>${progress===100?'<p class="text-center text-green-300 mt-3">🎉 Alles ingepakt! Goede reis!</p>':''}</div><div class="space-y-4">`;
-Object.entries(state.list).forEach(([ck,cat])=>{const catChecked=cat.items.filter(i=>i.checked).length;html+=`<div class="bg-white/10 backdrop-blur rounded-2xl border border-white/20"><div class="p-4 flex items-center justify-between border-b border-white/10"><div class="flex items-center gap-3"><span class="text-2xl">${cat.icon}</span><span class="font-semibold text-white text-lg">${cat.name}</span><span class="bg-white/20 px-2 py-0.5 rounded-full text-sm text-white">${catChecked}/${cat.items.length}</span></div></div><div class="divide-y divide-white/10">${cat.items.map((it,idx)=>`<div class="p-4 flex items-center gap-4 ${it.checked?'bg-white/5':''}"><button onclick="toggleCheck('${ck}',${idx})" class="w-6 h-6 rounded-lg border-2 flex items-center justify-center ${it.checked?'bg-green-500 border-green-500 text-white':'border-white/40'}">${it.checked?'✓':''}</button><div class="flex-1 ${it.checked?'opacity-50':''}"><p class="text-white font-medium ${it.checked?'line-through':''}">${it.name}</p><p class="text-white/50 text-sm">${formatWeight(it.weight*(it.quantity||1))}${(it.quantity||1)>1?` (${it.quantity}x)`:''}</p></div><div class="flex items-center gap-2"><button onclick="changeQty('${ck}',${idx},-1)" class="w-8 h-8 rounded-lg bg-white/10 text-white">-</button><span class="text-white w-6 text-center">${it.quantity||1}</span><button onclick="changeQty('${ck}',${idx},1)" class="w-8 h-8 rounded-lg bg-white/10 text-white">+</button></div><button onclick="deleteItem('${ck}',${idx})" class="text-red-400 p-2">🗑️</button></div>`).join('')}</div></div>`;});
-html+=`</div></div></div>`;document.getElementById("app").innerHTML=html;};
+        <!-- Question -->
+        <div class="glass rounded-3xl p-6 border border-white/20 shadow-2xl">
+          <h2 class="text-2xl font-bold text-white mb-2 text-center">${q.question}</h2>
+          ${isMulti?'<p class="text-white/50 text-center text-sm mb-6">Selecteer alles wat van toepassing is</p>':'<p class="text-white/50 text-center text-sm mb-6">Kies een optie</p>'}
+
+          <div class="grid grid-cols-2 gap-3">
+            ${q.options.map(o=>{
+              const sel=isMulti?(ans||[]).includes(o.value):ans===o.value;
+              return`
+                <button onclick="selectOption('${q.id}','${o.value}',${isMulti})"
+                  class="p-4 rounded-2xl text-left card-hover relative overflow-hidden ${sel?'selected-card':'unselected-card'}">
+                  ${sel?'<div class="absolute top-2 right-2 checkmark bg-purple-500 text-white">✓</div>':''}
+                  <div class="text-3xl mb-2">${o.icon}</div>
+                  <div class="font-semibold text-base">${o.label}</div>
+                  ${o.desc?`<div class="text-xs mt-1 ${sel?'text-purple-400':'text-white/50'}">${o.desc}</div>`:''}
+                </button>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- Fixed bottom navigation -->
+      <div class="fixed bottom-0 left-0 right-0 p-4 glass-dark border-t border-white/10">
+        <div class="max-w-lg mx-auto flex gap-3">
+          ${state.step>0?`
+            <button onclick="prevStep()" class="px-6 py-4 rounded-2xl font-semibold text-white bg-white/10 border border-white/20 card-hover">
+              ←
+            </button>`:''}
+          <button onclick="nextStep()"
+            class="flex-1 py-4 rounded-2xl font-bold text-lg card-hover ${canNext?'bg-white text-purple-600 shadow-lg':'bg-white/10 text-white/30 cursor-not-allowed'}">
+            ${state.step===vq.length-1?'Bekijk suggesties':'Volgende'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+};
+
+const renderSuggestions=()=>{
+  const rec=getRecommended(state.answers);
+  let totalW=0,count=0;
+  Object.entries(state.selected).forEach(([ck,its])=>{
+    Object.entries(its).forEach(([iid,sel])=>{
+      if(sel){const it=rec[ck]?.items.find(i=>i.id===iid);if(it){totalW+=it.weight;count++;}}
+    });
+  });
+
+  let html=`
+    <div class="min-h-screen bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 pb-32">
+      <div class="max-w-lg mx-auto p-4 pt-6 fade-in">
+        <h1 class="text-2xl font-bold text-white mb-1">Aanbevolen items</h1>
+        <p class="text-white/60 mb-6">Tik om items te selecteren</p>
+
+        <!-- Stats -->
+        <div class="glass rounded-2xl p-5 mb-6 border border-white/20 sticky top-4 z-10">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="text-white/60 text-xs uppercase tracking-wide mb-1">Geselecteerd</div>
+              <div class="text-white text-3xl font-bold">${count}</div>
+            </div>
+            <div class="text-right">
+              <div class="text-white/60 text-xs uppercase tracking-wide mb-1">Totaal gewicht</div>
+              <div class="text-white text-3xl font-bold">${formatWeight(totalW)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4">`;
+
+  Object.entries(rec).forEach(([ck,cat])=>{
+    const selInCat=Object.values(state.selected[ck]||{}).filter(Boolean).length;
+    html+=`
+      <div class="glass rounded-2xl border border-white/20 overflow-hidden">
+        <div class="p-4 flex items-center gap-3 border-b border-white/10">
+          <span class="text-2xl">${cat.icon}</span>
+          <span class="font-semibold text-white flex-1">${cat.name}</span>
+          <span class="bg-white/20 px-3 py-1 rounded-full text-sm text-white font-medium">${selInCat}/${cat.items.length}</span>
+        </div>
+        <div class="p-3 grid gap-2">
+          ${cat.items.map(it=>{
+            const sel=state.selected[ck]?.[it.id];
+            return`
+              <button onclick="toggleItem('${ck}','${it.id}')"
+                class="p-4 rounded-xl text-left flex items-center gap-4 card-hover ${sel?'bg-white':'bg-white/5 border border-white/10'}">
+                <div class="checkmark ${sel?'bg-purple-500 text-white':'bg-white/10 text-transparent border-2 border-white/30'}">✓</div>
+                <span class="flex-1 font-medium ${sel?'text-purple-600':'text-white'}">${it.name}</span>
+                <span class="${sel?'text-purple-400':'text-white/40'} text-sm font-medium">${formatWeight(it.weight)}</span>
+              </button>`;
+          }).join('')}
+        </div>
+      </div>`;
+  });
+
+  html+=`</div></div>
+    <div class="fixed bottom-0 left-0 right-0 p-4 glass-dark border-t border-white/10">
+      <div class="max-w-lg mx-auto">
+        <button onclick="createList()"
+          class="w-full py-4 rounded-2xl font-bold text-lg card-hover ${count>0?'bg-white text-purple-600 shadow-lg':'bg-white/10 text-white/30 cursor-not-allowed'}">
+          Maak paklijst (${count} items)
+        </button>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById("app").innerHTML=html;
+};
+
+const renderList=()=>{
+  let totalW=0,checkedW=0,total=0,checked=0;
+  Object.values(state.list).forEach(c=>{c.items.forEach(i=>{const q=i.quantity||1;total+=q;totalW+=i.weight*q;if(i.checked){checked+=q;checkedW+=i.weight*q;}});});
+  const progress=total>0?(checked/total)*100:0;
+
+  let html=`
+    <div class="min-h-screen bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 pb-8">
+      <div class="max-w-lg mx-auto p-4 pt-6 fade-in">
+        <div class="flex items-center justify-between mb-6">
+          <button onclick="restart()" class="text-white/70 font-medium">← Opnieuw</button>
+          <h1 class="text-xl font-bold text-white">Mijn Paklijst</h1>
+          <div class="w-16"></div>
+        </div>
+
+        <!-- Progress Card -->
+        <div class="glass rounded-3xl p-6 mb-6 border border-white/20">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <div class="text-white/60 text-sm mb-1">Ingepakt</div>
+              <div class="text-white text-4xl font-bold">${checked}<span class="text-2xl text-white/50">/${total}</span></div>
+            </div>
+            <div class="text-right">
+              <div class="text-white/60 text-sm mb-1">Gewicht</div>
+              <div class="text-white text-2xl font-bold">${formatWeight(checkedW)}</div>
+              <div class="text-white/50 text-sm">van ${formatWeight(totalW)}</div>
+            </div>
+          </div>
+          <div class="h-4 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-green-300 to-emerald-400 rounded-full transition-all duration-500" style="width:${progress}%"></div>
+          </div>
+          ${progress===100?'<p class="text-center text-white mt-4 font-semibold">🎉 Alles ingepakt! Goede reis!</p>':''}
+        </div>
+
+        <div class="space-y-4">`;
+
+  Object.entries(state.list).forEach(([ck,cat])=>{
+    const catChecked=cat.items.filter(i=>i.checked).length;
+    html+=`
+      <div class="glass rounded-2xl border border-white/20 overflow-hidden">
+        <div class="p-4 flex items-center gap-3 border-b border-white/10">
+          <span class="text-2xl">${cat.icon}</span>
+          <span class="font-semibold text-white flex-1">${cat.name}</span>
+          <span class="bg-white/20 px-3 py-1 rounded-full text-sm text-white font-medium">${catChecked}/${cat.items.length}</span>
+        </div>
+        <div class="divide-y divide-white/10">
+          ${cat.items.map((it,idx)=>`
+            <div class="p-4 flex items-center gap-3 ${it.checked?'bg-white/5':''}">
+              <button onclick="toggleCheck('${ck}',${idx})"
+                class="w-7 h-7 rounded-full flex items-center justify-center card-hover ${it.checked?'bg-emerald-400 text-white':'border-2 border-white/40'}">
+                ${it.checked?'✓':''}
+              </button>
+              <div class="flex-1 ${it.checked?'opacity-50':''}">
+                <p class="text-white font-medium ${it.checked?'line-through':''}">${it.name}</p>
+                <p class="text-white/50 text-sm">${formatWeight(it.weight*(it.quantity||1))}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="changeQty('${ck}',${idx},-1)" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold card-hover">-</button>
+                <span class="text-white w-5 text-center font-medium">${it.quantity||1}</span>
+                <button onclick="changeQty('${ck}',${idx},1)" class="w-8 h-8 rounded-full bg-white/10 text-white font-bold card-hover">+</button>
+              </div>
+              <button onclick="deleteItem('${ck}',${idx})" class="text-red-300 p-2 card-hover">✕</button>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  });
+
+  html+=`</div></div></div>`;
+  document.getElementById("app").innerHTML=html;
+};
 
 window.startQuiz=()=>{state.screen="quiz";state.step=0;render();};
-window.selectOption=(qid,val,multi)=>{if(multi){const cur=state.answers[qid]||[];state.answers[qid]=cur.includes(val)?cur.filter(v=>v!==val):[...cur,val];}else{state.answers[qid]=val;}render();};
+window.selectOption=(qid,val,multi)=>{
+  if(multi){const cur=state.answers[qid]||[];state.answers[qid]=cur.includes(val)?cur.filter(v=>v!==val):[...cur,val];}
+  else{state.answers[qid]=val;}
+  render();
+};
 window.prevStep=()=>{if(state.step>0){state.step--;render();}};
 window.nextStep=()=>{const vq=getVisibleQuestions();if(state.step<vq.length-1){state.step++;render();}else{state.screen="suggestions";render();}};
 window.toggleItem=(ck,iid)=>{if(!state.selected[ck])state.selected[ck]={};state.selected[ck][iid]=!state.selected[ck][iid];render();};
@@ -51,7 +414,7 @@ window.createList=()=>{const rec=getRecommended(state.answers);const list={};Obj
 window.toggleCheck=(ck,idx)=>{state.list[ck].items[idx].checked=!state.list[ck].items[idx].checked;render();};
 window.changeQty=(ck,idx,d)=>{const it=state.list[ck].items[idx];it.quantity=Math.max(1,(it.quantity||1)+d);render();};
 window.deleteItem=(ck,idx)=>{state.list[ck].items.splice(idx,1);if(state.list[ck].items.length===0)delete state.list[ck];render();};
-window.restart=()=>{if(confirm('Opnieuw beginnen?')){state={screen:"start",answers:{},step:0,selected:{},list:null};render();}};
+window.restart=()=>{if(confirm('Opnieuw beginnen? Je paklijst wordt gewist.')){state={screen:"start",answers:{},step:0,selected:{},list:null};render();}};
 
 render();
 </script>
