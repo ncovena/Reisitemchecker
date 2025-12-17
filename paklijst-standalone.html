@@ -44,6 +44,11 @@
       --check-border: #22c55e;
 
       --list-gradient: linear-gradient(135deg, #14b8a6 0%, #10b981 50%, #22c55e 100%);
+
+      --card-bg-overlay: linear-gradient(135deg, rgba(124, 58, 237, 0.7), rgba(147, 51, 234, 0.7));
+      --card-bg-overlay-hover: linear-gradient(135deg, rgba(124, 58, 237, 0.6), rgba(147, 51, 234, 0.6));
+      --card-selected-overlay: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9));
+      --card-bg-hover: rgba(255, 255, 255, 0.25);
     }
 
     /* Pastel Theme */
@@ -80,6 +85,11 @@
       --check-border: #7EC8B8;
 
       --list-gradient: linear-gradient(135deg, #B5EAD7 0%, #98D8C8 50%, #FFB7D5 100%);
+
+      --card-bg-overlay: linear-gradient(135deg, rgba(230, 230, 250, 0.75), rgba(255, 183, 213, 0.75));
+      --card-bg-overlay-hover: linear-gradient(135deg, rgba(230, 230, 250, 0.65), rgba(255, 183, 213, 0.65));
+      --card-selected-overlay: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
+      --card-bg-hover: rgba(255, 255, 255, 0.7);
     }
 
     /* Neon/Cyberpunk Theme */
@@ -116,6 +126,11 @@
       --check-border: #00FFFF;
 
       --list-gradient: linear-gradient(135deg, #0A0A0A 0%, #1a0a2e 50%, #0D1B2A 100%);
+
+      --card-bg-overlay: linear-gradient(135deg, rgba(10, 10, 10, 0.75), rgba(26, 10, 46, 0.75));
+      --card-bg-overlay-hover: linear-gradient(135deg, rgba(10, 10, 10, 0.6), rgba(26, 10, 46, 0.6));
+      --card-selected-overlay: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 212, 255, 0.2));
+      --card-bg-hover: rgba(0, 255, 255, 0.15);
     }
 
     /* Neon theme special effects */
@@ -245,7 +260,7 @@
       font-size: 42px;
       font-weight: 800;
       margin-bottom: 12px;
-      color: white;
+      color: var(--text-primary);
     }
 
     .start-subtitle {
@@ -290,7 +305,7 @@
       font-weight: 700;
       text-align: center;
       margin-bottom: 8px;
-      color: white;
+      color: var(--text-primary);
     }
 
     .question-hint {
@@ -332,6 +347,58 @@
     .option-icon { font-size: 32px; margin-bottom: 8px; }
     .option-label { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
     .option-card.selected .option-label { color: var(--card-selected-text); }
+
+    /* Option cards with background images */
+    .option-card.with-bg {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .option-card.with-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--card-bg-overlay);
+      transition: all 0.2s ease;
+    }
+
+    .option-card.with-bg:hover::before {
+      background: var(--card-bg-overlay-hover);
+    }
+
+    .option-card.with-bg.selected::before {
+      background: var(--card-selected-overlay);
+    }
+
+    .option-card.with-bg .option-content {
+      position: relative;
+      z-index: 1;
+      padding-top: 40px;
+    }
+
+    .option-card.with-bg .option-label {
+      font-size: 17px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    .option-card.with-bg .option-desc {
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .option-card.with-bg.selected .option-label,
+    .option-card.with-bg.selected .option-desc {
+      text-shadow: none;
+    }
     .option-desc { font-size: 12px; color: var(--text-muted); }
     .option-card.selected .option-desc { color: var(--primary-light); }
 
@@ -354,37 +421,41 @@
     .text-input {
       width: 100%;
       padding: 16px 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid var(--card-border);
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+      background: var(--card-bg);
+      color: var(--text-primary);
       font-size: 18px;
       font-family: inherit;
       outline: none;
       transition: all 0.2s ease;
     }
 
-    .text-input:focus { border-color: white; background: rgba(255, 255, 255, 0.2); }
-    .text-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+    .text-input:focus { border-color: var(--primary); background: var(--glass-bg); }
+    .text-input::placeholder { color: var(--text-muted); }
 
     .date-input {
       width: 100%;
       padding: 16px 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid var(--card-border);
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+      background: var(--card-bg);
+      color: var(--text-primary);
       font-size: 16px;
       font-family: inherit;
       outline: none;
       -webkit-appearance: none;
     }
 
-    .date-input:focus { border-color: white; }
-    .date-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    .date-input:focus { border-color: var(--primary); }
+    .date-input::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
+
+    /* Fix calendar picker for dark themes */
+    [data-theme="neon"] .date-input::-webkit-calendar-picker-indicator { filter: invert(1); }
+    [data-theme="classic"] .date-input::-webkit-calendar-picker-indicator { filter: invert(1); }
 
     .input-group { margin-bottom: 16px; }
-    .input-label { display: block; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, 0.8); margin-bottom: 8px; }
+    .input-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
 
     .bottom-nav {
       position: fixed;
@@ -816,35 +887,35 @@
       color: transparent;
     }
 
-    .item-row.selected .item-check { background: #7c3aed; border-color: #7c3aed; color: white; }
+    .item-row.selected .item-check { background: var(--primary); border-color: var(--primary); color: var(--btn-primary-bg); }
 
-    .item-name { flex: 1; font-size: 15px; font-weight: 500; color: rgba(255, 255, 255, 0.9); }
-    .item-row.selected .item-name { color: #7c3aed; font-weight: 600; }
+    .item-name { flex: 1; font-size: 15px; font-weight: 500; color: var(--text-primary); }
+    .item-row.selected .item-name { color: var(--primary); font-weight: 600; }
 
-    .item-weight { font-size: 13px; color: rgba(255, 255, 255, 0.5); }
-    .item-row.selected .item-weight { color: #a78bfa; font-weight: 600; }
+    .item-weight { font-size: 13px; color: var(--text-muted); }
+    .item-row.selected .item-weight { color: var(--primary); font-weight: 600; opacity: 0.7; }
 
     .add-item-row { display: flex; gap: 8px; padding: 8px; margin-top: 8px; }
 
     .add-item-input {
       flex: 1;
       padding: 12px 16px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid var(--card-border);
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+      background: var(--card-bg);
+      color: var(--text-primary);
       font-size: 14px;
       font-family: inherit;
       outline: none;
     }
 
-    .add-item-input:focus { border-color: white; }
-    .add-item-input::placeholder { color: rgba(255, 255, 255, 0.4); }
+    .add-item-input:focus { border-color: var(--primary); }
+    .add-item-input::placeholder { color: var(--text-muted); }
 
     .add-item-btn {
       padding: 12px 16px;
-      background: white;
-      color: #7c3aed;
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
       border: none;
       border-radius: 12px;
       font-weight: 700;
@@ -879,9 +950,9 @@
     .list-actions { display: flex; gap: 8px; }
 
     .action-btn {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--glass-bg);
       border: none;
-      color: white;
+      color: var(--text-primary);
       width: 40px;
       height: 40px;
       border-radius: 12px;
@@ -907,10 +978,10 @@
       flex: 1;
       min-width: 100px;
       padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--glass-bg);
       border: none;
       border-radius: 12px;
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--text-secondary);
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
@@ -923,12 +994,12 @@
     }
 
     .list-tab.active {
-      background: rgba(255, 255, 255, 0.3);
-      color: white;
+      background: var(--card-bg-hover);
+      color: var(--text-primary);
       font-weight: 600;
     }
 
-    .list-tab:hover { background: rgba(255, 255, 255, 0.25); }
+    .list-tab:hover { background: var(--card-bg-hover); }
 
     .tab-badge {
       background: #ef4444;
@@ -961,12 +1032,12 @@
     .pretodo-check {
       width: 24px;
       height: 24px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid var(--card-border);
       border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--text-primary);
       font-size: 14px;
       font-weight: bold;
       flex-shrink: 0;
@@ -1171,7 +1242,7 @@
       border-color: var(--check-border);
     }
 
-    .companion-initial { font-size: 12px; font-weight: 600; color: white; text-transform: uppercase; }
+    .companion-initial { font-size: 12px; font-weight: 600; color: var(--text-primary); text-transform: uppercase; }
 
     .companion-tick {
       position: absolute;
@@ -1195,9 +1266,9 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--glass-bg);
       border: none;
-      color: white;
+      color: var(--text-primary);
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
@@ -1250,10 +1321,10 @@
 
     .tab-btn {
       padding: 10px 16px;
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--glass-bg);
       border: none;
       border-radius: 20px;
-      color: white;
+      color: var(--text-primary);
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
@@ -1741,6 +1812,36 @@ let state = {
   listTab: 'paklijst'
 };
 
+// Background images for option cards
+const optionImages = {
+  // Trip types
+  vacation: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',
+  business: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80',
+  backpacking: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=400&q=80',
+  roadtrip: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=80',
+  adventure: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80',
+  // Transport
+  plane: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&q=80',
+  car: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&q=80',
+  train: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=400&q=80',
+  boat: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80',
+  // Destination types
+  beach: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
+  city: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&q=80',
+  mountain: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80',
+  nature: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400&q=80',
+  // Activities
+  swimming: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400&q=80',
+  hiking: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&q=80',
+  nightlife: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&q=80',
+  sightseeing: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80',
+  // Travelers
+  solo: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80',
+  couple: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&q=80',
+  family: 'https://images.unsplash.com/photo-1602002418816-5c0aeef426aa?w=400&q=80',
+  friends: 'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&q=80'
+};
+
 // Apply theme to document
 const applyTheme = (theme) => {
   document.documentElement.setAttribute('data-theme', theme);
@@ -1907,12 +2008,18 @@ const renderQuiz = () => {
       <div class="options-grid">
         ${q.options.map(o => {
           const sel = isMulti ? (ans || []).includes(o.value) : ans === o.value;
+          const bgImg = optionImages[o.value];
+          const hasBg = !!bgImg;
           return `
-            <div class="option-card ${sel ? 'selected' : ''}" onclick="selectOption('${q.id}','${o.value}',${isMulti})">
+            <div class="option-card ${sel ? 'selected' : ''} ${hasBg ? 'with-bg' : ''}"
+                 onclick="selectOption('${q.id}','${o.value}',${isMulti})"
+                 ${hasBg ? `style="background-image: url('${bgImg}')"` : ''}>
               ${sel ? '<div class="option-check">✔</div>' : ''}
-              <div class="option-icon">${o.icon}</div>
-              <div class="option-label">${o.label}</div>
-              <div class="option-desc">${o.desc || ''}</div>
+              <div class="option-content">
+                ${!hasBg ? `<div class="option-icon">${o.icon}</div>` : ''}
+                <div class="option-label">${o.label}</div>
+                <div class="option-desc">${o.desc || ''}</div>
+              </div>
             </div>`;
         }).join('')}
       </div>`;
