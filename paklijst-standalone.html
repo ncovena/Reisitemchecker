@@ -1719,7 +1719,7 @@ const renderPreTodos = () => {
         </div>
         ${todos.map(todo => `
           <div class="pretodo-item ${state.preTodos[todo.id] ? 'done' : ''}" onclick="togglePreTodo('${todo.id}')">
-            <div class="pretodo-check">✔</div>
+            <div class="pretodo-check">${state.preTodos[todo.id] ? '✔' : ''}</div>
             <span class="pretodo-text">${todo.text}</span>
             ${todo.urgent ? '<span class="pretodo-urgent">Belangrijk</span>' : ''}
             ${todo.info ? `<span class="pretodo-info">${todo.info}</span>` : ''}
@@ -1783,7 +1783,7 @@ const renderSuggestions = () => {
             return `
               <div class="item-row ${sel ? 'selected' : ''}" onclick="toggleItem('${ck}','${it.id}')">
                 <span class="drag-handle">⋮⋮</span>
-                <div class="item-check">✔</div>
+                <div class="item-check">${sel ? '✔' : ''}</div>
                 <span class="item-name">${it.name}</span>
                 <span class="item-weight">${formatWeight(it.weight)}</span>
               </div>`;
