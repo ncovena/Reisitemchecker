@@ -817,6 +817,47 @@
     .list-item-row.checked .list-item-name { text-decoration: line-through; }
     .list-item-weight { font-size: 13px; color: rgba(255, 255, 255, 0.6); }
 
+    .companion-checks { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+
+    .companion-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .companion-check:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.1); }
+
+    .companion-check.checked {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      border-color: #22c55e;
+    }
+
+    .companion-initial { font-size: 12px; font-weight: 600; color: white; text-transform: uppercase; }
+
+    .companion-tick {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      color: #22c55e;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
     .qty-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
     .qty-btn {
@@ -1239,7 +1280,8 @@ let state = {
   modal: null,
   customItems: {},
   likedTips: {},
-  communityTab: 'tips'
+  communityTab: 'tips',
+  companionChecks: {}  // Track which companions have checked which items: { "category_itemIdx": { companionIdx: true/false } }
 };
 
 try {
@@ -1324,12 +1366,12 @@ const renderQuiz = () => {
                 <span class="destination-icon">📍</span>
                 <div style="flex:1">
                   <input type="text" class="text-input" style="margin-bottom:8px" placeholder="Bestemming..."
-                    value="${d.name || ''}" oninput="updateDestination(${i},'name',this.value)">
+                    value="${d.name || ''}" oninput="updateDestination(${i},'name',this.value)" onblur="finishDestinationEdit(${i},'name')">
                   <div style="display:flex;gap:8px">
                     <input type="date" class="date-input" style="flex:1" value="${d.startDate || ''}"
-                      onchange="updateDestination(${i},'startDate',this.value)" placeholder="Van">
+                      onchange="updateDestination(${i},'startDate',this.value)" onblur="finishDestinationEdit(${i},'startDate')" placeholder="Van">
                     <input type="date" class="date-input" style="flex:1" value="${d.endDate || ''}"
-                      onchange="updateDestination(${i},'endDate',this.value)" placeholder="Tot">
+                      onchange="updateDestination(${i},'endDate',this.value)" onblur="finishDestinationEdit(${i},'endDate')" placeholder="Tot">
                   </div>
                 </div>
                 ${destinations.length > 1 ? `<button class="destination-remove" onclick="removeDestination(${i})">✕</button>` : ''}
@@ -1623,12 +1665,28 @@ const renderList = () => {
           <span class="category-count">${catChecked}/${cat.items.length}</span>
         </div>
         <div>
-          ${cat.items.map((it, idx) => `
+          ${cat.items.map((it, idx) => {
+            const companions = state.answers.companions || [];
+            const companionKey = `${ck}_${idx}`;
+            const companionChecks = state.companionChecks[companionKey] || {};
+            return `
             <div class="list-item-row ${it.checked ? 'checked' : ''}">
               <div class="list-check" onclick="toggleCheck('${ck}',${idx})">${it.checked ? '✓' : ''}</div>
               <div class="list-item-info">
                 <div class="list-item-name">${it.name}${(it.quantity || 1) > 1 ? ` (${it.quantity}x)` : ''}</div>
                 <div class="list-item-weight">${formatWeight(it.weight * (it.quantity || 1))}</div>
+                ${companions.length > 0 ? `
+                  <div class="companion-checks">
+                    ${companions.map((c, ci) => `
+                      <div class="companion-check ${companionChecks[ci] ? 'checked' : ''}"
+                           onclick="toggleCompanionCheck('${ck}',${idx},${ci})"
+                           title="${c.name}">
+                        <span class="companion-initial">${c.name.charAt(0).toUpperCase()}</span>
+                        ${companionChecks[ci] ? '<span class="companion-tick">✓</span>' : ''}
+                      </div>
+                    `).join('')}
+                  </div>
+                ` : ''}
               </div>
               <div class="qty-controls">
                 <button class="qty-btn" onclick="changeQty('${ck}',${idx},-1)">−</button>
@@ -1636,7 +1694,8 @@ const renderList = () => {
                 <button class="qty-btn" onclick="changeQty('${ck}',${idx},1)">+</button>
               </div>
               <button class="delete-btn" onclick="deleteItem('${ck}',${idx})">✕</button>
-            </div>`).join('')}
+            </div>`;
+          }).join('')}
           <div class="add-item-row" style="padding:12px;">
             <input type="text" class="add-item-input" placeholder="+ Item toevoegen..." id="addlist-${ck}" onkeypress="handleAddListItem(event,'${ck}')">
             <button class="add-item-btn" onclick="addListItem('${ck}')">+</button>
@@ -1770,6 +1829,12 @@ window.removeDestination = (idx) => {
 
 window.updateDestination = (idx, field, value) => {
   state.answers.destinations[idx][field] = value;
+  // Don't render on every keystroke - this destroys the DOM and loses focus
+};
+
+window.finishDestinationEdit = (idx, field) => {
+  // Called on blur - save state and re-render to update weather preview
+  saveState();
   render();
 };
 
@@ -1872,6 +1937,14 @@ window.createList = () => {
 };
 
 window.toggleCheck = (ck, idx) => { state.list[ck].items[idx].checked = !state.list[ck].items[idx].checked; saveState(); render(); };
+
+window.toggleCompanionCheck = (ck, idx, companionIdx) => {
+  const key = `${ck}_${idx}`;
+  if (!state.companionChecks[key]) state.companionChecks[key] = {};
+  state.companionChecks[key][companionIdx] = !state.companionChecks[key][companionIdx];
+  saveState();
+  render();
+};
 
 window.changeQty = (ck, idx, d) => {
   const it = state.list[ck].items[idx];
