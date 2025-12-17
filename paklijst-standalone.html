@@ -1855,15 +1855,10 @@ const renderList = () => {
           <button class="list-tab ${state.listTab === 'paklijst' ? 'active' : ''}" onclick="setListTab('paklijst')">
             🧳 Paklijst
           </button>
-          <button class="list-tab ${state.listTab === 'pretodos' ? 'active' : ''}" onclick="setListTab('pretodos')">
-            📋 Voorbereiding
+          <button class="list-tab ${state.listTab === 'overzicht' ? 'active' : ''}" onclick="setListTab('overzicht')">
+            📋 Overzicht
             ${todosChecked < todos.length ? `<span class="tab-badge">${todos.length - todosChecked}</span>` : ''}
           </button>
-          ${companions.length > 0 ? `
-            <button class="list-tab ${state.listTab === 'overzicht' ? 'active' : ''}" onclick="setListTab('overzicht')">
-              👥 Overzicht
-            </button>
-          ` : ''}
         </div>`;
 
   // PAKLIJST TAB
@@ -1938,11 +1933,12 @@ const renderList = () => {
     html += `</div>`;
   }
 
-  // PRETODOS TAB
-  else if (state.listTab === 'pretodos') {
+  // OVERZICHT TAB (Pre-trip todos + Companion overview)
+  else if (state.listTab === 'overzicht') {
     const urgentTodos = todos.filter(t => t.urgent);
     const normalTodos = todos.filter(t => !t.urgent);
 
+    // Pre-trip preparation section
     html += `
         <div class="glass progress-card">
           <div class="progress-stats">
@@ -2028,14 +2024,11 @@ const renderList = () => {
               }).join('')}
             </div>
           </div>
-        ` : ''}`;
-  }
+        ` : ''}
 
-  // OVERZICHT TAB (Companion overview)
-  else if (state.listTab === 'overzicht') {
-    html += `
-        <div class="glass" style="padding:16px;margin-bottom:16px;">
-          <h3 style="margin:0 0 16px 0;font-size:18px;">👥 Reisgenoten Status</h3>
+        ${companions.length > 0 ? `
+        <div class="glass" style="padding:16px;margin-bottom:16px;margin-top:24px;">
+          <h3 style="margin:0 0 16px 0;font-size:18px;">👥 Reisgenoten Pakstatus</h3>
           <div class="companion-overview-grid">
             <div class="companion-overview-card" style="border-color:var(--primary);">
               <div class="companion-avatar-large">👤</div>
@@ -2102,7 +2095,8 @@ const renderList = () => {
               </tbody>
             </table>
           </div>
-        </div>`;
+        </div>
+        ` : ''}`;
   }
 
   html += `</div></div>`;
@@ -2207,9 +2201,12 @@ const renderModal = () => {
 
 // Event handlers
 window.startQuiz = () => {
-  if (!state.answers.destinations || state.answers.destinations.length === 0) {
-    state.answers.destinations = [{ name: '', startDate: '', endDate: '' }];
-  }
+  // Clear previous answers when starting fresh
+  state.answers = { destinations: [{ name: '', startDate: '', endDate: '' }] };
+  state.selected = {};
+  state.preTodos = {};
+  state.preTodoCompanionChecks = {};
+  state.companionChecks = {};
   state.screen = "quiz";
   state.step = 0;
   render();
@@ -2400,7 +2397,7 @@ const showToast = (msg) => {
 
 window.restart = () => {
   if (confirm('Opnieuw beginnen?')) {
-    state = { screen: "start", answers: { destinations: [] }, step: 0, selected: {}, list: null, preTodos: {}, modal: null, customItems: {}, likedTips: {}, communityTab: 'tips' };
+    state = { screen: "start", answers: { destinations: [] }, step: 0, selected: {}, list: null, preTodos: {}, preTodoCompanionChecks: {}, modal: null, customItems: {}, likedTips: {}, communityTab: 'tips', companionChecks: {}, listTab: 'paklijst' };
     localStorage.removeItem('paklijst_state_v2');
     render();
   }
