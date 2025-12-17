@@ -7,6 +7,141 @@
   <title>Paklijst Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* Theme System - CSS Variables */
+    :root {
+      --theme: 'classic';
+
+      /* Classic Theme (Default) */
+      --bg-gradient: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c026d3 100%);
+      --bg-solid: #7c3aed;
+      --primary: #7c3aed;
+      --primary-light: #9333ea;
+      --accent: #c026d3;
+
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.8);
+      --text-muted: rgba(255, 255, 255, 0.6);
+
+      --glass-bg: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --glass-dark: rgba(0, 0, 0, 0.5);
+
+      --card-bg: rgba(255, 255, 255, 0.12);
+      --card-border: rgba(255, 255, 255, 0.2);
+      --card-selected-bg: #ffffff;
+      --card-selected-text: #7c3aed;
+      --card-selected-shadow: rgba(124, 58, 237, 0.4);
+
+      --btn-primary-bg: #ffffff;
+      --btn-primary-text: #7c3aed;
+      --btn-secondary-bg: rgba(255, 255, 255, 0.2);
+      --btn-secondary-border: rgba(255, 255, 255, 0.3);
+
+      --progress-bg: rgba(255, 255, 255, 0.2);
+      --progress-fill: #ffffff;
+
+      --check-bg: linear-gradient(135deg, #4ade80, #22c55e);
+      --check-border: #22c55e;
+
+      --list-gradient: linear-gradient(135deg, #14b8a6 0%, #10b981 50%, #22c55e 100%);
+    }
+
+    /* Pastel Theme */
+    [data-theme="pastel"] {
+      --bg-gradient: linear-gradient(135deg, #E6E6FA 0%, #FFB7D5 50%, #B5EAD7 100%);
+      --bg-solid: #E6E6FA;
+      --primary: #B48EAD;
+      --primary-light: #D4A5C9;
+      --accent: #98D8C8;
+
+      --text-primary: #4A4A6A;
+      --text-secondary: rgba(74, 74, 106, 0.8);
+      --text-muted: rgba(74, 74, 106, 0.6);
+
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.8);
+      --glass-dark: rgba(74, 74, 106, 0.8);
+
+      --card-bg: rgba(255, 255, 255, 0.5);
+      --card-border: rgba(180, 142, 173, 0.3);
+      --card-selected-bg: #ffffff;
+      --card-selected-text: #B48EAD;
+      --card-selected-shadow: rgba(180, 142, 173, 0.4);
+
+      --btn-primary-bg: #ffffff;
+      --btn-primary-text: #B48EAD;
+      --btn-secondary-bg: rgba(255, 255, 255, 0.5);
+      --btn-secondary-border: rgba(180, 142, 173, 0.4);
+
+      --progress-bg: rgba(255, 255, 255, 0.5);
+      --progress-fill: #B48EAD;
+
+      --check-bg: linear-gradient(135deg, #98D8C8, #7EC8B8);
+      --check-border: #7EC8B8;
+
+      --list-gradient: linear-gradient(135deg, #B5EAD7 0%, #98D8C8 50%, #FFB7D5 100%);
+    }
+
+    /* Neon/Cyberpunk Theme */
+    [data-theme="neon"] {
+      --bg-gradient: linear-gradient(135deg, #0A0A0A 0%, #1a0a2e 50%, #0D1B2A 100%);
+      --bg-solid: #0A0A0A;
+      --primary: #00FFFF;
+      --primary-light: #00D4FF;
+      --accent: #FF1493;
+
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.85);
+      --text-muted: rgba(255, 255, 255, 0.6);
+
+      --glass-bg: rgba(0, 255, 255, 0.08);
+      --glass-border: rgba(0, 255, 255, 0.3);
+      --glass-dark: rgba(0, 0, 0, 0.8);
+
+      --card-bg: rgba(0, 255, 255, 0.05);
+      --card-border: rgba(0, 255, 255, 0.25);
+      --card-selected-bg: rgba(0, 255, 255, 0.15);
+      --card-selected-text: #00FFFF;
+      --card-selected-shadow: rgba(0, 255, 255, 0.5);
+
+      --btn-primary-bg: #00FFFF;
+      --btn-primary-text: #0A0A0A;
+      --btn-secondary-bg: rgba(0, 255, 255, 0.1);
+      --btn-secondary-border: rgba(0, 255, 255, 0.4);
+
+      --progress-bg: rgba(0, 255, 255, 0.2);
+      --progress-fill: #00FFFF;
+
+      --check-bg: linear-gradient(135deg, #00FFFF, #00D4FF);
+      --check-border: #00FFFF;
+
+      --list-gradient: linear-gradient(135deg, #0A0A0A 0%, #1a0a2e 50%, #0D1B2A 100%);
+    }
+
+    /* Neon theme special effects */
+    [data-theme="neon"] .glass {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.15), inset 0 0 20px rgba(0, 255, 255, 0.05);
+    }
+
+    [data-theme="neon"] .btn-primary {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3);
+    }
+
+    [data-theme="neon"] .option-card.selected {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.2);
+      border-color: var(--primary);
+    }
+
+    [data-theme="neon"] .list-check,
+    [data-theme="neon"] .pretodo-check {
+      border-color: var(--primary);
+    }
+
+    [data-theme="neon"] .companion-check.checked {
+      background: var(--check-bg);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
     * {
       -webkit-tap-highlight-color: transparent;
       box-sizing: border-box;
@@ -16,9 +151,9 @@
 
     body {
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c026d3 100%);
+      background: var(--bg-gradient);
       min-height: 100vh;
-      color: white;
+      color: var(--text-primary);
     }
 
     .container {
@@ -29,15 +164,15 @@
     }
 
     .glass {
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--glass-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid var(--glass-border);
       border-radius: 24px;
     }
 
     .glass-dark {
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--glass-dark);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
@@ -58,27 +193,27 @@
     .btn:active { transform: scale(0.98); }
 
     .btn-primary {
-      background: white;
-      color: #7c3aed;
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: var(--btn-secondary-bg);
+      color: var(--text-primary);
+      border: 2px solid var(--btn-secondary-border);
     }
 
     .btn-disabled {
-      background: rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.4);
+      background: var(--glass-bg);
+      color: var(--text-muted);
       cursor: not-allowed;
     }
 
     .btn-back {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: var(--glass-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--glass-border);
       padding: 18px;
       width: auto;
     }
@@ -115,7 +250,7 @@
 
     .start-subtitle {
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--text-secondary);
       margin-bottom: 40px;
       line-height: 1.6;
     }
@@ -129,21 +264,21 @@
       justify-content: space-between;
       margin-bottom: 8px;
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--text-muted);
     }
 
-    .progress-info strong { color: white; }
+    .progress-info strong { color: var(--text-primary); }
 
     .progress-bar {
       height: 10px;
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--progress-bg);
       border-radius: 10px;
       overflow: hidden;
     }
 
     .progress-fill {
       height: 100%;
-      background: white;
+      background: var(--progress-fill);
       border-radius: 10px;
       transition: width 0.4s ease;
     }
@@ -161,7 +296,7 @@
     .question-hint {
       text-align: center;
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--text-muted);
       margin-bottom: 24px;
     }
 
@@ -174,8 +309,8 @@
     .options-grid.single-col { grid-template-columns: 1fr; }
 
     .option-card {
-      background: rgba(255, 255, 255, 0.12);
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
       border-radius: 16px;
       padding: 16px;
       text-align: left;
@@ -188,17 +323,17 @@
     .option-card:active { transform: scale(0.97); }
 
     .option-card.selected {
-      background: white;
-      border-color: white;
-      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+      background: var(--card-selected-bg);
+      border-color: var(--card-selected-bg);
+      box-shadow: 0 8px 32px var(--card-selected-shadow);
       transform: scale(1.02);
     }
 
     .option-icon { font-size: 32px; margin-bottom: 8px; }
-    .option-label { font-size: 16px; font-weight: 600; color: white; margin-bottom: 4px; }
-    .option-card.selected .option-label { color: #7c3aed; }
-    .option-desc { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
-    .option-card.selected .option-desc { color: #a78bfa; }
+    .option-label { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .option-card.selected .option-label { color: var(--card-selected-text); }
+    .option-desc { font-size: 12px; color: var(--text-muted); }
+    .option-card.selected .option-desc { color: var(--primary-light); }
 
     .option-check {
       position: absolute;
@@ -206,7 +341,7 @@
       right: 8px;
       width: 24px;
       height: 24px;
-      background: #7c3aed;
+      background: var(--primary);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -718,7 +853,7 @@
 
     /* List screen - green theme */
     .list-screen {
-      background: linear-gradient(135deg, #14b8a6 0%, #10b981 50%, #22c55e 100%);
+      background: var(--list-gradient);
       min-height: 100vh;
     }
 
@@ -1032,8 +1167,8 @@
     .companion-check:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.1); }
 
     .companion-check.checked {
-      background: linear-gradient(135deg, #4ade80, #22c55e);
-      border-color: #22c55e;
+      background: var(--check-bg);
+      border-color: var(--check-border);
     }
 
     .companion-initial { font-size: 12px; font-weight: 600; color: white; text-transform: uppercase; }
@@ -1125,12 +1260,125 @@
       white-space: nowrap;
     }
 
-    .tab-btn.active { background: white; color: #7c3aed; }
+    .tab-btn.active { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
 
     textarea.text-input {
       min-height: 100px;
       resize: vertical;
     }
+
+    /* Theme Selection Screen */
+    .theme-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .theme-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .theme-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .theme-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .theme-card {
+      background: var(--glass-bg);
+      border: 3px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .theme-card:active { transform: scale(0.98); }
+
+    .theme-card.selected {
+      border-color: var(--btn-primary-bg);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-preview {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      flex-shrink: 0;
+    }
+
+    .theme-preview.classic {
+      background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c026d3 100%);
+    }
+
+    .theme-preview.pastel {
+      background: linear-gradient(135deg, #E6E6FA 0%, #FFB7D5 50%, #B5EAD7 100%);
+    }
+
+    .theme-preview.neon {
+      background: linear-gradient(135deg, #0A0A0A 0%, #1a0a2e 50%, #0D1B2A 100%);
+      border: 2px solid #00FFFF;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .theme-info { text-align: left; flex: 1; }
+
+    .theme-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .theme-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .theme-selected-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--check-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Theme button in header */
+    .theme-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-btn:active { transform: scale(0.95); }
   </style>
 </head>
 <body>
@@ -1466,21 +1714,41 @@ const getRecommended = (ans) => {
   return r;
 };
 
+// Theme definitions
+const themes = {
+  classic: { name: 'Classic', desc: 'Paars gradient - tijdloos & elegant', icon: '💜' },
+  pastel: { name: 'Soft Pastel', desc: 'Zachte kleuren - rustig & friendly', icon: '🌸' },
+  neon: { name: 'Cyber Neon', desc: 'Donker met neon - modern & bold', icon: '⚡' }
+};
+
+// Check for saved theme
+let savedTheme = localStorage.getItem('paklijst_theme') || null;
+
 let state = {
-  screen: "start",
+  screen: savedTheme ? "start" : "theme",  // Show theme selection first if no theme saved
+  theme: savedTheme || "classic",
   answers: { destinations: [] },
   step: 0,
   selected: {},
   list: null,
   preTodos: {},
-  preTodoCompanionChecks: {},  // Track companion checks for pre-trip todos: { "todoId": { companionIdx: true/false } }
+  preTodoCompanionChecks: {},
   modal: null,
   customItems: {},
   likedTips: {},
   communityTab: 'tips',
-  companionChecks: {},  // Track which companions have checked which items: { "category_itemIdx": { companionIdx: true/false } }
-  listTab: 'paklijst'   // Current tab in list view: 'paklijst', 'pretodos', 'overzicht'
+  companionChecks: {},
+  listTab: 'paklijst'
 };
+
+// Apply theme to document
+const applyTheme = (theme) => {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('paklijst_theme', theme);
+};
+
+// Initialize theme
+applyTheme(state.theme);
 
 try {
   const saved = localStorage.getItem('paklijst_state_v2');
@@ -1512,9 +1780,37 @@ const formatDate = (d) => {
 const render = () => {
   const app = document.getElementById("app");
 
+  // Theme selection screen
+  if (state.screen === "theme") {
+    app.innerHTML = `
+      <div class="theme-screen fade-in">
+        <div class="logo">🎨</div>
+        <h1 class="theme-title">Kies je stijl</h1>
+        <p class="theme-subtitle">Selecteer een thema voor je paklijst app</p>
+        <div class="theme-grid">
+          ${Object.entries(themes).map(([key, theme]) => `
+            <div class="theme-card ${state.theme === key ? 'selected' : ''}" onclick="selectTheme('${key}')">
+              <div class="theme-preview ${key}"></div>
+              <div class="theme-info">
+                <div class="theme-name">${theme.icon} ${theme.name}</div>
+                <div class="theme-desc">${theme.desc}</div>
+              </div>
+              ${state.theme === key ? '<div class="theme-selected-icon">✔</div>' : ''}
+            </div>
+          `).join('')}
+        </div>
+        <div style="margin-top:32px;width:100%;max-width:360px;">
+          <button class="btn btn-primary" onclick="confirmTheme()">Doorgaan →</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   if (state.screen === "start") {
     app.innerHTML = `
       <div class="start-screen fade-in">
+        <button class="theme-btn" style="position:absolute;top:20px;right:20px;" onclick="openThemeSelector()" title="Thema wijzigen">🎨</button>
         <div class="logo">🧳</div>
         <h1 class="start-title">Paklijst</h1>
         <p class="start-subtitle">Slimme paklijst voor jouw reis.<br>Nooit meer iets vergeten.</p>
@@ -1846,6 +2142,7 @@ const renderList = () => {
           <button class="list-back" onclick="backFromList()">← Terug</button>
           <span class="list-title">Reis Dashboard</span>
           <div class="list-actions">
+            <button class="action-btn" onclick="openThemeSelector()">🎨</button>
             <button class="action-btn" onclick="shareList()">📤</button>
             <button class="action-btn" onclick="restart()">🔄</button>
           </div>
@@ -2200,6 +2497,23 @@ const renderModal = () => {
 };
 
 // Event handlers
+// Theme functions
+window.selectTheme = (theme) => {
+  state.theme = theme;
+  applyTheme(theme);
+  render();
+};
+
+window.confirmTheme = () => {
+  state.screen = "start";
+  render();
+};
+
+window.openThemeSelector = () => {
+  state.screen = "theme";
+  render();
+};
+
 window.startQuiz = () => {
   // Clear previous answers when starting fresh
   state.answers = { destinations: [{ name: '', startDate: '', endDate: '' }] };
@@ -2397,7 +2711,8 @@ const showToast = (msg) => {
 
 window.restart = () => {
   if (confirm('Opnieuw beginnen?')) {
-    state = { screen: "start", answers: { destinations: [] }, step: 0, selected: {}, list: null, preTodos: {}, preTodoCompanionChecks: {}, modal: null, customItems: {}, likedTips: {}, communityTab: 'tips', companionChecks: {}, listTab: 'paklijst' };
+    const currentTheme = state.theme; // Preserve theme
+    state = { screen: "start", theme: currentTheme, answers: { destinations: [] }, step: 0, selected: {}, list: null, preTodos: {}, preTodoCompanionChecks: {}, modal: null, customItems: {}, likedTips: {}, communityTab: 'tips', companionChecks: {}, listTab: 'paklijst' };
     localStorage.removeItem('paklijst_state_v2');
     render();
   }
