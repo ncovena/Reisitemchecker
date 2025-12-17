@@ -759,6 +759,185 @@
 
     .action-btn:active { transform: scale(0.95); }
 
+    /* List Tabs */
+    .list-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .list-tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      border-radius: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      position: relative;
+    }
+
+    .list-tab.active {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+      font-weight: 600;
+    }
+
+    .list-tab:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .tab-badge {
+      background: #ef4444;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* Pretodo Items */
+    .pretodo-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pretodo-item:last-child { border-bottom: none; }
+    .pretodo-item:hover { background: rgba(255, 255, 255, 0.05); }
+
+    .pretodo-item.checked { opacity: 0.6; }
+    .pretodo-item.checked .pretodo-text { text-decoration: line-through; }
+
+    .pretodo-check {
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pretodo-item.checked .pretodo-check {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      border-color: #22c55e;
+    }
+
+    .pretodo-content { flex: 1; }
+    .pretodo-text { font-size: 15px; font-weight: 500; }
+    .pretodo-info { font-size: 13px; color: rgba(255, 255, 255, 0.6); margin-top: 4px; }
+
+    /* Companion Overview */
+    .companion-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+
+    .companion-overview-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+
+    .companion-avatar-large { font-size: 32px; margin-bottom: 8px; }
+    .companion-name { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+
+    .companion-progress-ring {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 8px;
+    }
+
+    .companion-progress-ring svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 3;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: #4ade80;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.3s ease;
+    }
+
+    .ring-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .companion-stat { font-size: 12px; color: rgba(255, 255, 255, 0.7); }
+
+    /* Overview Table */
+    .overview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .overview-table th,
+    .overview-table td {
+      padding: 10px 8px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .overview-table th {
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .overview-table th:first-child,
+    .overview-table td:first-child {
+      text-align: left;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .overview-table .status-cell { cursor: pointer; font-size: 16px; }
+    .overview-table .status-cell:hover { background: rgba(255, 255, 255, 0.1); }
+
+    .item-cat-icon { margin-right: 6px; }
+
     .progress-card { padding: 24px; margin-bottom: 20px; }
 
     .progress-stats { display: flex; justify-content: space-between; margin-bottom: 16px; }
@@ -1281,7 +1460,8 @@ let state = {
   customItems: {},
   likedTips: {},
   communityTab: 'tips',
-  companionChecks: {}  // Track which companions have checked which items: { "category_itemIdx": { companionIdx: true/false } }
+  companionChecks: {},  // Track which companions have checked which items: { "category_itemIdx": { companionIdx: true/false } }
+  listTab: 'paklijst'   // Current tab in list view: 'paklijst', 'pretodos', 'overzicht'
 };
 
 try {
@@ -1612,6 +1792,11 @@ const renderSuggestions = () => {
 };
 
 const renderList = () => {
+  const companions = state.answers.companions || [];
+  const todos = getPreTripTodos(state.answers);
+  const todosChecked = todos.filter(t => state.preTodos[t.id]).length;
+
+  // Calculate packing stats
   let totalW = 0, checkedW = 0, total = 0, checked = 0;
   Object.values(state.list).forEach(c => {
     c.items.forEach(i => {
@@ -1623,18 +1808,49 @@ const renderList = () => {
   });
   const progress = total > 0 ? (checked / total) * 100 : 0;
 
+  // Calculate companion stats
+  const getCompanionStats = (companionIdx) => {
+    let totalItems = 0, checkedItems = 0;
+    Object.entries(state.list).forEach(([ck, cat]) => {
+      cat.items.forEach((it, idx) => {
+        totalItems++;
+        const key = `${ck}_${idx}`;
+        if (state.companionChecks[key]?.[companionIdx]) checkedItems++;
+      });
+    });
+    return { total: totalItems, checked: checkedItems, percent: totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0 };
+  };
+
   let html = `
     <div class="list-screen">
       <div class="container fade-in">
         <div class="list-header">
           <button class="list-back" onclick="backFromList()">← Terug</button>
-          <span class="list-title">Mijn Paklijst</span>
+          <span class="list-title">Reis Dashboard</span>
           <div class="list-actions">
             <button class="action-btn" onclick="shareList()">📤</button>
             <button class="action-btn" onclick="restart()">🔄</button>
           </div>
         </div>
 
+        <div class="list-tabs">
+          <button class="list-tab ${state.listTab === 'paklijst' ? 'active' : ''}" onclick="setListTab('paklijst')">
+            🧳 Paklijst
+          </button>
+          <button class="list-tab ${state.listTab === 'pretodos' ? 'active' : ''}" onclick="setListTab('pretodos')">
+            📋 Voorbereiding
+            ${todosChecked < todos.length ? `<span class="tab-badge">${todos.length - todosChecked}</span>` : ''}
+          </button>
+          ${companions.length > 0 ? `
+            <button class="list-tab ${state.listTab === 'overzicht' ? 'active' : ''}" onclick="setListTab('overzicht')">
+              👥 Overzicht
+            </button>
+          ` : ''}
+        </div>`;
+
+  // PAKLIJST TAB
+  if (state.listTab === 'paklijst') {
+    html += `
         <div class="glass progress-card">
           <div class="progress-stats">
             <div>
@@ -1652,59 +1868,198 @@ const renderList = () => {
           </div>
           ${progress === 100 ? '<div class="complete-msg">🎉 Alles ingepakt!</div>' : ''}
         </div>
-
         <div>`;
 
-  Object.entries(state.list).forEach(([ck, cat]) => {
-    const catChecked = cat.items.filter(i => i.checked).length;
+    Object.entries(state.list).forEach(([ck, cat]) => {
+      const catChecked = cat.items.filter(i => i.checked).length;
+      html += `
+        <div class="glass category-card">
+          <div class="category-header">
+            <span class="category-icon">${cat.icon}</span>
+            <span class="category-name">${cat.name}</span>
+            <span class="category-count">${catChecked}/${cat.items.length}</span>
+          </div>
+          <div>
+            ${cat.items.map((it, idx) => {
+              const companionKey = `${ck}_${idx}`;
+              const companionChecks = state.companionChecks[companionKey] || {};
+              return `
+              <div class="list-item-row ${it.checked ? 'checked' : ''}">
+                <div class="list-check" onclick="toggleCheck('${ck}',${idx})">${it.checked ? '✓' : ''}</div>
+                <div class="list-item-info">
+                  <div class="list-item-name">${it.name}${(it.quantity || 1) > 1 ? ` (${it.quantity}x)` : ''}</div>
+                  <div class="list-item-weight">${formatWeight(it.weight * (it.quantity || 1))}</div>
+                  ${companions.length > 0 ? `
+                    <div class="companion-checks">
+                      ${companions.map((c, ci) => `
+                        <div class="companion-check ${companionChecks[ci] ? 'checked' : ''}"
+                             onclick="toggleCompanionCheck('${ck}',${idx},${ci})"
+                             title="${c.name}">
+                          <span class="companion-initial">${c.name.charAt(0).toUpperCase()}</span>
+                          ${companionChecks[ci] ? '<span class="companion-tick">✓</span>' : ''}
+                        </div>
+                      `).join('')}
+                    </div>
+                  ` : ''}
+                </div>
+                <div class="qty-controls">
+                  <button class="qty-btn" onclick="changeQty('${ck}',${idx},-1)">−</button>
+                  <span class="qty-value">${it.quantity || 1}</span>
+                  <button class="qty-btn" onclick="changeQty('${ck}',${idx},1)">+</button>
+                </div>
+                <button class="delete-btn" onclick="deleteItem('${ck}',${idx})">✕</button>
+              </div>`;
+            }).join('')}
+            <div class="add-item-row" style="padding:12px;">
+              <input type="text" class="add-item-input" placeholder="+ Item toevoegen..." id="addlist-${ck}" onkeypress="handleAddListItem(event,'${ck}')">
+              <button class="add-item-btn" onclick="addListItem('${ck}')">+</button>
+            </div>
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // PRETODOS TAB
+  else if (state.listTab === 'pretodos') {
+    const urgentTodos = todos.filter(t => t.urgent);
+    const normalTodos = todos.filter(t => !t.urgent);
+
     html += `
-      <div class="glass category-card">
-        <div class="category-header">
-          <span class="category-icon">${cat.icon}</span>
-          <span class="category-name">${cat.name}</span>
-          <span class="category-count">${catChecked}/${cat.items.length}</span>
-        </div>
-        <div>
-          ${cat.items.map((it, idx) => {
-            const companions = state.answers.companions || [];
-            const companionKey = `${ck}_${idx}`;
-            const companionChecks = state.companionChecks[companionKey] || {};
-            return `
-            <div class="list-item-row ${it.checked ? 'checked' : ''}">
-              <div class="list-check" onclick="toggleCheck('${ck}',${idx})">${it.checked ? '✓' : ''}</div>
-              <div class="list-item-info">
-                <div class="list-item-name">${it.name}${(it.quantity || 1) > 1 ? ` (${it.quantity}x)` : ''}</div>
-                <div class="list-item-weight">${formatWeight(it.weight * (it.quantity || 1))}</div>
-                ${companions.length > 0 ? `
-                  <div class="companion-checks">
-                    ${companions.map((c, ci) => `
-                      <div class="companion-check ${companionChecks[ci] ? 'checked' : ''}"
-                           onclick="toggleCompanionCheck('${ck}',${idx},${ci})"
-                           title="${c.name}">
-                        <span class="companion-initial">${c.name.charAt(0).toUpperCase()}</span>
-                        ${companionChecks[ci] ? '<span class="companion-tick">✓</span>' : ''}
-                      </div>
-                    `).join('')}
-                  </div>
-                ` : ''}
-              </div>
-              <div class="qty-controls">
-                <button class="qty-btn" onclick="changeQty('${ck}',${idx},-1)">−</button>
-                <span class="qty-value">${it.quantity || 1}</span>
-                <button class="qty-btn" onclick="changeQty('${ck}',${idx},1)">+</button>
-              </div>
-              <button class="delete-btn" onclick="deleteItem('${ck}',${idx})">✕</button>
-            </div>`;
-          }).join('')}
-          <div class="add-item-row" style="padding:12px;">
-            <input type="text" class="add-item-input" placeholder="+ Item toevoegen..." id="addlist-${ck}" onkeypress="handleAddListItem(event,'${ck}')">
-            <button class="add-item-btn" onclick="addListItem('${ck}')">+</button>
+        <div class="glass progress-card">
+          <div class="progress-stats">
+            <div>
+              <div class="progress-stat-label">Voorbereid</div>
+              <div class="progress-stat-value">${todosChecked}<span>/${todos.length}</span></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="progress-stat-label">Status</div>
+              <div class="progress-stat-value" style="font-size:18px;">${todosChecked === todos.length ? '✅ Klaar!' : '⏳ Bezig'}</div>
+            </div>
+          </div>
+          <div class="list-progress-bar">
+            <div class="list-progress-fill" style="width:${todos.length > 0 ? (todosChecked / todos.length) * 100 : 0}%;background:linear-gradient(90deg,#f59e0b,#eab308)"></div>
           </div>
         </div>
-      </div>`;
-  });
 
-  html += `</div></div></div>`;
+        ${urgentTodos.length > 0 ? `
+          <div class="glass category-card">
+            <div class="category-header">
+              <span class="category-icon">🚨</span>
+              <span class="category-name">Urgent</span>
+              <span class="category-count">${urgentTodos.filter(t => state.preTodos[t.id]).length}/${urgentTodos.length}</span>
+            </div>
+            <div>
+              ${urgentTodos.map(todo => `
+                <div class="pretodo-item ${state.preTodos[todo.id] ? 'checked' : ''}" onclick="togglePreTodo('${todo.id}')">
+                  <div class="pretodo-check">${state.preTodos[todo.id] ? '✓' : ''}</div>
+                  <div class="pretodo-content">
+                    <div class="pretodo-text">${todo.text}</div>
+                    ${todo.info ? `<div class="pretodo-info">${todo.info}</div>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        ${normalTodos.length > 0 ? `
+          <div class="glass category-card">
+            <div class="category-header">
+              <span class="category-icon">📝</span>
+              <span class="category-name">Overige taken</span>
+              <span class="category-count">${normalTodos.filter(t => state.preTodos[t.id]).length}/${normalTodos.length}</span>
+            </div>
+            <div>
+              ${normalTodos.map(todo => `
+                <div class="pretodo-item ${state.preTodos[todo.id] ? 'checked' : ''}" onclick="togglePreTodo('${todo.id}')">
+                  <div class="pretodo-check">${state.preTodos[todo.id] ? '✓' : ''}</div>
+                  <div class="pretodo-content">
+                    <div class="pretodo-text">${todo.text}</div>
+                    ${todo.info ? `<div class="pretodo-info">${todo.info}</div>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}`;
+  }
+
+  // OVERZICHT TAB (Companion overview)
+  else if (state.listTab === 'overzicht') {
+    html += `
+        <div class="glass" style="padding:16px;margin-bottom:16px;">
+          <h3 style="margin:0 0 16px 0;font-size:18px;">👥 Reisgenoten Status</h3>
+          <div class="companion-overview-grid">
+            <div class="companion-overview-card" style="border-color:var(--primary);">
+              <div class="companion-avatar-large">👤</div>
+              <div class="companion-name">Jij</div>
+              <div class="companion-progress-ring">
+                <svg viewBox="0 0 36 36">
+                  <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  <path class="ring-fill" stroke-dasharray="${progress}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                </svg>
+                <span class="ring-text">${Math.round(progress)}%</span>
+              </div>
+              <div class="companion-stat">${checked}/${total} items</div>
+            </div>
+            ${companions.map((c, ci) => {
+              const stats = getCompanionStats(ci);
+              return `
+                <div class="companion-overview-card">
+                  <div class="companion-avatar-large">${c.type === 'child' ? '👧' : c.type === 'baby' ? '👶' : '👤'}</div>
+                  <div class="companion-name">${c.name}</div>
+                  <div class="companion-progress-ring">
+                    <svg viewBox="0 0 36 36">
+                      <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                      <path class="ring-fill" stroke-dasharray="${stats.percent}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    </svg>
+                    <span class="ring-text">${stats.percent}%</span>
+                  </div>
+                  <div class="companion-stat">${stats.checked}/${stats.total} items</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <div class="glass category-card">
+          <div class="category-header">
+            <span class="category-icon">📊</span>
+            <span class="category-name">Gedetailleerd Overzicht</span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="overview-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Jij</th>
+                  ${companions.map(c => `<th>${c.name}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${Object.entries(state.list).map(([ck, cat]) =>
+                  cat.items.map((it, idx) => {
+                    const companionKey = `${ck}_${idx}`;
+                    const companionChecks = state.companionChecks[companionKey] || {};
+                    return `
+                      <tr>
+                        <td><span class="item-cat-icon">${cat.icon}</span> ${it.name}</td>
+                        <td class="status-cell ${it.checked ? 'done' : 'pending'}">${it.checked ? '✅' : '⬜'}</td>
+                        ${companions.map((c, ci) => `
+                          <td class="status-cell ${companionChecks[ci] ? 'done' : 'pending'}" onclick="toggleCompanionCheck('${ck}',${idx},${ci})">${companionChecks[ci] ? '✅' : '⬜'}</td>
+                        `).join('')}
+                      </tr>
+                    `;
+                  }).join('')
+                ).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+  }
+
+  html += `</div></div>`;
   document.getElementById("app").innerHTML = html;
 };
 
@@ -1837,6 +2192,8 @@ window.finishDestinationEdit = (idx, field) => {
   saveState();
   render();
 };
+
+window.setListTab = (tab) => { state.listTab = tab; render(); };
 
 window.selectOption = (qid, val, multi) => {
   if (multi) {
