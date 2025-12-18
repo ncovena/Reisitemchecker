@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0D9488">
+  <title>Paklijst Pro V2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       PAKLIJST PRO V2 - DESIGN SYSTEM
+       Based on Red Dot Award principles & UX Design Brief
+       ═══════════════════════════════════════════════════════════════ */
+
+    /* ─────────────────────────────────────────────────────────────────
+       CSS VARIABLES - LIGHT MODE (DEFAULT)
+       ───────────────────────────────────────────────────────────────── */
+    :root {
+      /* Backgrounds */
+      --bg-primary: #F8FAFC;
+      --bg-secondary: #FFFFFF;
+      --bg-tertiary: #F1F5F9;
+      --bg-elevated: #FFFFFF;
+
+      /* Brand - Calming Teal */
+      --brand-primary: #0D9488;
+      --brand-secondary: #14B8A6;
+      --brand-light: #CCFBF1;
+      --brand-dark: #0F766E;
+      --brand-gradient: linear-gradient(135deg, #0D9488 0%, #14B8A6 100%);
+
+      /* Accent - Warm Coral/Orange */
+      --accent: #F97316;
+      --accent-light: #FFEDD5;
+      --accent-dark: #EA580C;
+
+      /* Text */
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --text-inverse: #FFFFFF;
+
+      /* Semantic Colors */
+      --success: #10B981;
+      --success-light: #D1FAE5;
+      --success-dark: #059669;
+      --warning: #F59E0B;
+      --warning-light: #FEF3C7;
+      --error: #EF4444;
+      --error-light: #FEE2E2;
+      --info: #3B82F6;
+      --info-light: #DBEAFE;
+
+      /* Borders */
+      --border-light: #E2E8F0;
+      --border-medium: #CBD5E1;
+      --border-dark: #94A3B8;
+
+      /* Shadows */
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+      --shadow-glow: 0 0 20px rgba(13, 148, 136, 0.2);
+      --shadow-glow-accent: 0 0 20px rgba(249, 115, 22, 0.2);
+
+      /* Typography */
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-3xl: 1.875rem;
+      --text-4xl: 2.25rem;
+
+      /* Spacing (8pt grid) */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      /* Transitions */
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       DARK MODE
+       ───────────────────────────────────────────────────────────────── */
+    [data-theme="dark"] {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --bg-tertiary: #334155;
+      --bg-elevated: #1E293B;
+
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-muted: #64748B;
+
+      --border-light: #334155;
+      --border-medium: #475569;
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       BASE STYLES
+       ───────────────────────────────────────────────────────────────── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Container */
+    .container {
+      max-width: 428px;
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+      min-height: 100vh;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       TYPOGRAPHY
+       ───────────────────────────────────────────────────────────────── */
+    h1, .h1 {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    h2, .h2 {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    h3, .h3 {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    h4, .h4 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .text-sm { font-size: var(--text-sm); }
+    .text-xs { font-size: var(--text-xs); }
+    .text-muted { color: var(--text-muted); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-brand { color: var(--brand-primary); }
+    .text-center { text-align: center; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       BUTTONS
+       ───────────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-md);
+      font-family: var(--font-family);
+      font-size: var(--text-base);
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      min-height: 48px;
+      transition: all var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--brand-gradient);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+    }
+
+    .btn-primary:hover {
+      box-shadow: var(--shadow-lg), 0 0 30px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-medium);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-dark);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md), var(--shadow-glow-accent);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-sm {
+      padding: var(--space-2) var(--space-4);
+      min-height: 40px;
+      font-size: var(--text-sm);
+    }
+
+    .btn-lg {
+      padding: var(--space-4) var(--space-6);
+      min-height: 56px;
+      font-size: var(--text-lg);
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: var(--radius-full);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CARDS
+       ───────────────────────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-base);
+    }
+
+    .card-elevated {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-interactive {
+      cursor: pointer;
+    }
+
+    .card-interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-medium);
+    }
+
+    .card-interactive:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .card-selected {
+      border-color: var(--brand-primary);
+      box-shadow: var(--shadow-md), 0 0 0 3px var(--brand-light);
+    }
+
+    .card-brand {
+      background: var(--brand-gradient);
+      border: none;
+      color: var(--text-inverse);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FORM ELEMENTS
+       ───────────────────────────────────────────────────────────────── */
+    .input {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-family);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      min-height: 48px;
+      transition: all var(--transition-fast);
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px var(--brand-light);
+    }
+
+    .input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon .input {
+      padding-left: var(--space-10);
+    }
+
+    .input-with-icon .input-icon {
+      position: absolute;
+      left: var(--space-4);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: var(--text-lg);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CHECKBOX - ANIMATED
+       ───────────────────────────────────────────────────────────────── */
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .checkbox-wrapper:hover .checkbox {
+      border-color: var(--brand-primary);
+    }
+
+    .checkbox.checked {
+      background: var(--success);
+      border-color: var(--success);
+      animation: checkboxBounce 400ms var(--transition-bounce);
+    }
+
+    .checkbox .check-icon {
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      opacity: 0;
+      transform: scale(0) rotate(-45deg);
+      transition: all var(--transition-base);
+    }
+
+    .checkbox.checked .check-icon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      animation: checkmarkIn 300ms ease 50ms both;
+    }
+
+    .checkbox-label {
+      flex: 1;
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+    }
+
+    .checkbox.checked + .checkbox-label {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    @keyframes checkboxBounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(0.85); }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes checkmarkIn {
+      0% { opacity: 0; transform: scale(0) rotate(-45deg); }
+      50% { transform: scale(1.2) rotate(10deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       PROGRESS BAR
+       ───────────────────────────────────────────────────────────────── */
+    .progress-container {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--brand-gradient);
+      border-radius: var(--radius-full);
+      transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .progress-fill.complete {
+      background: linear-gradient(90deg, var(--success), #34D399);
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CATEGORY SECTION
+       ───────────────────────────────────────────────────────────────── */
+    .category-section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: var(--space-3);
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .category-header:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .category-icon {
+      font-size: var(--text-xl);
+    }
+
+    .category-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .category-count {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+
+    .category-chevron {
+      color: var(--text-muted);
+      transition: transform var(--transition-base);
+    }
+
+    .category-section.expanded .category-chevron {
+      transform: rotate(180deg);
+    }
+
+    .category-items {
+      border-top: 1px solid var(--border-light);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-slow);
+    }
+
+    .category-section.expanded .category-items {
+      max-height: 1000px;
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-light);
+      transition: background var(--transition-fast);
+    }
+
+    .category-item:last-child {
+      border-bottom: none;
+    }
+
+    .category-item:hover {
+      background: var(--bg-tertiary);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       TRIP CARD
+       ───────────────────────────────────────────────────────────────── */
+    .trip-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .trip-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--brand-primary);
+    }
+
+    .trip-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .trip-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--brand-light);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-2xl);
+    }
+
+    .trip-info {
+      flex: 1;
+    }
+
+    .trip-destination {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .trip-dates {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .trip-progress {
+      margin-top: var(--space-3);
+    }
+
+    .trip-progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+
+    .trip-progress-label {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .trip-progress-value {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--brand-primary);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       OPTION GRID (Question cards)
+       ───────────────────────────────────────────────────────────────── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    .option-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      position: relative;
+    }
+
+    .option-card:hover {
+      border-color: var(--brand-secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .option-card:active {
+      transform: scale(0.98);
+    }
+
+    .option-card.selected {
+      border-color: var(--brand-primary);
+      background: var(--brand-light);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+      animation: selectPop 300ms ease;
+    }
+
+    @keyframes selectPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    .option-icon {
+      font-size: 36px;
+      margin-bottom: var(--space-2);
+    }
+
+    .option-label {
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .option-card.selected .option-label {
+      color: var(--brand-dark);
+    }
+
+    .option-desc {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+
+    .option-check {
+      position: absolute;
+      top: var(--space-2);
+      right: var(--space-2);
+      width: 24px;
+      height: 24px;
+      background: var(--brand-primary);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      opacity: 0;
+      transform: scale(0);
+      transition: all var(--transition-base);
+    }
+
+    .option-card.selected .option-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       HEADER / NAV
+       ───────────────────────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg-primary);
+      z-index: 100;
+    }
+
+    .header-back {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .header-back:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .header-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+    }
+
+    .header-action {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .header-action:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       STEP INDICATOR
+       ───────────────────────────────────────────────────────────────── */
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--border-medium);
+      transition: all var(--transition-base);
+    }
+
+    .step-dot.active {
+      width: 24px;
+      background: var(--brand-primary);
+    }
+
+    .step-dot.completed {
+      background: var(--success);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       FLOATING BOTTOM BAR
+       ───────────────────────────────────────────────────────────────── */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+      padding: var(--space-4);
+      padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+      z-index: 100;
+    }
+
+    .bottom-bar-inner {
+      max-width: 428px;
+      margin: 0 auto;
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       CELEBRATION SCREEN
+       ───────────────────────────────────────────────────────────────── */
+    .celebration {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-6);
+      z-index: 200;
+      animation: fadeIn 300ms ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .celebration-icon {
+      width: 120px;
+      height: 120px;
+      background: var(--success-light);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      margin-bottom: var(--space-6);
+      animation: celebrateIcon 600ms var(--transition-bounce);
+    }
+
+    @keyframes celebrateIcon {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .celebration-title {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .celebration-subtitle {
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-8);
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall 3s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       DESTINATION AUTOCOMPLETE
+       ───────────────────────────────────────────────────────────────── */
+    .autocomplete-wrapper {
+      position: relative;
+    }
+
+    .autocomplete-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-height: 280px;
+      overflow-y: auto;
+      z-index: 50;
+      margin-top: var(--space-2);
+    }
+
+    .autocomplete-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .autocomplete-item:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .autocomplete-flag {
+      font-size: var(--text-xl);
+    }
+
+    .autocomplete-text {
+      flex: 1;
+    }
+
+    .autocomplete-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .autocomplete-country {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       WEATHER WIDGET
+       ───────────────────────────────────────────────────────────────── */
+    .weather-widget {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--info-light);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-3);
+    }
+
+    .weather-icon {
+      font-size: var(--text-2xl);
+    }
+
+    .weather-temp {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .weather-desc {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       TEMPLATES
+       ───────────────────────────────────────────────────────────────── */
+    .template-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .template-card:hover {
+      border-color: var(--brand-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .template-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--brand-light);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xl);
+    }
+
+    .template-info {
+      flex: 1;
+    }
+
+    .template-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .template-desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       UTILITY CLASSES
+       ───────────────────────────────────────────────────────────────── */
+    .mb-2 { margin-bottom: var(--space-2); }
+    .mb-3 { margin-bottom: var(--space-3); }
+    .mb-4 { margin-bottom: var(--space-4); }
+    .mb-6 { margin-bottom: var(--space-6); }
+    .mb-8 { margin-bottom: var(--space-8); }
+    .mt-4 { margin-top: var(--space-4); }
+    .mt-6 { margin-top: var(--space-6); }
+    .gap-3 { gap: var(--space-3); }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .w-full { width: 100%; }
+    .hidden { display: none; }
+
+    /* Page transitions */
+    .page {
+      animation: pageIn 300ms ease;
+    }
+
+    @keyframes pageIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Spacer for bottom bar */
+    .bottom-spacer {
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// PAKLIJST PRO V2 - APPLICATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DEMO DATA
+// ─────────────────────────────────────────────────────────────────────────────
+
+const destinations = [
+  { name: "Amsterdam", country: "Nederland", flag: "🇳🇱" },
+  { name: "Barcelona", country: "Spanje", flag: "🇪🇸" },
+  { name: "Bali", country: "Indonesië", flag: "🇮🇩" },
+  { name: "Bangkok", country: "Thailand", flag: "🇹🇭" },
+  { name: "Berlijn", country: "Duitsland", flag: "🇩🇪" },
+  { name: "Brussel", country: "België", flag: "🇧🇪" },
+  { name: "Curaçao", country: "Curaçao", flag: "🇨🇼" },
+  { name: "Dubai", country: "VAE", flag: "🇦🇪" },
+  { name: "Florence", country: "Italië", flag: "🇮🇹" },
+  { name: "Ibiza", country: "Spanje", flag: "🇪🇸" },
+  { name: "Lissabon", country: "Portugal", flag: "🇵🇹" },
+  { name: "Londen", country: "VK", flag: "🇬🇧" },
+  { name: "Mallorca", country: "Spanje", flag: "🇪🇸" },
+  { name: "Marrakech", country: "Marokko", flag: "🇲🇦" },
+  { name: "Miami", country: "VS", flag: "🇺🇸" },
+  { name: "New York", country: "VS", flag: "🇺🇸" },
+  { name: "Parijs", country: "Frankrijk", flag: "🇫🇷" },
+  { name: "Praag", country: "Tsjechië", flag: "🇨🇿" },
+  { name: "Rome", country: "Italië", flag: "🇮🇹" },
+  { name: "Santorini", country: "Griekenland", flag: "🇬🇷" },
+  { name: "Singapore", country: "Singapore", flag: "🇸🇬" },
+  { name: "Tokio", country: "Japan", flag: "🇯🇵" },
+  { name: "Venetië", country: "Italië", flag: "🇮🇹" },
+  { name: "Wenen", country: "Oostenrijk", flag: "🇦🇹" },
+  { name: "Zürich", country: "Zwitserland", flag: "🇨🇭" }
+];
+
+// Demo weather data
+const getWeatherDemo = (destination) => {
+  const weatherTypes = [
+    { icon: "☀️", temp: 28, desc: "Zonnig" },
+    { icon: "🌤️", temp: 24, desc: "Deels bewolkt" },
+    { icon: "⛅", temp: 20, desc: "Bewolkt" },
+    { icon: "🌧️", temp: 18, desc: "Regenachtig" },
+    { icon: "❄️", temp: 2, desc: "Koud" }
+  ];
+  // Simple deterministic "random" based on destination name
+  const index = destination.length % weatherTypes.length;
+  return weatherTypes[index];
+};
+
+// Trip types
+const tripTypes = [
+  { value: "vacation", label: "Vakantie", icon: "🏖️", desc: "Relaxen & genieten" },
+  { value: "citytrip", label: "Stedentrip", icon: "🏛️", desc: "Cultuur & shoppen" },
+  { value: "backpacking", label: "Backpacken", icon: "🎒", desc: "Budget avontuur" },
+  { value: "business", label: "Zakenreis", icon: "💼", desc: "Werk & meetings" },
+  { value: "roadtrip", label: "Roadtrip", icon: "🚗", desc: "Vrijheid op wielen" },
+  { value: "adventure", label: "Avontuur", icon: "🏔️", desc: "Actief & uitdagend" },
+  { value: "wellness", label: "Wellness", icon: "🧘", desc: "Spa & ontspanning" },
+  { value: "wintersport", label: "Wintersport", icon: "⛷️", desc: "Ski & sneeuw" }
+];
+
+// Activities
+const activities = [
+  { value: "swimming", label: "Zwemmen", icon: "🏊" },
+  { value: "hiking", label: "Wandelen", icon: "🥾" },
+  { value: "beach", label: "Strand", icon: "🏖️" },
+  { value: "sightseeing", label: "Sightseeing", icon: "📸" },
+  { value: "nightlife", label: "Uitgaan", icon: "🎉" },
+  { value: "shopping", label: "Shoppen", icon: "🛍️" },
+  { value: "dining", label: "Culinair", icon: "🍽️" },
+  { value: "sports", label: "Sport", icon: "⚽" }
+];
+
+// Templates
+const templates = [
+  { id: "weekend", name: "Weekend weg", icon: "🎒", desc: "2-3 dagen essentials", items: 25 },
+  { id: "beach", name: "Strandvakantie", icon: "🏖️", desc: "Zon, zee & zand", items: 40 },
+  { id: "city", name: "Stedentrip", icon: "🏛️", desc: "Cultuur & shoppen", items: 30 },
+  { id: "backpack", name: "Backpacken", icon: "🌍", desc: "Minimalistisch reizen", items: 45 },
+  { id: "winter", name: "Wintersport", icon: "⛷️", desc: "Ski & sneeuw", items: 50 },
+  { id: "business", name: "Zakenreis", icon: "💼", desc: "Professioneel", items: 35 }
+];
+
+// Packing items by category
+const packingItems = {
+  essentials: {
+    name: "Essentials",
+    icon: "✨",
+    items: [
+      { id: "passport", name: "Paspoort / ID", packed: false },
+      { id: "wallet", name: "Portemonnee", packed: false },
+      { id: "phone", name: "Telefoon + oplader", packed: false },
+      { id: "keys", name: "Sleutels", packed: false },
+      { id: "tickets", name: "Tickets / Boarding pass", packed: false },
+      { id: "insurance", name: "Reisverzekering", packed: false }
+    ]
+  },
+  clothing: {
+    name: "Kleding",
+    icon: "👕",
+    items: [
+      { id: "tshirts", name: "T-shirts (5x)", packed: false },
+      { id: "pants", name: "Broeken (2x)", packed: false },
+      { id: "underwear", name: "Ondergoed (7x)", packed: false },
+      { id: "socks", name: "Sokken (5 paar)", packed: false },
+      { id: "sleepwear", name: "Slaapkleding", packed: false },
+      { id: "sweater", name: "Trui / Vest", packed: false },
+      { id: "jacket", name: "Jas", packed: false }
+    ]
+  },
+  toiletries: {
+    name: "Toilettas",
+    icon: "🧴",
+    items: [
+      { id: "toothbrush", name: "Tandenborstel + pasta", packed: false },
+      { id: "deodorant", name: "Deodorant", packed: false },
+      { id: "shampoo", name: "Shampoo", packed: false },
+      { id: "sunscreen", name: "Zonnebrand", packed: false },
+      { id: "skincare", name: "Huidverzorging", packed: false }
+    ]
+  },
+  electronics: {
+    name: "Elektronica",
+    icon: "📱",
+    items: [
+      { id: "charger", name: "Opladers", packed: false },
+      { id: "powerbank", name: "Powerbank", packed: false },
+      { id: "headphones", name: "Koptelefoon", packed: false },
+      { id: "adapter", name: "Reisstekker", packed: false }
+    ]
+  },
+  health: {
+    name: "Gezondheid",
+    icon: "💊",
+    items: [
+      { id: "medicine", name: "Medicijnen", packed: false },
+      { id: "firstaid", name: "EHBO setje", packed: false },
+      { id: "handgel", name: "Handgel", packed: false }
+    ]
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE MANAGEMENT
+// ─────────────────────────────────────────────────────────────────────────────
+
+let state = {
+  screen: "home", // home, newtrip, tripflow, packing, templates, celebration
+  trips: [
+    {
+      id: 1,
+      destination: "Bali, Indonesië",
+      icon: "🏝️",
+      startDate: "2024-12-20",
+      endDate: "2024-12-28",
+      tripType: "vacation",
+      progress: 65,
+      items: JSON.parse(JSON.stringify(packingItems))
+    }
+  ],
+  currentTrip: null,
+  newTrip: {
+    step: 0,
+    destination: "",
+    startDate: "",
+    endDate: "",
+    tripType: [],
+    activities: []
+  },
+  expandedCategories: ["essentials"],
+  showAutocomplete: false,
+  theme: localStorage.getItem("paklijst_v2_theme") || "light"
+};
+
+// Apply theme
+document.documentElement.setAttribute("data-theme", state.theme);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UTILITY FUNCTIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("nl-NL", { day: "numeric", month: "short" });
+};
+
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Goedemorgen";
+  if (hour < 18) return "Goedemiddag";
+  return "Goedenavond";
+};
+
+const calculateProgress = (items) => {
+  let total = 0;
+  let packed = 0;
+  Object.values(items).forEach(cat => {
+    cat.items.forEach(item => {
+      total++;
+      if (item.packed) packed++;
+    });
+  });
+  return total > 0 ? Math.round((packed / total) * 100) : 0;
+};
+
+const saveState = () => {
+  localStorage.setItem("paklijst_v2_state", JSON.stringify(state));
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER FUNCTIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+const render = () => {
+  const app = document.getElementById("app");
+
+  switch (state.screen) {
+    case "home":
+      app.innerHTML = renderHome();
+      break;
+    case "newtrip":
+      app.innerHTML = renderNewTrip();
+      break;
+    case "packing":
+      app.innerHTML = renderPacking();
+      break;
+    case "templates":
+      app.innerHTML = renderTemplates();
+      break;
+    case "celebration":
+      app.innerHTML = renderCelebration();
+      break;
+    default:
+      app.innerHTML = renderHome();
+  }
+};
+
+const renderHome = () => {
+  const hasTrips = state.trips.length > 0;
+
+  return `
+    <div class="container page">
+      <div class="header">
+        <div style="width: 40px;"></div>
+        <div class="header-title">Paklijst Pro</div>
+        <div class="header-action" onclick="toggleTheme()">
+          ${state.theme === "dark" ? "☀️" : "🌙"}
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h1 class="mb-2">${getGreeting()}! 👋</h1>
+        <p class="text-secondary">Waar gaat de reis naartoe?</p>
+      </div>
+
+      <div class="card card-brand card-interactive mb-6" onclick="startNewTrip()">
+        <div class="flex items-center gap-3">
+          <div style="font-size: 32px;">✈️</div>
+          <div>
+            <div style="font-weight: 600; font-size: var(--text-lg);">Nieuwe reis plannen</div>
+            <div style="opacity: 0.9; font-size: var(--text-sm);">Maak een slimme paklijst</div>
+          </div>
+        </div>
+      </div>
+
+      ${hasTrips ? `
+        <div class="mb-4">
+          <h3 class="mb-3">Actieve reizen</h3>
+          ${state.trips.map(trip => `
+            <div class="trip-card mb-3" onclick="openTrip(${trip.id})">
+              <div class="trip-header">
+                <div class="trip-icon">${trip.icon}</div>
+                <div class="trip-info">
+                  <div class="trip-destination">${trip.destination}</div>
+                  <div class="trip-dates">${formatDate(trip.startDate)} - ${formatDate(trip.endDate)}</div>
+                </div>
+              </div>
+              <div class="trip-progress">
+                <div class="trip-progress-header">
+                  <span class="trip-progress-label">Ingepakt</span>
+                  <span class="trip-progress-value">${trip.progress}%</span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-fill ${trip.progress === 100 ? 'complete' : ''}" style="width: ${trip.progress}%"></div>
+                </div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      ` : ""}
+
+      <div class="mb-4">
+        <h3 class="mb-3">Snelle opties</h3>
+        <div class="template-card mb-3" onclick="goToTemplates()">
+          <div class="template-icon">📋</div>
+          <div class="template-info">
+            <div class="template-name">Templates</div>
+            <div class="template-desc">Start met een kant-en-klare lijst</div>
+          </div>
+          <div style="color: var(--text-muted);">→</div>
+        </div>
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  `;
+};
+
+const renderNewTrip = () => {
+  const step = state.newTrip.step;
+  const totalSteps = 4;
+
+  let content = "";
+  let title = "";
+  let subtitle = "";
+
+  switch (step) {
+    case 0:
+      title = "Waar ga je naartoe?";
+      subtitle = "Zoek je bestemming";
+      content = renderDestinationStep();
+      break;
+    case 1:
+      title = "Wanneer reis je?";
+      subtitle = "Selecteer je data";
+      content = renderDatesStep();
+      break;
+    case 2:
+      title = "Wat voor reis?";
+      subtitle = "Meerdere mogelijk";
+      content = renderTripTypeStep();
+      break;
+    case 3:
+      title = "Wat ga je doen?";
+      subtitle = "Selecteer activiteiten";
+      content = renderActivitiesStep();
+      break;
+  }
+
+  return `
+    <div class="container page">
+      <div class="header">
+        <div class="header-back" onclick="handleBack()">←</div>
+        <div class="header-title">Nieuwe reis</div>
+        <div style="width: 40px;"></div>
+      </div>
+
+      <div class="step-indicator">
+        ${Array.from({length: totalSteps}, (_, i) => `
+          <div class="step-dot ${i === step ? 'active' : ''} ${i < step ? 'completed' : ''}"></div>
+        `).join("")}
+      </div>
+
+      <div class="mb-6">
+        <h2 class="mb-2">${title}</h2>
+        <p class="text-secondary">${subtitle}</p>
+      </div>
+
+      ${content}
+
+      <div class="bottom-spacer"></div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        ${step > 0 ? `<button class="btn btn-secondary" onclick="prevStep()">Terug</button>` : ""}
+        <button class="btn btn-primary btn-block" onclick="nextStep()" ${!canProceed() ? 'disabled style="opacity:0.5"' : ''}>
+          ${step === totalSteps - 1 ? "Maak paklijst" : "Volgende"}
+        </button>
+      </div>
+    </div>
+  `;
+};
+
+const renderDestinationStep = () => {
+  const query = state.newTrip.destination;
+  const filtered = query.length > 0
+    ? destinations.filter(d =>
+        d.name.toLowerCase().includes(query.toLowerCase()) ||
+        d.country.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 6)
+    : [];
+  const weather = query.length > 2 ? getWeatherDemo(query) : null;
+
+  return `
+    <div class="autocomplete-wrapper">
+      <div class="input-with-icon">
+        <span class="input-icon">🔍</span>
+        <input
+          type="text"
+          class="input"
+          placeholder="Zoek bestemming..."
+          value="${query}"
+          oninput="updateDestination(this.value)"
+          onfocus="state.showAutocomplete = true; render()"
+        >
+      </div>
+
+      ${state.showAutocomplete && filtered.length > 0 ? `
+        <div class="autocomplete-dropdown">
+          ${filtered.map(d => `
+            <div class="autocomplete-item" onclick="selectDestination('${d.name}, ${d.country}')">
+              <span class="autocomplete-flag">${d.flag}</span>
+              <div class="autocomplete-text">
+                <div class="autocomplete-name">${d.name}</div>
+                <div class="autocomplete-country">${d.country}</div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      ` : ""}
+    </div>
+
+    ${weather ? `
+      <div class="weather-widget">
+        <span class="weather-icon">${weather.icon}</span>
+        <span class="weather-temp">${weather.temp}°C</span>
+        <span class="weather-desc">${weather.desc}</span>
+      </div>
+    ` : ""}
+
+    <div class="mt-6">
+      <p class="text-sm text-muted mb-3">Populaire bestemmingen</p>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+        ${["Barcelona", "Bali", "Parijs", "Rome", "Londen", "Dubai"].map(d => `
+          <div class="btn btn-sm btn-secondary" onclick="selectDestination('${d}')">${d}</div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+};
+
+const renderDatesStep = () => {
+  return `
+    <div class="flex flex-col gap-3">
+      <div>
+        <label class="text-sm text-secondary mb-2" style="display: block;">Vertrek</label>
+        <input
+          type="date"
+          class="input"
+          value="${state.newTrip.startDate}"
+          onchange="state.newTrip.startDate = this.value; render()"
+        >
+      </div>
+      <div>
+        <label class="text-sm text-secondary mb-2" style="display: block;">Terugkomst</label>
+        <input
+          type="date"
+          class="input"
+          value="${state.newTrip.endDate}"
+          onchange="state.newTrip.endDate = this.value; render()"
+        >
+      </div>
+    </div>
+
+    ${state.newTrip.startDate && state.newTrip.endDate ? `
+      <div class="card mt-4" style="background: var(--brand-light);">
+        <div class="flex items-center gap-3">
+          <span style="font-size: 24px;">📅</span>
+          <div>
+            <div class="font-semibold">${calculateDays()} dagen</div>
+            <div class="text-sm text-secondary">${formatDate(state.newTrip.startDate)} - ${formatDate(state.newTrip.endDate)}</div>
+          </div>
+        </div>
+      </div>
+    ` : ""}
+  `;
+};
+
+const renderTripTypeStep = () => {
+  return `
+    <div class="options-grid">
+      ${tripTypes.map(t => `
+        <div class="option-card ${state.newTrip.tripType.includes(t.value) ? 'selected' : ''}"
+             onclick="toggleTripType('${t.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${t.icon}</div>
+          <div class="option-label">${t.label}</div>
+          <div class="option-desc">${t.desc}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+};
+
+const renderActivitiesStep = () => {
+  return `
+    <div class="options-grid">
+      ${activities.map(a => `
+        <div class="option-card ${state.newTrip.activities.includes(a.value) ? 'selected' : ''}"
+             onclick="toggleActivity('${a.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${a.icon}</div>
+          <div class="option-label">${a.label}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+};
+
+const renderPacking = () => {
+  const trip = state.currentTrip;
+  if (!trip) return renderHome();
+
+  const progress = calculateProgress(trip.items);
+  const totalItems = Object.values(trip.items).reduce((acc, cat) => acc + cat.items.length, 0);
+  const packedItems = Object.values(trip.items).reduce((acc, cat) => acc + cat.items.filter(i => i.packed).length, 0);
+
+  return `
+    <div class="container page">
+      <div class="header">
+        <div class="header-back" onclick="goHome()">←</div>
+        <div class="header-title">${trip.destination.split(",")[0]}</div>
+        <div class="header-action">📤</div>
+      </div>
+
+      <div class="card card-elevated mb-6" style="background: linear-gradient(135deg, var(--brand-light) 0%, #E0F2FE 100%);">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <div class="text-sm text-secondary">Voortgang</div>
+            <div class="h2" style="color: var(--brand-dark);">${progress}%</div>
+          </div>
+          <div style="font-size: 48px;">${progress === 100 ? "🎉" : "📦"}</div>
+        </div>
+        <div class="progress-container" style="height: 10px;">
+          <div class="progress-fill ${progress === 100 ? 'complete' : ''}" style="width: ${progress}%"></div>
+        </div>
+        <div class="text-sm text-secondary mt-2">${packedItems} van ${totalItems} items ingepakt</div>
+      </div>
+
+      ${Object.entries(trip.items).map(([key, category]) => {
+        const isExpanded = state.expandedCategories.includes(key);
+        const catPacked = category.items.filter(i => i.packed).length;
+        const catTotal = category.items.length;
+
+        return `
+          <div class="category-section ${isExpanded ? 'expanded' : ''}">
+            <div class="category-header" onclick="toggleCategory('${key}')">
+              <div class="category-title">
+                <span class="category-icon">${category.icon}</span>
+                <span class="category-name">${category.name}</span>
+                <span class="category-count">${catPacked}/${catTotal}</span>
+              </div>
+              <span class="category-chevron">▼</span>
+            </div>
+            <div class="category-items">
+              ${category.items.map((item, idx) => `
+                <div class="category-item">
+                  <div class="checkbox-wrapper" onclick="toggleItem('${key}', ${idx})">
+                    <div class="checkbox ${item.packed ? 'checked' : ''}">
+                      <span class="check-icon">✓</span>
+                    </div>
+                    <span class="checkbox-label">${item.name}</span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }).join("")}
+
+      <div class="bottom-spacer"></div>
+    </div>
+
+    ${progress === 100 ? `
+      <div class="bottom-bar">
+        <div class="bottom-bar-inner">
+          <button class="btn btn-primary btn-block" onclick="showCelebration()">
+            🎉 Klaar met inpakken!
+          </button>
+        </div>
+      </div>
+    ` : ""}
+  `;
+};
+
+const renderTemplates = () => {
+  return `
+    <div class="container page">
+      <div class="header">
+        <div class="header-back" onclick="goHome()">←</div>
+        <div class="header-title">Templates</div>
+        <div style="width: 40px;"></div>
+      </div>
+
+      <div class="mb-6">
+        <h2 class="mb-2">Kies een template</h2>
+        <p class="text-secondary">Start snel met een vooraf samengestelde lijst</p>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        ${templates.map(t => `
+          <div class="template-card" onclick="useTemplate('${t.id}')">
+            <div class="template-icon">${t.icon}</div>
+            <div class="template-info">
+              <div class="template-name">${t.name}</div>
+              <div class="template-desc">${t.desc} · ${t.items} items</div>
+            </div>
+            <div style="color: var(--text-muted);">→</div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  `;
+};
+
+const renderCelebration = () => {
+  // Create confetti
+  setTimeout(createConfetti, 100);
+
+  return `
+    <div class="celebration">
+      <div class="celebration-icon">✓</div>
+      <h1 class="celebration-title">Alles ingepakt! 🎉</h1>
+      <p class="celebration-subtitle">Je bent helemaal klaar voor je reis</p>
+
+      <div class="flex flex-col gap-3 w-full" style="max-width: 300px;">
+        <button class="btn btn-primary btn-block" onclick="shareList()">
+          📤 Deel je paklijst
+        </button>
+        <button class="btn btn-secondary btn-block" onclick="saveAsTemplate()">
+          📋 Opslaan als template
+        </button>
+        <button class="btn btn-ghost btn-block" onclick="goHome()">
+          Terug naar home
+        </button>
+      </div>
+    </div>
+  `;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EVENT HANDLERS
+// ─────────────────────────────────────────────────────────────────────────────
+
+window.startNewTrip = () => {
+  state.screen = "newtrip";
+  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", tripType: [], activities: [] };
+  render();
+};
+
+window.handleBack = () => {
+  if (state.newTrip.step > 0) {
+    state.newTrip.step--;
+    render();
+  } else {
+    goHome();
+  }
+};
+
+window.goHome = () => {
+  state.screen = "home";
+  state.currentTrip = null;
+  render();
+};
+
+window.goToTemplates = () => {
+  state.screen = "templates";
+  render();
+};
+
+window.updateDestination = (value) => {
+  state.newTrip.destination = value;
+  state.showAutocomplete = true;
+  render();
+};
+
+window.selectDestination = (dest) => {
+  state.newTrip.destination = dest;
+  state.showAutocomplete = false;
+  render();
+};
+
+window.toggleTripType = (type) => {
+  const idx = state.newTrip.tripType.indexOf(type);
+  if (idx === -1) {
+    state.newTrip.tripType.push(type);
+  } else {
+    state.newTrip.tripType.splice(idx, 1);
+  }
+  render();
+};
+
+window.toggleActivity = (activity) => {
+  const idx = state.newTrip.activities.indexOf(activity);
+  if (idx === -1) {
+    state.newTrip.activities.push(activity);
+  } else {
+    state.newTrip.activities.splice(idx, 1);
+  }
+  render();
+};
+
+window.prevStep = () => {
+  if (state.newTrip.step > 0) {
+    state.newTrip.step--;
+    render();
+  }
+};
+
+window.nextStep = () => {
+  if (state.newTrip.step < 3) {
+    state.newTrip.step++;
+    render();
+  } else {
+    // Create trip
+    const newTrip = {
+      id: Date.now(),
+      destination: state.newTrip.destination,
+      icon: tripTypes.find(t => t.value === state.newTrip.tripType[0])?.icon || "✈️",
+      startDate: state.newTrip.startDate,
+      endDate: state.newTrip.endDate,
+      tripType: state.newTrip.tripType[0],
+      progress: 0,
+      items: JSON.parse(JSON.stringify(packingItems))
+    };
+    state.trips.unshift(newTrip);
+    state.currentTrip = newTrip;
+    state.screen = "packing";
+    saveState();
+    render();
+  }
+};
+
+window.canProceed = () => {
+  switch (state.newTrip.step) {
+    case 0: return state.newTrip.destination.length > 2;
+    case 1: return state.newTrip.startDate && state.newTrip.endDate;
+    case 2: return state.newTrip.tripType.length > 0;
+    case 3: return true;
+    default: return false;
+  }
+};
+
+window.calculateDays = () => {
+  if (!state.newTrip.startDate || !state.newTrip.endDate) return 0;
+  const start = new Date(state.newTrip.startDate);
+  const end = new Date(state.newTrip.endDate);
+  return Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+};
+
+window.openTrip = (id) => {
+  const trip = state.trips.find(t => t.id === id);
+  if (trip) {
+    state.currentTrip = trip;
+    state.screen = "packing";
+    render();
+  }
+};
+
+window.toggleCategory = (key) => {
+  const idx = state.expandedCategories.indexOf(key);
+  if (idx === -1) {
+    state.expandedCategories.push(key);
+  } else {
+    state.expandedCategories.splice(idx, 1);
+  }
+  render();
+};
+
+window.toggleItem = (categoryKey, itemIdx) => {
+  const item = state.currentTrip.items[categoryKey].items[itemIdx];
+  item.packed = !item.packed;
+  state.currentTrip.progress = calculateProgress(state.currentTrip.items);
+
+  // Update trip in trips array
+  const tripIdx = state.trips.findIndex(t => t.id === state.currentTrip.id);
+  if (tripIdx !== -1) {
+    state.trips[tripIdx] = state.currentTrip;
+  }
+
+  saveState();
+  render();
+};
+
+window.showCelebration = () => {
+  state.screen = "celebration";
+  render();
+};
+
+window.toggleTheme = () => {
+  state.theme = state.theme === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", state.theme);
+  localStorage.setItem("paklijst_v2_theme", state.theme);
+  render();
+};
+
+window.useTemplate = (templateId) => {
+  // Start new trip with template
+  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", tripType: [], activities: [] };
+  state.screen = "newtrip";
+  render();
+};
+
+window.shareList = () => {
+  alert("Delen functie komt binnenkort! 📤");
+};
+
+window.saveAsTemplate = () => {
+  alert("Template opgeslagen! 📋");
+  goHome();
+};
+
+window.createConfetti = () => {
+  const colors = ["#0D9488", "#F97316", "#10B981", "#3B82F6", "#8B5CF6"];
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDelay = Math.random() * 2 + "s";
+    confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+    document.body.appendChild(confetti);
+
+    setTimeout(() => confetti.remove(), 5000);
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INITIALIZATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Load saved state
+const savedState = localStorage.getItem("paklijst_v2_state");
+if (savedState) {
+  try {
+    const parsed = JSON.parse(savedState);
+    state.trips = parsed.trips || state.trips;
+  } catch (e) {
+    console.log("Could not load saved state");
+  }
+}
+
+// Initial render
+render();
+
+// Close autocomplete on outside click
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".autocomplete-wrapper")) {
+    state.showAutocomplete = false;
+    render();
+  }
+});
+</script>
+</body>
+</html>
