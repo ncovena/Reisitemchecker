@@ -1507,8 +1507,9 @@ const renderDatesStep = () => {
         <input
           type="date"
           class="input"
+          id="startDateInput"
           value="${state.newTrip.startDate}"
-          onchange="state.newTrip.startDate = this.value; render()"
+          onchange="updateStartDate(this.value)"
         >
       </div>
       <div>
@@ -1516,23 +1517,24 @@ const renderDatesStep = () => {
         <input
           type="date"
           class="input"
+          id="endDateInput"
           value="${state.newTrip.endDate}"
-          onchange="state.newTrip.endDate = this.value; render()"
+          onchange="updateEndDate(this.value)"
         >
       </div>
     </div>
 
-    ${state.newTrip.startDate && state.newTrip.endDate ? `
-      <div class="card mt-4" style="background: var(--brand-light);">
+    <div id="daysCard" class="mt-4" style="display: ${state.newTrip.startDate && state.newTrip.endDate ? 'block' : 'none'};">
+      <div class="card" style="background: var(--brand-light);">
         <div class="flex items-center gap-3">
           <span style="font-size: 24px;">📅</span>
           <div>
-            <div class="font-semibold">${calculateDays()} dagen</div>
-            <div class="text-sm text-secondary">${formatDate(state.newTrip.startDate)} - ${formatDate(state.newTrip.endDate)}</div>
+            <div class="font-semibold" id="daysCount">${calculateDays()} dagen</div>
+            <div class="text-sm text-secondary" id="datesDisplay">${formatDate(state.newTrip.startDate)} - ${formatDate(state.newTrip.endDate)}</div>
           </div>
         </div>
       </div>
-    ` : ""}
+    </div>
   `;
 };
 
@@ -1760,6 +1762,40 @@ window.toggleActivity = (activity) => {
     state.newTrip.activities.splice(idx, 1);
   }
   render();
+};
+
+window.updateStartDate = (value) => {
+  state.newTrip.startDate = value;
+  updateDaysDisplay();
+};
+
+window.updateEndDate = (value) => {
+  state.newTrip.endDate = value;
+  updateDaysDisplay();
+};
+
+window.updateDaysDisplay = () => {
+  const daysCard = document.getElementById('daysCard');
+  const daysCount = document.getElementById('daysCount');
+  const datesDisplay = document.getElementById('datesDisplay');
+  const nextBtn = document.querySelector('.bottom-bar .btn-primary');
+
+  if (state.newTrip.startDate && state.newTrip.endDate) {
+    const days = calculateDays();
+    if (daysCard) daysCard.style.display = 'block';
+    if (daysCount) daysCount.textContent = days + ' dagen';
+    if (datesDisplay) datesDisplay.textContent = formatDate(state.newTrip.startDate) + ' - ' + formatDate(state.newTrip.endDate);
+    if (nextBtn) {
+      nextBtn.disabled = false;
+      nextBtn.style.opacity = '1';
+    }
+  } else {
+    if (daysCard) daysCard.style.display = 'none';
+    if (nextBtn) {
+      nextBtn.disabled = true;
+      nextBtn.style.opacity = '0.5';
+    }
+  }
 };
 
 window.prevStep = () => {
