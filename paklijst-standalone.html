@@ -514,6 +514,7 @@
 
     /* Option cards with background images */
     .option-card.with-bg {
+      background-color: #1a1a1a;
       background-size: cover;
       background-position: center;
       position: relative;
@@ -1694,10 +1695,10 @@ const communityTips = [
 const questions = [
   { id: "destinations", question: "Waar ga je naartoe?", type: "destinations", hint: "Voeg je bestemming(en) toe" },
   { id: "nationality", question: "Wat is je nationaliteit?", type: "single", options: [
-    { value: "nl", label: "Nederlands", icon: "🇳🇱", desc: "Nederland" },
-    { value: "be", label: "Belgisch", icon: "🇧🇪", desc: "België" },
-    { value: "de", label: "Duits", icon: "🇩🇪", desc: "Duitsland" },
-    { value: "other", label: "Anders", icon: "🌍", desc: "Overig" }
+    { value: "nl", label: "Nederlands", bg: "https://images.unsplash.com/photo-1581417478175-a9ef18f210c2?w=400&h=300&fit=crop", desc: "Nederland" },
+    { value: "be", label: "Belgisch", bg: "https://images.unsplash.com/photo-1559563362-c667ba5f5480?w=400&h=300&fit=crop", desc: "België" },
+    { value: "de", label: "Duits", bg: "https://images.unsplash.com/photo-1527866512907-a35a62a0f6c5?w=400&h=300&fit=crop", desc: "Duitsland" },
+    { value: "other", label: "Anders", bg: "https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=400&h=300&fit=crop", desc: "Andere nationaliteit" }
   ]},
   { id: "tripType", question: "Wat voor reis maak je?", type: "multiple", options: [
     { value: "vacation", label: "Vakantie", icon: "🏖️", desc: "Relaxen & genieten" },
