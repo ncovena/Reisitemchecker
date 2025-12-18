@@ -1941,9 +1941,9 @@ if (savedState) {
 // Initial render
 render();
 
-// Close autocomplete on outside click
+// Close autocomplete on outside click (only re-render if it was open)
 document.addEventListener("click", (e) => {
-  if (!e.target.closest(".autocomplete-wrapper")) {
+  if (!e.target.closest(".autocomplete-wrapper") && state.showAutocomplete) {
     state.showAutocomplete = false;
     render();
   }
