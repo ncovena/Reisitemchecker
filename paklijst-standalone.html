@@ -523,18 +523,18 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      border: 3px solid var(--glass-border);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      border: 4px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .option-card.with-bg:hover {
-      border-color: var(--primary-light);
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--primary-light);
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5);
     }
 
     .option-card.with-bg.selected {
       border-color: var(--btn-primary-bg);
-      box-shadow: 0 8px 32px var(--card-selected-shadow), 0 0 0 2px var(--btn-primary-bg);
+      box-shadow: 0 8px 32px var(--card-selected-shadow), 0 0 0 3px var(--btn-primary-bg);
     }
 
     .option-card.with-bg::before {
@@ -706,6 +706,63 @@
       color: var(--text-secondary);
       font-size: 15px;
       cursor: pointer;
+    }
+
+    /* Destination autocomplete */
+    .destination-input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .autocomplete-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--glass-dark);
+      border: 2px solid var(--glass-border);
+      border-radius: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      margin-top: 4px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .autocomplete-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.15s ease;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .autocomplete-flag {
+      font-size: 20px;
+    }
+
+    .autocomplete-text {
+      flex: 1;
+    }
+
+    .autocomplete-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .autocomplete-country {
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
     /* Weather summary */
@@ -1707,9 +1764,9 @@ const communityTips = [
 const questions = [
   { id: "destinations", question: "Waar ga je naartoe?", type: "destinations", hint: "Voeg je bestemming(en) toe" },
   { id: "nationality", question: "Wat is je nationaliteit?", type: "single", options: [
-    { value: "nl", label: "Nederlands", bg: "https://images.unsplash.com/photo-1581417478175-a9ef18f210c2?w=400&h=300&fit=crop", desc: "Nederland" },
-    { value: "be", label: "Belgisch", bg: "https://images.unsplash.com/photo-1559563362-c667ba5f5480?w=400&h=300&fit=crop", desc: "België" },
-    { value: "de", label: "Duits", bg: "https://images.unsplash.com/photo-1527866512907-a35a62a0f6c5?w=400&h=300&fit=crop", desc: "Duitsland" },
+    { value: "nl", label: "Nederlands", icon: "🇳🇱", desc: "Nederland" },
+    { value: "be", label: "Belgisch", icon: "🇧🇪", desc: "België" },
+    { value: "de", label: "Duits", icon: "🇩🇪", desc: "Duitsland" },
     { value: "other", label: "Anders", bg: "https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=400&h=300&fit=crop", desc: "Andere nationaliteit" }
   ]},
   { id: "tripType", question: "Wat voor reis maak je?", type: "multiple", options: [
@@ -2335,6 +2392,104 @@ let state = {
   listTab: 'paklijst'
 };
 
+// Popular destinations for autocomplete
+const popularDestinations = [
+  // Europa
+  { name: "Amsterdam", country: "Nederland", flag: "🇳🇱" },
+  { name: "Barcelona", country: "Spanje", flag: "🇪🇸" },
+  { name: "Berlijn", country: "Duitsland", flag: "🇩🇪" },
+  { name: "Parijs", country: "Frankrijk", flag: "🇫🇷" },
+  { name: "Rome", country: "Italië", flag: "🇮🇹" },
+  { name: "Londen", country: "Verenigd Koninkrijk", flag: "🇬🇧" },
+  { name: "Praag", country: "Tsjechië", flag: "🇨🇿" },
+  { name: "Wenen", country: "Oostenrijk", flag: "🇦🇹" },
+  { name: "Lissabon", country: "Portugal", flag: "🇵🇹" },
+  { name: "Madrid", country: "Spanje", flag: "🇪🇸" },
+  { name: "Athene", country: "Griekenland", flag: "🇬🇷" },
+  { name: "Dublin", country: "Ierland", flag: "🇮🇪" },
+  { name: "Kopenhagen", country: "Denemarken", flag: "🇩🇰" },
+  { name: "Stockholm", country: "Zweden", flag: "🇸🇪" },
+  { name: "Oslo", country: "Noorwegen", flag: "🇳🇴" },
+  { name: "Helsinki", country: "Finland", flag: "🇫🇮" },
+  { name: "Brussel", country: "België", flag: "🇧🇪" },
+  { name: "Zürich", country: "Zwitserland", flag: "🇨🇭" },
+  { name: "München", country: "Duitsland", flag: "🇩🇪" },
+  { name: "Milaan", country: "Italië", flag: "🇮🇹" },
+  { name: "Florence", country: "Italië", flag: "🇮🇹" },
+  { name: "Venetië", country: "Italië", flag: "🇮🇹" },
+  { name: "Nice", country: "Frankrijk", flag: "🇫🇷" },
+  { name: "Monaco", country: "Monaco", flag: "🇲🇨" },
+  { name: "Ibiza", country: "Spanje", flag: "🇪🇸" },
+  { name: "Mallorca", country: "Spanje", flag: "🇪🇸" },
+  { name: "Tenerife", country: "Spanje", flag: "🇪🇸" },
+  { name: "Kreta", country: "Griekenland", flag: "🇬🇷" },
+  { name: "Santorini", country: "Griekenland", flag: "🇬🇷" },
+  { name: "Mykonos", country: "Griekenland", flag: "🇬🇷" },
+  { name: "Dubrovnik", country: "Kroatië", flag: "🇭🇷" },
+  { name: "Split", country: "Kroatië", flag: "🇭🇷" },
+  { name: "Reykjavik", country: "IJsland", flag: "🇮🇸" },
+  { name: "Edinburgh", country: "Schotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿" },
+  // Azië
+  { name: "Bali", country: "Indonesië", flag: "🇮🇩" },
+  { name: "Bangkok", country: "Thailand", flag: "🇹🇭" },
+  { name: "Phuket", country: "Thailand", flag: "🇹🇭" },
+  { name: "Tokio", country: "Japan", flag: "🇯🇵" },
+  { name: "Kyoto", country: "Japan", flag: "🇯🇵" },
+  { name: "Singapore", country: "Singapore", flag: "🇸🇬" },
+  { name: "Hong Kong", country: "China", flag: "🇭🇰" },
+  { name: "Dubai", country: "VAE", flag: "🇦🇪" },
+  { name: "Abu Dhabi", country: "VAE", flag: "🇦🇪" },
+  { name: "Hanoi", country: "Vietnam", flag: "🇻🇳" },
+  { name: "Ho Chi Minh", country: "Vietnam", flag: "🇻🇳" },
+  { name: "Kuala Lumpur", country: "Maleisië", flag: "🇲🇾" },
+  { name: "Seoul", country: "Zuid-Korea", flag: "🇰🇷" },
+  { name: "Taipei", country: "Taiwan", flag: "🇹🇼" },
+  { name: "Maldiven", country: "Maldiven", flag: "🇲🇻" },
+  { name: "Sri Lanka", country: "Sri Lanka", flag: "🇱🇰" },
+  { name: "Goa", country: "India", flag: "🇮🇳" },
+  { name: "Mumbai", country: "India", flag: "🇮🇳" },
+  // Amerika
+  { name: "New York", country: "VS", flag: "🇺🇸" },
+  { name: "Los Angeles", country: "VS", flag: "🇺🇸" },
+  { name: "Miami", country: "VS", flag: "🇺🇸" },
+  { name: "Las Vegas", country: "VS", flag: "🇺🇸" },
+  { name: "San Francisco", country: "VS", flag: "🇺🇸" },
+  { name: "Hawaii", country: "VS", flag: "🇺🇸" },
+  { name: "Cancún", country: "Mexico", flag: "🇲🇽" },
+  { name: "Mexico City", country: "Mexico", flag: "🇲🇽" },
+  { name: "Rio de Janeiro", country: "Brazilië", flag: "🇧🇷" },
+  { name: "Buenos Aires", country: "Argentinië", flag: "🇦🇷" },
+  { name: "Curaçao", country: "Curaçao", flag: "🇨🇼" },
+  { name: "Aruba", country: "Aruba", flag: "🇦🇼" },
+  { name: "Bonaire", country: "Bonaire", flag: "🇧🇶" },
+  { name: "Costa Rica", country: "Costa Rica", flag: "🇨🇷" },
+  { name: "Cuba", country: "Cuba", flag: "🇨🇺" },
+  { name: "Jamaica", country: "Jamaica", flag: "🇯🇲" },
+  { name: "Dominican Republic", country: "Dominicaanse Rep.", flag: "🇩🇴" },
+  // Afrika & Midden-Oosten
+  { name: "Kaapstad", country: "Zuid-Afrika", flag: "🇿🇦" },
+  { name: "Marrakech", country: "Marokko", flag: "🇲🇦" },
+  { name: "Hurghada", country: "Egypte", flag: "🇪🇬" },
+  { name: "Sharm el-Sheikh", country: "Egypte", flag: "🇪🇬" },
+  { name: "Zanzibar", country: "Tanzania", flag: "🇹🇿" },
+  { name: "Seychellen", country: "Seychellen", flag: "🇸🇨" },
+  { name: "Mauritius", country: "Mauritius", flag: "🇲🇺" },
+  { name: "Tel Aviv", country: "Israël", flag: "🇮🇱" },
+  // Oceanië
+  { name: "Sydney", country: "Australië", flag: "🇦🇺" },
+  { name: "Melbourne", country: "Australië", flag: "🇦🇺" },
+  { name: "Auckland", country: "Nieuw-Zeeland", flag: "🇳🇿" },
+  { name: "Fiji", country: "Fiji", flag: "🇫🇯" },
+  // Wintersport
+  { name: "Ischgl", country: "Oostenrijk", flag: "🇦🇹" },
+  { name: "Sölden", country: "Oostenrijk", flag: "🇦🇹" },
+  { name: "St. Anton", country: "Oostenrijk", flag: "🇦🇹" },
+  { name: "Zermatt", country: "Zwitserland", flag: "🇨🇭" },
+  { name: "Chamonix", country: "Frankrijk", flag: "🇫🇷" },
+  { name: "Val Thorens", country: "Frankrijk", flag: "🇫🇷" },
+  { name: "Courchevel", country: "Frankrijk", flag: "🇫🇷" }
+];
+
 // Background images for option cards
 const optionImages = {
   // Trip types
@@ -2506,8 +2661,14 @@ const renderQuiz = () => {
               <div class="destination-header">
                 <span class="destination-icon">📍</span>
                 <div style="flex:1">
-                  <input type="text" class="text-input" style="margin-bottom:8px" placeholder="Bestemming..."
-                    value="${d.name || ''}" oninput="updateDestination(${i},'name',this.value)" onblur="finishDestinationEdit(${i},'name')">
+                  <div class="destination-input-wrapper">
+                    <input type="text" class="text-input" id="dest-input-${i}" style="margin-bottom:8px" placeholder="Bestemming..." autocomplete="off"
+                      value="${d.name || ''}"
+                      oninput="updateDestination(${i},'name',this.value); showDestinationSuggestions(${i}, this.value)"
+                      onfocus="showDestinationSuggestions(${i}, this.value)"
+                      onblur="setTimeout(() => hideDestinationSuggestions(${i}), 200)">
+                    <div class="autocomplete-dropdown" id="dest-dropdown-${i}" style="display:none"></div>
+                  </div>
                   <div style="display:flex;gap:8px">
                     <input type="date" class="date-input" style="flex:1" value="${d.startDate || ''}"
                       onchange="updateDestination(${i},'startDate',this.value)" onblur="finishDestinationEdit(${i},'startDate')" placeholder="Van">
@@ -3199,6 +3360,53 @@ window.updateDestination = (idx, field, value) => {
 
 window.finishDestinationEdit = (idx, field) => {
   // Called on blur - save state and re-render to update weather preview
+  saveState();
+  render();
+};
+
+window.showDestinationSuggestions = (idx, query) => {
+  const dropdown = document.getElementById(`dest-dropdown-${idx}`);
+  if (!dropdown) return;
+
+  if (!query || query.length < 1) {
+    dropdown.style.display = 'none';
+    return;
+  }
+
+  const q = query.toLowerCase();
+  const matches = popularDestinations.filter(d =>
+    d.name.toLowerCase().includes(q) ||
+    d.country.toLowerCase().includes(q)
+  ).slice(0, 6);
+
+  if (matches.length === 0) {
+    dropdown.style.display = 'none';
+    return;
+  }
+
+  dropdown.innerHTML = matches.map(d => `
+    <div class="autocomplete-item" onmousedown="selectDestinationSuggestion(${idx}, '${d.name}, ${d.country}')">
+      <span class="autocomplete-flag">${d.flag}</span>
+      <div class="autocomplete-text">
+        <div class="autocomplete-name">${d.name}</div>
+        <div class="autocomplete-country">${d.country}</div>
+      </div>
+    </div>
+  `).join('');
+
+  dropdown.style.display = 'block';
+};
+
+window.hideDestinationSuggestions = (idx) => {
+  const dropdown = document.getElementById(`dest-dropdown-${idx}`);
+  if (dropdown) dropdown.style.display = 'none';
+};
+
+window.selectDestinationSuggestion = (idx, value) => {
+  const input = document.getElementById(`dest-input-${idx}`);
+  if (input) input.value = value;
+  state.answers.destinations[idx].name = value;
+  hideDestinationSuggestions(idx);
   saveState();
   render();
 };
