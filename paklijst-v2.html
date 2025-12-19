@@ -124,6 +124,69 @@
       --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
     }
 
+    /* THEME: CLASSIC (Purple) */
+    [data-theme="classic"] {
+      --bg-primary: #7c3aed; --bg-secondary: rgba(255,255,255,0.15); --bg-tertiary: rgba(255,255,255,0.1);
+      --bg-elevated: rgba(255,255,255,0.12); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.8);
+      --text-muted: rgba(255,255,255,0.6); --border-light: rgba(255,255,255,0.2); --brand-primary: #fff;
+    }
+    [data-theme="classic"] body { background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c026d3 100%); }
+    [data-theme="classic"] .btn-primary { background: #fff; color: #7c3aed; }
+
+    /* THEME: OCEAN */
+    [data-theme="ocean"] {
+      --bg-primary: #0077B6; --bg-secondary: rgba(255,255,255,0.18); --bg-tertiary: rgba(255,255,255,0.12);
+      --bg-elevated: rgba(255,255,255,0.15); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.85);
+      --text-muted: rgba(255,255,255,0.65); --border-light: rgba(255,255,255,0.25); --brand-primary: #fff;
+    }
+    [data-theme="ocean"] body { background: linear-gradient(135deg, #0077B6 0%, #00B4D8 50%, #48CAE4 100%); }
+    [data-theme="ocean"] .btn-primary { background: #fff; color: #0077B6; }
+
+    /* THEME: SUNSET */
+    [data-theme="sunset"] {
+      --bg-primary: #F77F00; --bg-secondary: rgba(255,255,255,0.15); --bg-tertiary: rgba(255,255,255,0.1);
+      --bg-elevated: rgba(255,255,255,0.12); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.9);
+      --text-muted: rgba(255,255,255,0.7); --border-light: rgba(255,255,255,0.22); --brand-primary: #fff;
+    }
+    [data-theme="sunset"] body { background: linear-gradient(135deg, #F77F00 0%, #FC8621 30%, #D62828 70%, #9D0208 100%); }
+    [data-theme="sunset"] .btn-primary { background: #fff; color: #D62828; }
+
+    /* THEME: FOREST */
+    [data-theme="forest"] {
+      --bg-primary: #2D6A4F; --bg-secondary: rgba(255,255,255,0.15); --bg-tertiary: rgba(255,255,255,0.1);
+      --bg-elevated: rgba(255,255,255,0.12); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.85);
+      --text-muted: rgba(255,255,255,0.65); --border-light: rgba(255,255,255,0.2); --brand-primary: #fff;
+    }
+    [data-theme="forest"] body { background: linear-gradient(135deg, #2D6A4F 0%, #40916C 50%, #52B788 100%); }
+    [data-theme="forest"] .btn-primary { background: #fff; color: #2D6A4F; }
+
+    /* THEME: MIDNIGHT */
+    [data-theme="midnight"] {
+      --bg-primary: #1a1a2e; --bg-secondary: rgba(255,255,255,0.08); --bg-tertiary: rgba(255,255,255,0.05);
+      --bg-elevated: rgba(255,255,255,0.06); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.8);
+      --text-muted: rgba(255,255,255,0.55); --border-light: rgba(255,255,255,0.12); --brand-primary: #e94560;
+    }
+    [data-theme="midnight"] body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    [data-theme="midnight"] .btn-primary { background: #e94560; color: #fff; }
+
+    /* THEME: NEON */
+    [data-theme="neon"] {
+      --bg-primary: #0A0A0A; --bg-secondary: rgba(0,255,255,0.08); --bg-tertiary: rgba(0,255,255,0.05);
+      --bg-elevated: rgba(0,255,255,0.05); --text-primary: #fff; --text-secondary: rgba(255,255,255,0.85);
+      --text-muted: rgba(255,255,255,0.6); --border-light: rgba(0,255,255,0.25); --brand-primary: #00FFFF;
+    }
+    [data-theme="neon"] body { background: linear-gradient(135deg, #0A0A0A 0%, #1a0a2e 50%, #0D1B2A 100%); }
+    [data-theme="neon"] .btn-primary { background: #00FFFF; color: #0A0A0A; box-shadow: 0 0 20px rgba(0,255,255,0.5); }
+
+    /* THEME: PASTEL */
+    [data-theme="pastel"] {
+      --bg-primary: #E6E6FA; --bg-secondary: rgba(255,255,255,0.6); --bg-tertiary: rgba(255,255,255,0.4);
+      --bg-elevated: rgba(255,255,255,0.5); --text-primary: #4A4A6A; --text-secondary: rgba(74,74,106,0.8);
+      --text-muted: rgba(74,74,106,0.6); --border-light: rgba(180,142,173,0.3); --brand-primary: #B48EAD;
+    }
+    [data-theme="pastel"] body { background: linear-gradient(135deg, #E6E6FA 0%, #FFB7D5 50%, #B5EAD7 100%); }
+    [data-theme="pastel"] .btn-primary { background: #fff; color: #B48EAD; }
+
     /* ─────────────────────────────────────────────────────────────────
        BASE STYLES
        ───────────────────────────────────────────────────────────────── */
@@ -1059,6 +1122,44 @@
     .bottom-spacer {
       height: 100px;
     }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: var(--space-4);
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-content {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      width: 100%;
+      max-width: 360px;
+      box-shadow: var(--shadow-xl);
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .card-selected {
+      border: 2px solid var(--brand-primary) !important;
+      background: var(--brand-light) !important;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -1227,6 +1328,87 @@ const transports = [
   { value: "bus", label: "Bus", icon: "🚌", desc: "Budget optie" }
 ];
 
+// Themes
+const themes = {
+  light: { name: 'Light', desc: 'Lichte, frisse look', icon: '☀️' },
+  dark: { name: 'Dark', desc: 'Donker & elegant', icon: '🌙' },
+  classic: { name: 'Classic', desc: 'Paars gradient', icon: '💜' },
+  ocean: { name: 'Ocean', desc: 'Teal & blauw', icon: '🌊' },
+  sunset: { name: 'Sunset', desc: 'Warm oranje & rood', icon: '🌅' },
+  forest: { name: 'Forest', desc: 'Groen & aards', icon: '🌲' },
+  midnight: { name: 'Midnight', desc: 'Donker & stijlvol', icon: '🌙' },
+  neon: { name: 'Neon', desc: 'Cyberpunk vibes', icon: '⚡' },
+  pastel: { name: 'Pastel', desc: 'Zachte kleuren', icon: '🌸' }
+};
+
+// Nationalities for visa requirements
+const nationalities = [
+  { value: "nl", label: "Nederlands", icon: "🇳🇱", desc: "Nederland" },
+  { value: "be", label: "Belgisch", icon: "🇧🇪", desc: "België" },
+  { value: "de", label: "Duits", icon: "🇩🇪", desc: "Duitsland" },
+  { value: "other", label: "Anders", icon: "🌍", desc: "Andere nationaliteit" }
+];
+
+// Airlines with baggage limits
+const airlines = [
+  { value: "klm", label: "KLM", icon: "🔵", desc: "23kg ruim, 12kg handbagage", checked: 23, cabin: 12 },
+  { value: "transavia", label: "Transavia", icon: "🟢", desc: "20kg ruim, 10kg handbagage", checked: 20, cabin: 10 },
+  { value: "ryanair", label: "Ryanair", icon: "🟡", desc: "20kg ruim, 10kg handbagage", checked: 20, cabin: 10 },
+  { value: "easyjet", label: "EasyJet", icon: "🟠", desc: "23kg ruim, 15kg handbagage", checked: 23, cabin: 15 },
+  { value: "vueling", label: "Vueling", icon: "🟣", desc: "23kg ruim, 10kg handbagage", checked: 23, cabin: 10 },
+  { value: "other", label: "Anders", icon: "⚪", desc: "Check je airline", checked: 23, cabin: 12 }
+];
+
+// Background images for option cards
+const optionImages = {
+  vacation: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',
+  business: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80',
+  backpacking: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=400&q=80',
+  roadtrip: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&q=80',
+  adventure: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&q=80',
+  wellness: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&q=80',
+  festival: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80',
+  citytrip: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80',
+  wintersport: 'https://images.unsplash.com/photo-1551524559-8af4e6624178?w=400&q=80',
+  hotel: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80',
+  camping: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400&q=80',
+  beach: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
+  hiking: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&q=80'
+};
+
+// Pre-trip todos based on answers
+const getPreTripTodos = (answers) => {
+  const todos = [];
+  const nationality = answers.nationality;
+  const destination = (answers.destination || '').toLowerCase();
+
+  todos.push({ id: 'passport', text: 'Paspoort geldigheid checken (min. 6 maanden)', urgent: true });
+  todos.push({ id: 'insurance', text: 'Reisverzekering afsluiten', urgent: true });
+
+  // ESTA for USA
+  if (destination.match(/usa|amerika|new york|los angeles|miami|las vegas|california/)) {
+    if (nationality === 'nl' || nationality === 'be' || nationality === 'de') {
+      todos.push({ id: 'esta', text: 'ESTA aanvragen', urgent: true, info: '€21, min. 72u vooraf' });
+    }
+  }
+
+  // Visa for certain countries
+  if (destination.match(/australia|australië|china|india|russia|rusland|brazil|brazilië/)) {
+    todos.push({ id: 'visa', text: 'Visum aanvragen', urgent: true, info: 'Kan weken duren!' });
+  }
+
+  // Vaccinations for tropical destinations
+  if (destination.match(/thailand|bali|indonesia|vietnam|india|africa|afrika|brazil|peru|colombia/)) {
+    todos.push({ id: 'vaccinations', text: 'Vaccinaties checken bij GGD', urgent: true, info: 'Hepatitis A/B, DTP' });
+  }
+
+  todos.push({ id: 'copies', text: 'Kopieën documenten maken (digitaal)', urgent: false });
+  todos.push({ id: 'bank', text: 'Bank informeren over reis', urgent: false });
+  todos.push({ id: 'phone', text: 'Buitenlandbundel activeren', urgent: false });
+
+  return todos;
+};
+
 // Activities
 const activities = [
   { value: "swimming", label: "Zwemmen", icon: "🏊" },
@@ -1257,127 +1439,130 @@ const templates = [
 // All packing items with filtering properties
 const allItems = {
   essentials: { name: "Essentials", icon: "✨", items: [
-    { id: "passport", name: "Paspoort / ID", always: true },
-    { id: "wallet", name: "Portemonnee", always: true },
-    { id: "phone", name: "Telefoon + oplader", always: true },
-    { id: "keys", name: "Sleutels", always: true },
-    { id: "travelDocs", name: "Reisdocumenten", always: true },
-    { id: "creditCard", name: "Creditcard", always: true },
-    { id: "cash", name: "Contant geld", always: true },
-    { id: "insurance", name: "Reisverzekering bewijs", always: true },
-    { id: "copies", name: "Kopieën documenten", optional: true }
+    { id: "passport", name: "Paspoort / ID", weight: 50, always: true },
+    { id: "wallet", name: "Portemonnee", weight: 100, always: true },
+    { id: "phone", name: "Telefoon + oplader", weight: 250, always: true },
+    { id: "keys", name: "Sleutels", weight: 100, always: true },
+    { id: "travelDocs", name: "Reisdocumenten", weight: 30, always: true },
+    { id: "creditCard", name: "Creditcard", weight: 5, always: true },
+    { id: "cash", name: "Contant geld", weight: 20, always: true },
+    { id: "insurance", name: "Reisverzekering bewijs", weight: 5, always: true },
+    { id: "copies", name: "Kopieën documenten", weight: 10, optional: true }
   ]},
   clothing: { name: "Kleding", icon: "👕", items: [
-    { id: "tshirts", name: "T-shirts (5x)" },
-    { id: "pants", name: "Lange broeken (2x)" },
-    { id: "shorts", name: "Korte broeken (2x)", climate: ["hot", "tropical", "mild"] },
-    { id: "underwear", name: "Ondergoed (7x)" },
-    { id: "socks", name: "Sokken (5 paar)" },
-    { id: "sleepwear", name: "Slaapkleding" },
-    { id: "sweater", name: "Trui / Sweater", climate: ["cold", "mild", "variable"] },
-    { id: "jacket", name: "Jas", climate: ["cold", "variable"] },
-    { id: "raincoat", name: "Regenjas", climate: ["tropical", "variable"] },
-    { id: "swimwear", name: "Zwemkleding", activities: ["swimming", "beach", "watersports"] },
-    { id: "dressyOutfit", name: "Nette outfit", activities: ["nightlife", "dining"] },
-    { id: "sportswear", name: "Sportkleding", activities: ["sports", "yoga", "cycling", "hiking"] },
-    { id: "thermalBase", name: "Thermisch ondergoed", climate: ["cold"], activities: ["skiing"] },
-    { id: "fleece", name: "Fleece trui", climate: ["cold", "variable"], activities: ["hiking"] }
+    { id: "tshirts", name: "T-shirts (5x)", weight: 750 },
+    { id: "pants", name: "Lange broeken (2x)", weight: 800 },
+    { id: "shorts", name: "Korte broeken (2x)", weight: 400, climate: ["hot", "tropical", "mild"] },
+    { id: "underwear", name: "Ondergoed (7x)", weight: 350 },
+    { id: "socks", name: "Sokken (5 paar)", weight: 200 },
+    { id: "sleepwear", name: "Slaapkleding", weight: 200 },
+    { id: "sweater", name: "Trui / Sweater", weight: 400, climate: ["cold", "mild", "variable"] },
+    { id: "jacket", name: "Jas", weight: 800, climate: ["cold", "variable"] },
+    { id: "raincoat", name: "Regenjas", weight: 300, climate: ["tropical", "variable"] },
+    { id: "swimwear", name: "Zwemkleding", weight: 150, activities: ["swimming", "beach", "watersports"] },
+    { id: "dressyOutfit", name: "Nette outfit", weight: 500, activities: ["nightlife", "dining"] },
+    { id: "sportswear", name: "Sportkleding", weight: 300, activities: ["sports", "yoga", "cycling", "hiking"] },
+    { id: "thermalBase", name: "Thermisch ondergoed", weight: 200, climate: ["cold"], activities: ["skiing"] },
+    { id: "fleece", name: "Fleece trui", weight: 350, climate: ["cold", "variable"], activities: ["hiking"] }
   ]},
   shoes: { name: "Schoenen", icon: "👟", items: [
-    { id: "sneakers", name: "Sneakers" },
-    { id: "sandals", name: "Sandalen", climate: ["hot", "tropical"] },
-    { id: "hikingBoots", name: "Wandelschoenen", activities: ["hiking"] },
-    { id: "flipflops", name: "Slippers/Flip-flops", activities: ["beach", "swimming"], climate: ["hot", "tropical"] },
-    { id: "dressShoes", name: "Nette schoenen", tripType: ["business"], activities: ["nightlife", "dining"], optional: true }
+    { id: "sneakers", name: "Sneakers", weight: 700 },
+    { id: "sandals", name: "Sandalen", weight: 300, climate: ["hot", "tropical"] },
+    { id: "hikingBoots", name: "Wandelschoenen", weight: 900, activities: ["hiking"] },
+    { id: "flipflops", name: "Slippers/Flip-flops", weight: 150, activities: ["beach", "swimming"], climate: ["hot", "tropical"] },
+    { id: "dressShoes", name: "Nette schoenen", weight: 600, tripType: ["business"], activities: ["nightlife", "dining"], optional: true }
   ]},
   toiletries: { name: "Toilettas", icon: "🧴", items: [
-    { id: "toothbrush", name: "Tandenborstel + pasta", always: true },
-    { id: "deodorant", name: "Deodorant", always: true },
-    { id: "shampoo", name: "Shampoo" },
-    { id: "sunscreen", name: "Zonnebrand SPF30+", climate: ["hot", "tropical", "mild"] },
-    { id: "aftersun", name: "After-sun lotion", activities: ["beach"], climate: ["hot", "tropical"], optional: true },
-    { id: "mosquitoRepellent", name: "Anti-muggenspray", climate: ["tropical"] },
-    { id: "razors", name: "Scheermesjes", optional: true },
-    { id: "skincare", name: "Huidverzorging", optional: true },
-    { id: "makeup", name: "Make-up", optional: true },
-    { id: "hairbrush", name: "Haarborstel/kam", optional: true },
-    { id: "lipbalm", name: "Lippenbalsem SPF", climate: ["hot", "cold"], activities: ["skiing", "hiking"] }
+    { id: "toothbrush", name: "Tandenborstel + pasta", weight: 130, always: true },
+    { id: "deodorant", name: "Deodorant", weight: 100, always: true },
+    { id: "shampoo", name: "Shampoo", weight: 200 },
+    { id: "sunscreen", name: "Zonnebrand SPF30+", weight: 150, climate: ["hot", "tropical", "mild"] },
+    { id: "aftersun", name: "After-sun lotion", weight: 150, activities: ["beach"], climate: ["hot", "tropical"], optional: true },
+    { id: "mosquitoRepellent", name: "Anti-muggenspray", weight: 100, climate: ["tropical"] },
+    { id: "razors", name: "Scheermesjes", weight: 50, optional: true },
+    { id: "skincare", name: "Huidverzorging", weight: 100, optional: true },
+    { id: "makeup", name: "Make-up", weight: 200, optional: true },
+    { id: "hairbrush", name: "Haarborstel/kam", weight: 50, optional: true },
+    { id: "lipbalm", name: "Lippenbalsem SPF", weight: 20, climate: ["hot", "cold"], activities: ["skiing", "hiking"] }
   ]},
   electronics: { name: "Elektronica", icon: "🔌", items: [
-    { id: "charger", name: "Opladers" },
-    { id: "powerbank", name: "Powerbank" },
-    { id: "adapter", name: "Reisstekker/adapter" },
-    { id: "headphones", name: "Koptelefoon" },
-    { id: "earbuds", name: "Oordopjes (draadloos)", optional: true },
-    { id: "camera", name: "Camera", optional: true },
-    { id: "laptop", name: "Laptop + oplader", tripType: ["business"], optional: true }
+    { id: "charger", name: "Opladers", weight: 150 },
+    { id: "powerbank", name: "Powerbank", weight: 300 },
+    { id: "adapter", name: "Reisstekker/adapter", weight: 100 },
+    { id: "headphones", name: "Koptelefoon", weight: 250 },
+    { id: "earbuds", name: "Oordopjes (draadloos)", weight: 50, optional: true },
+    { id: "camera", name: "Camera", weight: 500, optional: true },
+    { id: "laptop", name: "Laptop + oplader", weight: 1500, tripType: ["business"], optional: true }
   ]},
   health: { name: "Gezondheid", icon: "💊", items: [
-    { id: "firstAid", name: "EHBO-setje" },
-    { id: "painkillers", name: "Pijnstillers (Paracetamol/Ibuprofen)" },
-    { id: "handSanitizer", name: "Handgel" },
-    { id: "prescription", name: "Voorgeschreven medicijnen", optional: true },
-    { id: "blisterPlasters", name: "Blaarpleisters", activities: ["hiking"] },
-    { id: "motionSickness", name: "Anti-wagenziekte", transport: ["plane", "bus"], optional: true }
+    { id: "firstAid", name: "EHBO-setje", weight: 200 },
+    { id: "painkillers", name: "Pijnstillers (Paracetamol/Ibuprofen)", weight: 30 },
+    { id: "handSanitizer", name: "Handgel", weight: 100 },
+    { id: "prescription", name: "Voorgeschreven medicijnen", weight: 50, optional: true },
+    { id: "blisterPlasters", name: "Blaarpleisters", weight: 20, activities: ["hiking"] },
+    { id: "motionSickness", name: "Anti-wagenziekte", weight: 20, transport: ["plane", "bus"], optional: true }
   ]},
   accessories: { name: "Accessoires", icon: "🎒", items: [
-    { id: "sunglasses", name: "Zonnebril", climate: ["hot", "tropical", "mild"] },
-    { id: "hat", name: "Pet / Hoed", climate: ["hot", "tropical"] },
-    { id: "umbrella", name: "Paraplu", climate: ["tropical", "variable"] },
-    { id: "daypack", name: "Dagtas/rugzak" },
-    { id: "watch", name: "Horloge", optional: true },
-    { id: "scarf", name: "Sjaal", climate: ["cold", "variable"], optional: true },
-    { id: "gloves", name: "Handschoenen", climate: ["cold"] },
-    { id: "beanie", name: "Muts", climate: ["cold"] }
+    { id: "sunglasses", name: "Zonnebril", weight: 50, climate: ["hot", "tropical", "mild"] },
+    { id: "hat", name: "Pet / Hoed", weight: 100, climate: ["hot", "tropical"] },
+    { id: "umbrella", name: "Paraplu", weight: 300, climate: ["tropical", "variable"] },
+    { id: "daypack", name: "Dagtas/rugzak", weight: 400 },
+    { id: "watch", name: "Horloge", weight: 80, optional: true },
+    { id: "scarf", name: "Sjaal", weight: 150, climate: ["cold", "variable"], optional: true },
+    { id: "gloves", name: "Handschoenen", weight: 80, climate: ["cold"] },
+    { id: "beanie", name: "Muts", weight: 60, climate: ["cold"] }
   ]},
   travel: { name: "Reiscomfort", icon: "✈️", items: [
-    { id: "neckPillow", name: "Nekkussen", transport: ["plane", "bus", "train"] },
-    { id: "sleepMask", name: "Slaapmasker", transport: ["plane"] },
-    { id: "earplugs", name: "Oordoppen" },
-    { id: "waterBottle", name: "Hervulbare waterfles" },
-    { id: "snacks", name: "Snacks voor onderweg", optional: true }
+    { id: "neckPillow", name: "Nekkussen", weight: 200, transport: ["plane", "bus", "train"] },
+    { id: "sleepMask", name: "Slaapmasker", weight: 30, transport: ["plane"] },
+    { id: "earplugs", name: "Oordoppen", weight: 10 },
+    { id: "waterBottle", name: "Hervulbare waterfles", weight: 100 },
+    { id: "snacks", name: "Snacks voor onderweg", weight: 200, optional: true }
   ]},
   beach: { name: "Strand", icon: "🏖️", condition: a => (a.activities || []).includes("beach"), items: [
-    { id: "beachTowel", name: "Strandlaken" },
-    { id: "beachBag", name: "Strandtas" },
-    { id: "phoneWaterCase", name: "Waterdichte telefoonhoes" },
-    { id: "beachGames", name: "Strandspelletjes", optional: true }
+    { id: "beachTowel", name: "Strandlaken", weight: 400 },
+    { id: "beachBag", name: "Strandtas", weight: 200 },
+    { id: "phoneWaterCase", name: "Waterdichte telefoonhoes", weight: 50 },
+    { id: "beachGames", name: "Strandspelletjes", weight: 500, optional: true }
   ]},
   hiking: { name: "Wandelen", icon: "🥾", condition: a => (a.activities || []).includes("hiking"), items: [
-    { id: "hikingPoles", name: "Wandelstokken", optional: true },
-    { id: "headlamp", name: "Hoofdlamp" },
-    { id: "hikingSocks", name: "Wandelsokken (merinowol)" },
-    { id: "rainCover", name: "Regenhoes rugzak" },
-    { id: "trekSnacks", name: "Trail snacks/energierepen" }
+    { id: "hikingPoles", name: "Wandelstokken", weight: 500, optional: true },
+    { id: "headlamp", name: "Hoofdlamp", weight: 100 },
+    { id: "hikingSocks", name: "Wandelsokken (merinowol)", weight: 100 },
+    { id: "rainCover", name: "Regenhoes rugzak", weight: 100 },
+    { id: "trekSnacks", name: "Trail snacks/energierepen", weight: 200 }
   ]},
   skiing: { name: "Skiën", icon: "⛷️", condition: a => (a.activities || []).includes("skiing") || (a.tripType || []).includes("wintersport"), items: [
-    { id: "skiJacket", name: "Ski-jas" },
-    { id: "skiPants", name: "Skibroek" },
-    { id: "skiGloves", name: "Ski-handschoenen" },
-    { id: "skiGoggles", name: "Skibril/goggles" },
-    { id: "skiHelmet", name: "Skihelm" },
-    { id: "thermalTop", name: "Thermoshirt (base layer)" },
-    { id: "thermalBottom", name: "Thermobroek (base layer)" },
-    { id: "skiSocks", name: "Skisokken" },
-    { id: "neckWarmer", name: "Nekwarmer/buff" }
+    { id: "skiJacket", name: "Ski-jas", weight: 1000 },
+    { id: "skiPants", name: "Skibroek", weight: 700 },
+    { id: "skiGloves", name: "Ski-handschoenen", weight: 200 },
+    { id: "skiGoggles", name: "Skibril/goggles", weight: 200 },
+    { id: "skiHelmet", name: "Skihelm", weight: 500 },
+    { id: "thermalTop", name: "Thermoshirt (base layer)", weight: 150 },
+    { id: "thermalBottom", name: "Thermobroek (base layer)", weight: 150 },
+    { id: "skiSocks", name: "Skisokken", weight: 100 },
+    { id: "neckWarmer", name: "Nekwarmer/buff", weight: 50 }
   ]},
   business: { name: "Zakelijk", icon: "💼", condition: a => (a.tripType || []).includes("business"), items: [
-    { id: "suit", name: "Pak/kostuum" },
-    { id: "dressShirt", name: "Overhemd (2x)" },
-    { id: "tie", name: "Stropdas", optional: true },
-    { id: "businessShoes", name: "Nette schoenen" },
-    { id: "laptopBag", name: "Laptoptas" },
-    { id: "notepad", name: "Notitieblok + pen" }
+    { id: "suit", name: "Pak/kostuum", weight: 1500 },
+    { id: "dressShirt", name: "Overhemd (2x)", weight: 400 },
+    { id: "tie", name: "Stropdas", weight: 50, optional: true },
+    { id: "businessShoes", name: "Nette schoenen", weight: 700 },
+    { id: "laptopBag", name: "Laptoptas", weight: 800 },
+    { id: "notepad", name: "Notitieblok + pen", weight: 100 }
   ]},
   camping: { name: "Kamperen", icon: "⛺", condition: a => (a.accommodation || []).includes("camping"), items: [
-    { id: "tent", name: "Tent" },
-    { id: "sleepingBag", name: "Slaapzak" },
-    { id: "sleepingPad", name: "Slaapmat/luchtbed" },
-    { id: "lantern", name: "Lantaarn/kamplamp" },
-    { id: "flashlight", name: "Zaklamp" },
-    { id: "campTowel", name: "Sneldrogende handdoek" }
+    { id: "tent", name: "Tent", weight: 3000 },
+    { id: "sleepingBag", name: "Slaapzak", weight: 1500 },
+    { id: "sleepingPad", name: "Slaapmat/luchtbed", weight: 800 },
+    { id: "lantern", name: "Lantaarn/kamplamp", weight: 300 },
+    { id: "flashlight", name: "Zaklamp", weight: 150 },
+    { id: "campTowel", name: "Sneldrogende handdoek", weight: 100 }
   ]}
 };
+
+// Format weight display
+const formatWeight = (g) => g >= 1000 ? `${(g / 1000).toFixed(1)} kg` : `${g}g`;
 
 // Generate filtered packing items based on trip answers
 const getFilteredItems = (answers) => {
@@ -1437,35 +1622,34 @@ const packingItems = getFilteredItems({});
 // STATE MANAGEMENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Check for saved theme
+const savedTheme = localStorage.getItem("paklijst_v2_theme") || "light";
+
 let state = {
-  screen: "home", // home, newtrip, tripflow, packing, templates, celebration
-  trips: [
-    {
-      id: 1,
-      destination: "Bali, Indonesië",
-      icon: "🏝️",
-      startDate: "2024-12-20",
-      endDate: "2024-12-28",
-      tripType: "vacation",
-      progress: 65,
-      items: JSON.parse(JSON.stringify(packingItems))
-    }
-  ],
+  screen: savedTheme ? "home" : "themes", // themes, home, newtrip, packing, pretodos, celebration
+  trips: [],
   currentTrip: null,
   newTrip: {
     step: 0,
     destination: "",
     startDate: "",
     endDate: "",
+    nationality: "",
     travelers: [],
+    companions: [],
     tripType: [],
     accommodation: [],
     transport: [],
+    airline: "",
     activities: []
   },
   expandedCategories: ["essentials"],
   showAutocomplete: false,
-  theme: localStorage.getItem("paklijst_v2_theme") || "light"
+  theme: savedTheme,
+  preTodos: {},
+  companionChecks: {},
+  listTab: "paklijst",
+  modal: null
 };
 
 // Apply theme
@@ -1512,6 +1696,9 @@ const render = () => {
   const app = document.getElementById("app");
 
   switch (state.screen) {
+    case "themes":
+      app.innerHTML = renderThemes();
+      break;
     case "home":
       app.innerHTML = renderHome();
       break;
@@ -1520,6 +1707,9 @@ const render = () => {
       break;
     case "packing":
       app.innerHTML = renderPacking();
+      break;
+    case "pretodos":
+      app.innerHTML = renderPreTodos();
       break;
     case "templates":
       app.innerHTML = renderTemplates();
@@ -1530,6 +1720,138 @@ const render = () => {
     default:
       app.innerHTML = renderHome();
   }
+
+  // Render modal if open
+  if (state.modal) renderModal();
+};
+
+// Theme selector screen
+const renderThemes = () => {
+  return `
+    <div class="container page" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">🎨</div>
+      <h1 class="mb-2">Kies je stijl</h1>
+      <p class="text-secondary mb-6">Selecteer een thema voor je paklijst app</p>
+      <div style="width:100%;max-width:360px;">
+        ${Object.entries(themes).map(([key, theme]) => `
+          <div class="card card-interactive mb-3 ${state.theme === key ? 'card-selected' : ''}" onclick="selectTheme('${key}')" style="display:flex;align-items:center;gap:16px;${state.theme === key ? 'border:2px solid var(--brand-primary);' : ''}">
+            <div style="font-size:24px;">${theme.icon}</div>
+            <div style="flex:1;text-align:left;">
+              <div style="font-weight:600;">${theme.name}</div>
+              <div class="text-sm text-muted">${theme.desc}</div>
+            </div>
+            ${state.theme === key ? '<div style="color:var(--brand-primary);">✔</div>' : ''}
+          </div>
+        `).join('')}
+        <button class="btn btn-primary btn-block mt-4" onclick="confirmTheme()">Doorgaan →</button>
+      </div>
+    </div>
+  `;
+};
+
+// Pre-trip todos screen
+const renderPreTodos = () => {
+  const trip = state.currentTrip;
+  const todos = getPreTripTodos({ destination: trip.destination, nationality: trip.nationality });
+  const checkedCount = todos.filter(t => state.preTodos[t.id]).length;
+
+  return `
+    <div class="container page">
+      <div class="header">
+        <div class="header-action" onclick="goToPacking()">←</div>
+        <div class="header-title">Voor vertrek</div>
+        <div style="width:40px;"></div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <div class="text-sm text-muted">Voorbereid</div>
+            <div style="font-size:24px;font-weight:700;">${checkedCount}/${todos.length}</div>
+          </div>
+          <div style="font-size:32px;">${checkedCount === todos.length ? '✅' : '⏳'}</div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-fill" style="width:${todos.length > 0 ? (checkedCount / todos.length) * 100 : 0}%;background:var(--warning);"></div>
+        </div>
+      </div>
+
+      ${todos.filter(t => t.urgent).length > 0 ? `
+        <h4 class="mb-3">🚨 Urgent</h4>
+        <div class="card mb-4">
+          ${todos.filter(t => t.urgent).map(todo => `
+            <div class="item-row ${state.preTodos[todo.id] ? 'item-packed' : ''}" onclick="togglePreTodo('${todo.id}')">
+              <div class="item-checkbox ${state.preTodos[todo.id] ? 'checked' : ''}">
+                ${state.preTodos[todo.id] ? '✓' : ''}
+              </div>
+              <div class="item-content">
+                <div class="item-name">${todo.text}</div>
+                ${todo.info ? `<div class="text-xs text-muted">${todo.info}</div>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <h4 class="mb-3">📝 Overige taken</h4>
+      <div class="card mb-4">
+        ${todos.filter(t => !t.urgent).map(todo => `
+          <div class="item-row ${state.preTodos[todo.id] ? 'item-packed' : ''}" onclick="togglePreTodo('${todo.id}')">
+            <div class="item-checkbox ${state.preTodos[todo.id] ? 'checked' : ''}">
+              ${state.preTodos[todo.id] ? '✓' : ''}
+            </div>
+            <div class="item-content">
+              <div class="item-name">${todo.text}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="bottom-spacer"></div>
+    </div>
+  `;
+};
+
+// Modal rendering
+const renderModal = () => {
+  const modal = state.modal;
+  let modalHtml = '';
+
+  if (modal.type === 'addCompanion') {
+    modalHtml = `
+      <div class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <h3 class="mb-4">Reisgenoot toevoegen</h3>
+          <div class="mb-3">
+            <label class="text-sm text-muted mb-1" style="display:block;">Naam</label>
+            <input type="text" class="input" id="companion-name" placeholder="Naam...">
+          </div>
+          <div class="mb-4">
+            <label class="text-sm text-muted mb-2" style="display:block;">Type</label>
+            <div style="display:flex;gap:8px;">
+              <div class="card card-interactive ${modal.companionType === 'adult' ? 'card-selected' : ''}" onclick="setCompanionType('adult')" style="flex:1;text-align:center;padding:12px;">
+                <div>👤</div>
+                <div class="text-sm">Volwassene</div>
+              </div>
+              <div class="card card-interactive ${modal.companionType === 'child' ? 'card-selected' : ''}" onclick="setCompanionType('child')" style="flex:1;text-align:center;padding:12px;">
+                <div>🧒</div>
+                <div class="text-sm">Kind</div>
+              </div>
+              <div class="card card-interactive ${modal.companionType === 'baby' ? 'card-selected' : ''}" onclick="setCompanionType('baby')" style="flex:1;text-align:center;padding:12px;">
+                <div>👶</div>
+                <div class="text-sm">Baby</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary" style="flex:1;" onclick="closeModal()">Annuleren</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="confirmAddCompanion()">Toevoegen</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById("app").insertAdjacentHTML('beforeend', modalHtml);
 };
 
 const renderHome = () => {
@@ -1540,8 +1862,8 @@ const renderHome = () => {
       <div class="header">
         <div style="width: 40px;"></div>
         <div class="header-title">Paklijst Pro</div>
-        <div class="header-action" onclick="toggleTheme()">
-          ${state.theme === "dark" ? "☀️" : "🌙"}
+        <div class="header-action" onclick="openThemeSelector()" title="Thema wijzigen">
+          🎨
         </div>
       </div>
 
@@ -1605,49 +1927,42 @@ const renderHome = () => {
 
 const renderNewTrip = () => {
   const step = state.newTrip.step;
-  const totalSteps = 7;
+  // Dynamic steps based on selections
+  const notSolo = state.newTrip.travelers.includes('family') || state.newTrip.travelers.includes('friends') || state.newTrip.travelers.includes('couple');
+  const hasPlane = state.newTrip.transport.includes('plane');
+
+  // Build dynamic step list
+  const steps = [
+    { id: 'destination', title: 'Waar ga je naartoe?', subtitle: 'Zoek je bestemming' },
+    { id: 'dates', title: 'Wanneer reis je?', subtitle: 'Selecteer je data' },
+    { id: 'nationality', title: 'Wat is je nationaliteit?', subtitle: 'Voor visa-vereisten' },
+    { id: 'travelers', title: 'Met wie reis je?', subtitle: 'Kies je reisgezelschap' },
+    { id: 'companions', title: 'Wie gaan er mee?', subtitle: 'Voeg reisgenoten toe', condition: () => notSolo },
+    { id: 'tripType', title: 'Wat voor reis?', subtitle: 'Meerdere mogelijk' },
+    { id: 'accommodation', title: 'Waar verblijf je?', subtitle: 'Type accommodatie' },
+    { id: 'transport', title: 'Hoe reis je?', subtitle: 'Vervoersmiddel' },
+    { id: 'airline', title: 'Welke airline?', subtitle: 'Voor bagagelimieten', condition: () => hasPlane },
+    { id: 'activities', title: 'Wat ga je doen?', subtitle: 'Selecteer activiteiten' }
+  ].filter(s => !s.condition || s.condition());
+
+  const totalSteps = steps.length;
+  const currentStep = steps[step] || steps[0];
 
   let content = "";
-  let title = "";
-  let subtitle = "";
-
-  switch (step) {
-    case 0:
-      title = "Waar ga je naartoe?";
-      subtitle = "Zoek je bestemming";
-      content = renderDestinationStep();
-      break;
-    case 1:
-      title = "Wanneer reis je?";
-      subtitle = "Selecteer je data";
-      content = renderDatesStep();
-      break;
-    case 2:
-      title = "Met wie reis je?";
-      subtitle = "Kies je reisgezelschap";
-      content = renderTravelersStep();
-      break;
-    case 3:
-      title = "Wat voor reis?";
-      subtitle = "Meerdere mogelijk";
-      content = renderTripTypeStep();
-      break;
-    case 4:
-      title = "Waar verblijf je?";
-      subtitle = "Type accommodatie";
-      content = renderAccommodationStep();
-      break;
-    case 5:
-      title = "Hoe reis je?";
-      subtitle = "Vervoersmiddel";
-      content = renderTransportStep();
-      break;
-    case 6:
-      title = "Wat ga je doen?";
-      subtitle = "Selecteer activiteiten";
-      content = renderActivitiesStep();
-      break;
+  switch (currentStep.id) {
+    case 'destination': content = renderDestinationStep(); break;
+    case 'dates': content = renderDatesStep(); break;
+    case 'nationality': content = renderNationalityStep(); break;
+    case 'travelers': content = renderTravelersStep(); break;
+    case 'companions': content = renderCompanionsStep(); break;
+    case 'tripType': content = renderTripTypeStep(); break;
+    case 'accommodation': content = renderAccommodationStep(); break;
+    case 'transport': content = renderTransportStep(); break;
+    case 'airline': content = renderAirlineStep(); break;
+    case 'activities': content = renderActivitiesStep(); break;
   }
+
+  const isLastStep = step === totalSteps - 1;
 
   return `
     <div class="container page">
@@ -1664,8 +1979,8 @@ const renderNewTrip = () => {
       </div>
 
       <div class="mb-6">
-        <h2 class="mb-2">${title}</h2>
-        <p class="text-secondary">${subtitle}</p>
+        <h2 class="mb-2">${currentStep.title}</h2>
+        <p class="text-secondary">${currentStep.subtitle}</p>
       </div>
 
       ${content}
@@ -1677,7 +1992,7 @@ const renderNewTrip = () => {
       <div class="bottom-bar-inner">
         ${step > 0 ? `<button class="btn btn-secondary" onclick="prevStep()">Terug</button>` : ""}
         <button class="btn btn-primary btn-block" onclick="nextStep()" ${!canProceed() ? 'disabled style="opacity:0.5"' : ''}>
-          ${step === 6 ? "Maak paklijst" : "Volgende"}
+          ${isLastStep ? "Maak paklijst" : "Volgende"}
         </button>
       </div>
     </div>
@@ -1860,6 +2175,78 @@ const renderActivitiesStep = () => {
   `;
 };
 
+const renderNationalityStep = () => {
+  return `
+    <div class="options-grid">
+      ${nationalities.map(n => `
+        <div class="option-card ${state.newTrip.nationality === n.value ? 'selected' : ''}"
+             onclick="selectNationality('${n.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${n.icon}</div>
+          <div class="option-label">${n.label}</div>
+          <div class="option-desc">${n.desc}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+};
+
+const renderCompanionsStep = () => {
+  const companions = state.newTrip.companions || [];
+  return `
+    <div>
+      ${companions.length > 0 ? `
+        <div class="mb-4">
+          ${companions.map((c, i) => `
+            <div class="card mb-2" style="display:flex;align-items:center;gap:12px;">
+              <div style="font-size:24px;">${c.type === 'baby' ? '👶' : c.type === 'child' ? '🧒' : '👤'}</div>
+              <div style="flex:1;">
+                <div style="font-weight:600;">${c.name}</div>
+                <div class="text-sm text-muted">${c.type === 'adult' ? 'Volwassene' : c.type === 'child' ? 'Kind' : 'Baby'}</div>
+              </div>
+              <button class="btn btn-ghost" onclick="removeCompanion(${i})">✕</button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      <div class="card card-interactive" onclick="showAddCompanion()" style="display:flex;align-items:center;gap:12px;">
+        <div style="font-size:24px;">➕</div>
+        <div>
+          <div style="font-weight:600;">Reisgenoot toevoegen</div>
+          <div class="text-sm text-muted">Voeg je medereizigers toe</div>
+        </div>
+      </div>
+      <p class="text-sm text-muted mt-4" style="text-align:center;">
+        Je kunt later ook zien wie wat heeft ingepakt
+      </p>
+    </div>
+  `;
+};
+
+const renderAirlineStep = () => {
+  return `
+    <div class="options-grid">
+      ${airlines.map(a => `
+        <div class="option-card ${state.newTrip.airline === a.value ? 'selected' : ''}"
+             onclick="selectAirline('${a.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${a.icon}</div>
+          <div class="option-label">${a.label}</div>
+          <div class="option-desc">${a.desc}</div>
+        </div>
+      `).join("")}
+    </div>
+    ${state.newTrip.airline ? `
+      <div class="card mt-4" style="background:var(--info-light);">
+        <div class="text-sm" style="color:var(--info);">
+          <strong>💼 Bagagelimiet:</strong> ${airlines.find(a => a.value === state.newTrip.airline)?.checked}kg ruimbagage,
+          ${airlines.find(a => a.value === state.newTrip.airline)?.cabin}kg handbagage
+        </div>
+      </div>
+    ` : ''}
+  `;
+};
+
 const renderPacking = () => {
   const trip = state.currentTrip;
   if (!trip) return renderHome();
@@ -1997,9 +2384,88 @@ const renderCelebration = () => {
 // EVENT HANDLERS
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Theme handlers
+window.selectTheme = (theme) => {
+  state.theme = theme;
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("paklijst_v2_theme", theme);
+  render();
+};
+
+window.confirmTheme = () => {
+  state.screen = "home";
+  render();
+};
+
+window.openThemeSelector = () => {
+  state.screen = "themes";
+  render();
+};
+
+// Companion handlers
+window.showAddCompanion = () => {
+  state.modal = { type: 'addCompanion', companionType: 'adult' };
+  render();
+};
+
+window.setCompanionType = (type) => {
+  state.modal.companionType = type;
+  render();
+};
+
+window.closeModal = (e) => {
+  if (!e || e.target === e.currentTarget) {
+    state.modal = null;
+    render();
+  }
+};
+
+window.confirmAddCompanion = () => {
+  const nameInput = document.getElementById('companion-name');
+  const name = nameInput ? nameInput.value.trim() : '';
+  if (!name) return;
+  state.newTrip.companions.push({ name, type: state.modal.companionType });
+  state.modal = null;
+  render();
+};
+
+window.removeCompanion = (idx) => {
+  state.newTrip.companions.splice(idx, 1);
+  render();
+};
+
+// Pre-trip todo handlers
+window.togglePreTodo = (id) => {
+  state.preTodos[id] = !state.preTodos[id];
+  saveState();
+  render();
+};
+
+window.goToPacking = () => {
+  state.screen = "packing";
+  render();
+};
+
+window.goToPreTodos = () => {
+  state.screen = "pretodos";
+  render();
+};
+
+// Nationality handler
+window.selectNationality = (nat) => {
+  state.newTrip.nationality = nat;
+  render();
+};
+
+// Airline handler
+window.selectAirline = (airline) => {
+  state.newTrip.airline = airline;
+  render();
+};
+
 window.startNewTrip = () => {
   state.screen = "newtrip";
-  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", travelers: [], tripType: [], accommodation: [], transport: [], activities: [] };
+  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", nationality: "", travelers: [], companions: [], tripType: [], accommodation: [], transport: [], airline: "", activities: [] };
   render();
 };
 
@@ -2129,11 +2595,32 @@ window.prevStep = () => {
   }
 };
 
+// Helper to get current steps list
+window.getCurrentSteps = () => {
+  const notSolo = state.newTrip.travelers.includes('family') || state.newTrip.travelers.includes('friends') || state.newTrip.travelers.includes('couple');
+  const hasPlane = state.newTrip.transport.includes('plane');
+
+  return [
+    { id: 'destination' },
+    { id: 'dates' },
+    { id: 'nationality' },
+    { id: 'travelers' },
+    { id: 'companions', condition: () => notSolo },
+    { id: 'tripType' },
+    { id: 'accommodation' },
+    { id: 'transport' },
+    { id: 'airline', condition: () => hasPlane },
+    { id: 'activities' }
+  ].filter(s => !s.condition || s.condition());
+};
+
 window.nextStep = () => {
-  // Reset autocomplete state when changing steps
   state.showAutocomplete = false;
 
-  if (state.newTrip.step < 6) {
+  const steps = getCurrentSteps();
+  const isLastStep = state.newTrip.step >= steps.length - 1;
+
+  if (!isLastStep) {
     state.newTrip.step++;
     render();
   } else {
@@ -2147,7 +2634,8 @@ window.nextStep = () => {
       tripType: state.newTrip.tripType,
       transport: state.newTrip.transport,
       accommodation: state.newTrip.accommodation,
-      travelers: state.newTrip.travelers
+      travelers: state.newTrip.travelers,
+      nationality: state.newTrip.nationality
     };
 
     // Create trip with filtered items based on all answers
@@ -2159,10 +2647,13 @@ window.nextStep = () => {
       icon: tripTypes.find(t => t.value === state.newTrip.tripType[0])?.icon || "✈️",
       startDate: state.newTrip.startDate,
       endDate: state.newTrip.endDate,
+      nationality: state.newTrip.nationality,
       tripType: state.newTrip.tripType,
       travelers: state.newTrip.travelers,
+      companions: state.newTrip.companions,
       accommodation: state.newTrip.accommodation,
       transport: state.newTrip.transport,
+      airline: state.newTrip.airline,
       activities: state.newTrip.activities,
       climate: weather.climate,
       progress: 0,
@@ -2177,14 +2668,21 @@ window.nextStep = () => {
 };
 
 window.canProceed = () => {
-  switch (state.newTrip.step) {
-    case 0: return state.newTrip.destination.length > 2;
-    case 1: return state.newTrip.startDate && state.newTrip.endDate;
-    case 2: return state.newTrip.travelers.length > 0;
-    case 3: return state.newTrip.tripType.length > 0;
-    case 4: return state.newTrip.accommodation.length > 0;
-    case 5: return state.newTrip.transport.length > 0;
-    case 6: return true; // Activities are optional
+  const steps = getCurrentSteps();
+  const currentStep = steps[state.newTrip.step];
+  if (!currentStep) return false;
+
+  switch (currentStep.id) {
+    case 'destination': return state.newTrip.destination.length > 2;
+    case 'dates': return state.newTrip.startDate && state.newTrip.endDate;
+    case 'nationality': return !!state.newTrip.nationality;
+    case 'travelers': return state.newTrip.travelers.length > 0;
+    case 'companions': return true; // Companions are optional
+    case 'tripType': return state.newTrip.tripType.length > 0;
+    case 'accommodation': return state.newTrip.accommodation.length > 0;
+    case 'transport': return state.newTrip.transport.length > 0;
+    case 'airline': return !!state.newTrip.airline;
+    case 'activities': return true; // Activities are optional
     default: return false;
   }
 };
