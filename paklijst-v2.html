@@ -1457,7 +1457,10 @@ let state = {
     destination: "",
     startDate: "",
     endDate: "",
+    travelers: [],
     tripType: [],
+    accommodation: [],
+    transport: [],
     activities: []
   },
   expandedCategories: ["essentials"],
@@ -1602,7 +1605,7 @@ const renderHome = () => {
 
 const renderNewTrip = () => {
   const step = state.newTrip.step;
-  const totalSteps = 4;
+  const totalSteps = 7;
 
   let content = "";
   let title = "";
@@ -1620,11 +1623,26 @@ const renderNewTrip = () => {
       content = renderDatesStep();
       break;
     case 2:
+      title = "Met wie reis je?";
+      subtitle = "Kies je reisgezelschap";
+      content = renderTravelersStep();
+      break;
+    case 3:
       title = "Wat voor reis?";
       subtitle = "Meerdere mogelijk";
       content = renderTripTypeStep();
       break;
-    case 3:
+    case 4:
+      title = "Waar verblijf je?";
+      subtitle = "Type accommodatie";
+      content = renderAccommodationStep();
+      break;
+    case 5:
+      title = "Hoe reis je?";
+      subtitle = "Vervoersmiddel";
+      content = renderTransportStep();
+      break;
+    case 6:
       title = "Wat ga je doen?";
       subtitle = "Selecteer activiteiten";
       content = renderActivitiesStep();
@@ -1659,7 +1677,7 @@ const renderNewTrip = () => {
       <div class="bottom-bar-inner">
         ${step > 0 ? `<button class="btn btn-secondary" onclick="prevStep()">Terug</button>` : ""}
         <button class="btn btn-primary btn-block" onclick="nextStep()" ${!canProceed() ? 'disabled style="opacity:0.5"' : ''}>
-          ${step === totalSteps - 1 ? "Maak paklijst" : "Volgende"}
+          ${step === 6 ? "Maak paklijst" : "Volgende"}
         </button>
       </div>
     </div>
@@ -1674,7 +1692,7 @@ const renderDestinationStep = () => {
         d.country.toLowerCase().includes(query.toLowerCase())
       ).slice(0, 6)
     : [];
-  const weather = query.length > 2 ? getWeatherDemo(query) : null;
+  const weather = query.length > 2 ? getWeatherData(query, state.newTrip.startDate) : null;
 
   return `
     <div class="autocomplete-wrapper">
@@ -1769,6 +1787,54 @@ const renderTripTypeStep = () => {
       ${tripTypes.map(t => `
         <div class="option-card ${state.newTrip.tripType.includes(t.value) ? 'selected' : ''}"
              onclick="toggleTripType('${t.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${t.icon}</div>
+          <div class="option-label">${t.label}</div>
+          <div class="option-desc">${t.desc}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+};
+
+const renderTravelersStep = () => {
+  return `
+    <div class="options-grid">
+      ${travelers.map(t => `
+        <div class="option-card ${state.newTrip.travelers.includes(t.value) ? 'selected' : ''}"
+             onclick="toggleTravelers('${t.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${t.icon}</div>
+          <div class="option-label">${t.label}</div>
+          <div class="option-desc">${t.desc}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+};
+
+const renderAccommodationStep = () => {
+  return `
+    <div class="options-grid">
+      ${accommodations.map(a => `
+        <div class="option-card ${state.newTrip.accommodation.includes(a.value) ? 'selected' : ''}"
+             onclick="toggleAccommodation('${a.value}')">
+          <div class="option-check">✓</div>
+          <div class="option-icon">${a.icon}</div>
+          <div class="option-label">${a.label}</div>
+          <div class="option-desc">${a.desc}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+};
+
+const renderTransportStep = () => {
+  return `
+    <div class="options-grid">
+      ${transports.map(t => `
+        <div class="option-card ${state.newTrip.transport.includes(t.value) ? 'selected' : ''}"
+             onclick="toggleTransport('${t.value}')">
           <div class="option-check">✓</div>
           <div class="option-icon">${t.icon}</div>
           <div class="option-label">${t.label}</div>
@@ -1933,7 +1999,7 @@ const renderCelebration = () => {
 
 window.startNewTrip = () => {
   state.screen = "newtrip";
-  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", tripType: [], activities: [] };
+  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", travelers: [], tripType: [], accommodation: [], transport: [], activities: [] };
   render();
 };
 
@@ -1975,6 +2041,36 @@ window.toggleTripType = (type) => {
     state.newTrip.tripType.push(type);
   } else {
     state.newTrip.tripType.splice(idx, 1);
+  }
+  render();
+};
+
+window.toggleTravelers = (traveler) => {
+  const idx = state.newTrip.travelers.indexOf(traveler);
+  if (idx === -1) {
+    state.newTrip.travelers.push(traveler);
+  } else {
+    state.newTrip.travelers.splice(idx, 1);
+  }
+  render();
+};
+
+window.toggleAccommodation = (acc) => {
+  const idx = state.newTrip.accommodation.indexOf(acc);
+  if (idx === -1) {
+    state.newTrip.accommodation.push(acc);
+  } else {
+    state.newTrip.accommodation.splice(idx, 1);
+  }
+  render();
+};
+
+window.toggleTransport = (transport) => {
+  const idx = state.newTrip.transport.indexOf(transport);
+  if (idx === -1) {
+    state.newTrip.transport.push(transport);
+  } else {
+    state.newTrip.transport.splice(idx, 1);
   }
   render();
 };
@@ -2037,20 +2133,40 @@ window.nextStep = () => {
   // Reset autocomplete state when changing steps
   state.showAutocomplete = false;
 
-  if (state.newTrip.step < 3) {
+  if (state.newTrip.step < 6) {
     state.newTrip.step++;
     render();
   } else {
-    // Create trip
+    // Get weather/climate data for destination
+    const weather = getWeatherData(state.newTrip.destination, state.newTrip.startDate);
+
+    // Build answers object for smart filtering
+    const answers = {
+      climate: weather.climate,
+      activities: state.newTrip.activities,
+      tripType: state.newTrip.tripType,
+      transport: state.newTrip.transport,
+      accommodation: state.newTrip.accommodation,
+      travelers: state.newTrip.travelers
+    };
+
+    // Create trip with filtered items based on all answers
+    const filteredItems = getFilteredItems(answers);
+
     const newTrip = {
       id: Date.now(),
       destination: state.newTrip.destination,
       icon: tripTypes.find(t => t.value === state.newTrip.tripType[0])?.icon || "✈️",
       startDate: state.newTrip.startDate,
       endDate: state.newTrip.endDate,
-      tripType: state.newTrip.tripType[0],
+      tripType: state.newTrip.tripType,
+      travelers: state.newTrip.travelers,
+      accommodation: state.newTrip.accommodation,
+      transport: state.newTrip.transport,
+      activities: state.newTrip.activities,
+      climate: weather.climate,
       progress: 0,
-      items: JSON.parse(JSON.stringify(packingItems))
+      items: filteredItems
     };
     state.trips.unshift(newTrip);
     state.currentTrip = newTrip;
@@ -2064,8 +2180,11 @@ window.canProceed = () => {
   switch (state.newTrip.step) {
     case 0: return state.newTrip.destination.length > 2;
     case 1: return state.newTrip.startDate && state.newTrip.endDate;
-    case 2: return state.newTrip.tripType.length > 0;
-    case 3: return true;
+    case 2: return state.newTrip.travelers.length > 0;
+    case 3: return state.newTrip.tripType.length > 0;
+    case 4: return state.newTrip.accommodation.length > 0;
+    case 5: return state.newTrip.transport.length > 0;
+    case 6: return true; // Activities are optional
     default: return false;
   }
 };
@@ -2125,7 +2244,7 @@ window.toggleTheme = () => {
 
 window.useTemplate = (templateId) => {
   // Start new trip with template
-  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", tripType: [], activities: [] };
+  state.newTrip = { step: 0, destination: "", startDate: "", endDate: "", travelers: [], tripType: [], accommodation: [], transport: [], activities: [] };
   state.screen = "newtrip";
   render();
 };
