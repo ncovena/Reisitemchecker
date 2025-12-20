@@ -2070,12 +2070,14 @@ const renderPreTodos = () => {
   const todos = getPreTripTodos({ destination: trip.destination, nationality: trip.nationality });
   const checkedCount = todos.filter(t => state.preTodos[t.id]).length;
 
+  const isNewTrip = !state.currentTrip; // Check if we're creating a new trip
+
   return `
     <div class="container page">
       <div class="header">
-        <div class="header-back" onclick="goHome()">←</div>
+        <div class="header-back" onclick="${isNewTrip ? 'goHome()' : 'goToPacking()'}">${isNewTrip ? '✕' : '←'}</div>
         <div class="header-title">Voor vertrek</div>
-        <div style="width:40px;"></div>
+        <div class="header-action" onclick="goHome()">🏠</div>
       </div>
 
       <div class="mb-4">
@@ -2098,34 +2100,34 @@ const renderPreTodos = () => {
 
       ${todos.filter(t => t.urgent).length > 0 ? `
         <h4 class="mb-3">🚨 Urgent</h4>
-        <div class="card mb-4">
-          ${todos.filter(t => t.urgent).map(todo => `
-            <div class="item-row ${state.preTodos[todo.id] ? 'item-packed' : ''}" onclick="togglePreTodo('${todo.id}')">
-              <div class="item-checkbox ${state.preTodos[todo.id] ? 'checked' : ''}">
+        ${todos.filter(t => t.urgent).map(todo => `
+          <div class="card mb-3" onclick="togglePreTodo('${todo.id}')" style="cursor:pointer; border: 2px solid ${state.preTodos[todo.id] ? 'var(--success)' : 'var(--border-light)'}; background: ${state.preTodos[todo.id] ? 'var(--success-light)' : 'var(--bg-secondary)'};">
+            <div class="flex items-center gap-3">
+              <div class="item-checkbox ${state.preTodos[todo.id] ? 'checked' : ''}" style="flex-shrink:0;">
                 ${state.preTodos[todo.id] ? '✓' : ''}
               </div>
-              <div class="item-content">
-                <div class="item-name">${todo.text}</div>
-                ${todo.info ? `<div class="text-xs text-muted">${todo.info}</div>` : ''}
+              <div style="flex:1;">
+                <div class="item-name" style="font-weight:500; ${state.preTodos[todo.id] ? 'text-decoration:line-through; opacity:0.7;' : ''}">${todo.text}</div>
+                ${todo.info ? `<div class="text-xs text-muted mt-1">${todo.info}</div>` : ''}
               </div>
-            </div>
-          `).join('')}
-        </div>
-      ` : ''}
-
-      <h4 class="mb-3">📝 Overige taken</h4>
-      <div class="card mb-4">
-        ${todos.filter(t => !t.urgent).map(todo => `
-          <div class="item-row ${state.preTodos[todo.id] ? 'item-packed' : ''}" onclick="togglePreTodo('${todo.id}')">
-            <div class="item-checkbox ${state.preTodos[todo.id] ? 'checked' : ''}">
-              ${state.preTodos[todo.id] ? '✓' : ''}
-            </div>
-            <div class="item-content">
-              <div class="item-name">${todo.text}</div>
             </div>
           </div>
         `).join('')}
-      </div>
+      ` : ''}
+
+      <h4 class="mb-3">📝 Overige taken</h4>
+      ${todos.filter(t => !t.urgent).map(todo => `
+        <div class="card mb-3" onclick="togglePreTodo('${todo.id}')" style="cursor:pointer; border: 2px solid ${state.preTodos[todo.id] ? 'var(--success)' : 'var(--border-light)'}; background: ${state.preTodos[todo.id] ? 'var(--success-light)' : 'var(--bg-secondary)'};">
+          <div class="flex items-center gap-3">
+            <div class="item-checkbox ${state.preTodos[todo.id] ? 'checked' : ''}" style="flex-shrink:0;">
+              ${state.preTodos[todo.id] ? '✓' : ''}
+            </div>
+            <div style="flex:1;">
+              <div class="item-name" style="font-weight:500; ${state.preTodos[todo.id] ? 'text-decoration:line-through; opacity:0.7;' : ''}">${todo.text}</div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
 
       <div class="bottom-spacer"></div>
     </div>
@@ -2165,7 +2167,7 @@ const renderSuggestions = () => {
       <div class="header">
         <div class="header-back" onclick="state.screen='pretodos';render()">←</div>
         <div class="header-title">Paklijst samenstellen</div>
-        <div style="width:40px;"></div>
+        <div class="header-action" onclick="goHome()">🏠</div>
       </div>
 
       <div class="mb-4">
@@ -2777,7 +2779,7 @@ const renderPacking = () => {
   return `
     <div class="container page">
       <div class="header">
-        <div class="header-back" onclick="goHome()">←</div>
+        <div class="header-back" onclick="goHome()">🏠</div>
         <div class="header-title">${trip.destination.split(",")[0]}</div>
         <div class="header-action" onclick="editTrip()" title="Bewerk reis">✏️</div>
       </div>
@@ -3050,13 +3052,10 @@ window.goToPreTodos = () => {
 // Suggestions handlers
 window.goToSuggestions = () => {
   state.screen = "suggestions";
+  // Initialize empty selection - items start UNSELECTED
   state.selectedItems = {};
-  // Pre-select all items by default
-  Object.entries(state.filteredItems).forEach(([catKey, category]) => {
+  Object.keys(state.filteredItems).forEach(catKey => {
     state.selectedItems[catKey] = {};
-    category.items.forEach(item => {
-      state.selectedItems[catKey][item.id] = true;
-    });
   });
   render();
 };
@@ -3209,22 +3208,44 @@ window.goToTemplates = () => {
 
 window.updateDestination = (value) => {
   state.newTrip.destination = value;
-  state.showAutocomplete = true;
 
-  // Store cursor position
-  const input = document.getElementById('destinationInput');
-  const cursorPos = input ? input.selectionStart : 0;
+  // Update autocomplete without full re-render (prevents keyboard from closing)
+  const query = value || '';
+  const filtered = query.length > 0
+    ? destinations.filter(d =>
+        d.name.toLowerCase().includes(query.toLowerCase()) ||
+        d.country.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 8)
+    : [];
 
-  render();
+  // Find or create autocomplete dropdown
+  let dropdown = document.querySelector('.autocomplete-dropdown');
+  const wrapper = document.querySelector('.autocomplete-wrapper');
 
-  // Restore focus and cursor position
-  setTimeout(() => {
-    const newInput = document.getElementById('destinationInput');
-    if (newInput) {
-      newInput.focus();
-      newInput.setSelectionRange(cursorPos, cursorPos);
+  if (filtered.length > 0 && query.length > 0) {
+    const dropdownHtml = filtered.map(d => `
+      <div class="autocomplete-item" onclick="selectDestination('${d.name.replace(/'/g, "\\'")}')">
+        <span class="autocomplete-flag">${d.flag}</span>
+        <div class="autocomplete-text">
+          <div class="autocomplete-name">${d.name}</div>
+          <div class="autocomplete-country">${d.country}</div>
+        </div>
+      </div>
+    `).join('');
+
+    if (dropdown) {
+      dropdown.innerHTML = dropdownHtml;
+      dropdown.style.display = 'block';
+    } else if (wrapper) {
+      wrapper.insertAdjacentHTML('beforeend', `
+        <div class="autocomplete-dropdown" style="display: block;">
+          ${dropdownHtml}
+        </div>
+      `);
     }
-  }, 0);
+  } else if (dropdown) {
+    dropdown.style.display = 'none';
+  }
 };
 
 window.selectDestination = (dest) => {
