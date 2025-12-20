@@ -2021,6 +2021,9 @@ const render = () => {
     case "pretodos":
       app.innerHTML = renderPreTodos();
       break;
+    case "suggestions":
+      app.innerHTML = renderSuggestions();
+      break;
     case "templates":
       app.innerHTML = renderTemplates();
       break;
@@ -2061,16 +2064,23 @@ const renderThemes = () => {
 
 // Pre-trip todos screen
 const renderPreTodos = () => {
-  const trip = state.currentTrip;
+  const trip = state.tempTrip || state.currentTrip;
+  if (!trip) return renderHome();
+
   const todos = getPreTripTodos({ destination: trip.destination, nationality: trip.nationality });
   const checkedCount = todos.filter(t => state.preTodos[t.id]).length;
 
   return `
     <div class="container page">
       <div class="header">
-        <div class="header-action" onclick="goToPacking()">←</div>
+        <div class="header-back" onclick="goHome()">←</div>
         <div class="header-title">Voor vertrek</div>
         <div style="width:40px;"></div>
+      </div>
+
+      <div class="mb-4">
+        <h2>Regel dit vooraf</h2>
+        <p class="text-secondary">Check deze belangrijke taken voor je vertrekt</p>
       </div>
 
       <div class="card mb-4">
@@ -2118,6 +2128,110 @@ const renderPreTodos = () => {
       </div>
 
       <div class="bottom-spacer"></div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <button class="btn btn-primary btn-block" onclick="goToSuggestions()">
+          Volgende: Paklijst samenstellen →
+        </button>
+      </div>
+    </div>
+  `;
+};
+
+// Suggestions screen - select items for packing list
+const renderSuggestions = () => {
+  if (!state.filteredItems) return renderHome();
+
+  state.selectedItems = state.selectedItems || {};
+
+  const totalSelected = Object.values(state.selectedItems).reduce((acc, cat) => {
+    return acc + Object.values(cat).filter(Boolean).length;
+  }, 0);
+
+  const totalWeight = Object.entries(state.selectedItems).reduce((acc, [catKey, items]) => {
+    return acc + Object.entries(items).reduce((sum, [itemId, selected]) => {
+      if (selected) {
+        const item = state.filteredItems[catKey]?.items.find(i => i.id === itemId);
+        return sum + (item?.weight || 0);
+      }
+      return sum;
+    }, 0);
+  }, 0);
+
+  return `
+    <div class="container page">
+      <div class="header">
+        <div class="header-back" onclick="state.screen='pretodos';render()">←</div>
+        <div class="header-title">Paklijst samenstellen</div>
+        <div style="width:40px;"></div>
+      </div>
+
+      <div class="mb-4">
+        <h2>Selecteer je items</h2>
+        <p class="text-secondary">Kies wat je mee wilt nemen</p>
+      </div>
+
+      <div class="card card-elevated mb-4" style="background: var(--brand-light);">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-sm text-secondary">Geselecteerd</div>
+            <div style="font-size:20px;font-weight:700;">${totalSelected} items</div>
+          </div>
+          <div>
+            <div class="text-sm text-secondary">Totaal gewicht</div>
+            <div style="font-size:20px;font-weight:700;">${(totalWeight / 1000).toFixed(1)} kg</div>
+          </div>
+        </div>
+      </div>
+
+      ${Object.entries(state.filteredItems).map(([catKey, category]) => {
+        const isExpanded = !state.collapsedCategories?.includes(catKey);
+        const selectedInCat = Object.values(state.selectedItems[catKey] || {}).filter(Boolean).length;
+
+        return `
+          <div class="category-section ${isExpanded ? 'expanded' : ''}" style="margin-bottom:16px;">
+            <div class="category-header" onclick="toggleSuggestionCategory('${catKey}')">
+              <div class="category-title">
+                <span class="category-icon">${category.icon}</span>
+                <span class="category-name">${category.name}</span>
+                <span class="category-count">${selectedInCat}/${category.items.length}</span>
+              </div>
+              <span class="category-chevron">▼</span>
+            </div>
+            <div class="category-items">
+              <button class="btn btn-sm btn-secondary mb-2" onclick="selectAllInCategory('${catKey}')">
+                ${category.items.every(i => state.selectedItems[catKey]?.[i.id]) ? 'Deselecteer alles' : 'Selecteer alles'}
+              </button>
+              ${category.items.map(item => {
+                const isSelected = state.selectedItems[catKey]?.[item.id];
+                return `
+                  <div class="item-row ${isSelected ? 'item-selected' : ''}" onclick="toggleSuggestionItem('${catKey}', '${item.id}')">
+                    <div class="item-checkbox ${isSelected ? 'checked' : ''}">
+                      ${isSelected ? '✓' : ''}
+                    </div>
+                    <div class="item-content">
+                      <div class="item-name">${item.name}</div>
+                      ${item.weight ? `<div class="text-xs text-muted">${item.weight}g</div>` : ''}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('')}
+
+      <div class="bottom-spacer"></div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bottom-bar-inner">
+        <button class="btn btn-primary btn-block" onclick="createPackingList()" ${totalSelected === 0 ? 'disabled style="opacity:0.5"' : ''}>
+          Maak paklijst (${totalSelected} items) →
+        </button>
+      </div>
     </div>
   `;
 };
@@ -2665,7 +2779,7 @@ const renderPacking = () => {
       <div class="header">
         <div class="header-back" onclick="goHome()">←</div>
         <div class="header-title">${trip.destination.split(",")[0]}</div>
-        <div class="header-action" onclick="goToPreTodos()">📋</div>
+        <div class="header-action" onclick="editTrip()" title="Bewerk reis">✏️</div>
       </div>
 
       <div class="card card-elevated mb-4" style="background: linear-gradient(135deg, var(--brand-light) 0%, #E0F2FE 100%);">
@@ -2680,6 +2794,9 @@ const renderPacking = () => {
           <div class="progress-fill ${progress === 100 ? 'complete' : ''}" style="width: ${progress}%"></div>
         </div>
         <div class="text-sm text-secondary mt-2">${packedItems} van ${totalItems} items ingepakt</div>
+        <button class="btn btn-sm btn-secondary mt-3" onclick="goToPreTodos()">
+          📋 Bekijk voor-vertrek taken
+        </button>
       </div>
 
       ${hasCompanions ? `
@@ -2930,6 +3047,128 @@ window.goToPreTodos = () => {
   render();
 };
 
+// Suggestions handlers
+window.goToSuggestions = () => {
+  state.screen = "suggestions";
+  state.selectedItems = {};
+  // Pre-select all items by default
+  Object.entries(state.filteredItems).forEach(([catKey, category]) => {
+    state.selectedItems[catKey] = {};
+    category.items.forEach(item => {
+      state.selectedItems[catKey][item.id] = true;
+    });
+  });
+  render();
+};
+
+window.toggleSuggestionItem = (catKey, itemId) => {
+  if (!state.selectedItems[catKey]) state.selectedItems[catKey] = {};
+  state.selectedItems[catKey][itemId] = !state.selectedItems[catKey][itemId];
+  render();
+};
+
+window.toggleSuggestionCategory = (catKey) => {
+  if (!state.collapsedCategories) state.collapsedCategories = [];
+  const idx = state.collapsedCategories.indexOf(catKey);
+  if (idx === -1) {
+    state.collapsedCategories.push(catKey);
+  } else {
+    state.collapsedCategories.splice(idx, 1);
+  }
+  render();
+};
+
+window.selectAllInCategory = (catKey) => {
+  const category = state.filteredItems[catKey];
+  const allSelected = category.items.every(i => state.selectedItems[catKey]?.[i.id]);
+
+  if (!state.selectedItems[catKey]) state.selectedItems[catKey] = {};
+
+  if (allSelected) {
+    // Deselect all
+    category.items.forEach(item => {
+      state.selectedItems[catKey][item.id] = false;
+    });
+  } else {
+    // Select all
+    category.items.forEach(item => {
+      state.selectedItems[catKey][item.id] = true;
+    });
+  }
+  render();
+};
+
+window.createPackingList = () => {
+  // Build final items from selected items
+  const finalItems = {};
+
+  Object.entries(state.selectedItems).forEach(([catKey, items]) => {
+    const selectedInCat = [];
+    Object.entries(items).forEach(([itemId, isSelected]) => {
+      if (isSelected) {
+        const item = state.filteredItems[catKey]?.items.find(i => i.id === itemId);
+        if (item) {
+          selectedInCat.push({ ...item, packed: false, quantity: 1 });
+        }
+      }
+    });
+
+    if (selectedInCat.length > 0) {
+      finalItems[catKey] = {
+        name: state.filteredItems[catKey].name,
+        icon: state.filteredItems[catKey].icon,
+        items: selectedInCat
+      };
+    }
+  });
+
+  // Create the trip with selected items
+  const newTrip = {
+    ...state.tempTrip,
+    items: finalItems
+  };
+
+  state.trips.unshift(newTrip);
+  state.currentTrip = newTrip;
+  state.screen = "packing";
+
+  // Clear temp data
+  state.tempTrip = null;
+  state.filteredItems = null;
+  state.selectedItems = null;
+
+  saveState();
+  render();
+};
+
+// Edit trip handler
+window.editTrip = () => {
+  if (!state.currentTrip) return;
+
+  // Populate newTrip with current trip data
+  state.newTrip = {
+    step: 0,
+    destination: state.currentTrip.destination,
+    startDate: state.currentTrip.startDate,
+    endDate: state.currentTrip.endDate,
+    nationality: state.currentTrip.nationality,
+    travelers: state.currentTrip.travelers || [],
+    companions: state.currentTrip.companions || [],
+    tripType: state.currentTrip.tripType || [],
+    accommodation: state.currentTrip.accommodation || [],
+    transport: state.currentTrip.transport || [],
+    airline: state.currentTrip.airline || "",
+    activities: state.currentTrip.activities || []
+  };
+
+  // Remove current trip from list (will be re-added after editing)
+  state.trips = state.trips.filter(t => t.id !== state.currentTrip.id);
+  state.currentTrip = null;
+
+  state.screen = "newtrip";
+  render();
+};
+
 // Nationality handler
 window.selectNationality = (nat) => {
   state.newTrip.nationality = nat;
@@ -2971,7 +3210,21 @@ window.goToTemplates = () => {
 window.updateDestination = (value) => {
   state.newTrip.destination = value;
   state.showAutocomplete = true;
+
+  // Store cursor position
+  const input = document.getElementById('destinationInput');
+  const cursorPos = input ? input.selectionStart : 0;
+
   render();
+
+  // Restore focus and cursor position
+  setTimeout(() => {
+    const newInput = document.getElementById('destinationInput');
+    if (newInput) {
+      newInput.focus();
+      newInput.setSelectionRange(cursorPos, cursorPos);
+    }
+  }, 0);
 };
 
 window.selectDestination = (dest) => {
@@ -3117,10 +3370,11 @@ window.nextStep = () => {
       nationality: state.newTrip.nationality
     };
 
-    // Create trip with filtered items based on all answers
-    const filteredItems = getFilteredItems(answers);
+    // Store filtered items for suggestions
+    state.filteredItems = getFilteredItems(answers);
 
-    const newTrip = {
+    // Store new trip data temporarily
+    state.tempTrip = {
       id: Date.now(),
       destination: state.newTrip.destination,
       icon: tripTypes.find(t => t.value === state.newTrip.tripType[0])?.icon || "✈️",
@@ -3135,13 +3389,11 @@ window.nextStep = () => {
       airline: state.newTrip.airline,
       activities: state.newTrip.activities,
       climate: weather.climate,
-      progress: 0,
-      items: filteredItems
+      progress: 0
     };
-    state.trips.unshift(newTrip);
-    state.currentTrip = newTrip;
-    state.screen = "packing";
-    saveState();
+
+    // Go to pre-travel todos first
+    state.screen = "pretodos";
     render();
   }
 };
