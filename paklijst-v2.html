@@ -542,6 +542,128 @@
     }
 
     /* ─────────────────────────────────────────────────────────────────
+       CIRCULAR PROGRESS (for companion overview)
+       ───────────────────────────────────────────────────────────────── */
+    .companion-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .companion-overview-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    .companion-overview-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .companion-avatar-large {
+      font-size: 32px;
+      margin-bottom: var(--space-2);
+    }
+
+    .companion-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+      color: var(--text-primary);
+    }
+
+    .companion-progress-ring {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto var(--space-2);
+    }
+
+    .companion-progress-ring svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--bg-tertiary);
+      stroke-width: 3;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: var(--success);
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.3s ease;
+    }
+
+    .ring-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .companion-stat {
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+    }
+
+    /* Overview Table */
+    .overview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+    }
+
+    .overview-table th,
+    .overview-table td {
+      padding: var(--space-3) var(--space-2);
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .overview-table th {
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+    }
+
+    .overview-table th:first-child,
+    .overview-table td:first-child {
+      text-align: left;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .overview-table .status-cell {
+      cursor: pointer;
+      font-size: 16px;
+      transition: background var(--transition-fast);
+    }
+
+    .overview-table .status-cell:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .item-cat-icon {
+      margin-right: 6px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
        CATEGORY SECTION
        ───────────────────────────────────────────────────────────────── */
     .category-section {
@@ -2853,57 +2975,174 @@ const renderPacking = () => {
         }).join("")}
       ` : ''}
 
-      ${state.listTab === 'overzicht' && hasCompanions ? `
-        <div class="card mb-4">
-          <h3 class="mb-3">Voortgang per persoon</h3>
-          ${[{ name: trip.travelers && trip.travelers.includes('solo') ? 'Jij' : 'Jij', id: 'self' }, ...trip.companions].map((person) => {
-            const personChecks = state.companionChecks[person.id] || {};
-            const totalChecks = Object.keys(personChecks).length;
-            const completedChecks = Object.values(personChecks).filter(v => v).length;
-            const personProgress = totalChecks > 0 ? Math.round((completedChecks / totalChecks) * 100) : 0;
+      ${state.listTab === 'overzicht' ? `
+        ${(() => {
+          // Get pre-travel todos
+          const todos = getPreTripTodos({ destination: trip.destination, nationality: trip.nationality });
+          const todosChecked = todos.filter(t => state.preTodos[t.id]).length;
+          const urgentTodos = todos.filter(t => t.urgent);
+          const normalTodos = todos.filter(t => !t.urgent);
 
-            return `
-              <div class="companion-progress mb-4" onclick="showCompanionDetails('${person.id}')">
-                <div class="flex items-center justify-between mb-2">
-                  <div class="font-semibold">${person.name}</div>
-                  <div class="text-sm text-muted">${completedChecks}/${totalChecks}</div>
+          return `
+            <!-- Pre-travel preparation progress -->
+            <div class="card card-elevated mb-4" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <div class="text-sm" style="color: #92400E;">Voorbereiding</div>
+                  <div class="h3" style="color: #92400E;">${todosChecked}/${todos.length}</div>
                 </div>
-                <div class="progress-container" style="height: 8px;">
-                  <div class="progress-fill" style="width: ${personProgress}%;"></div>
+                <div style="font-size: 32px;">${todosChecked === todos.length ? '✅' : '⏳'}</div>
+              </div>
+              <div class="progress-container" style="height: 8px;">
+                <div class="progress-fill" style="width: ${todos.length > 0 ? (todosChecked / todos.length) * 100 : 0}%; background: linear-gradient(90deg, #F59E0B, #EAB308);"></div>
+              </div>
+            </div>
+
+            <!-- Urgent pre-travel todos -->
+            ${urgentTodos.length > 0 ? `
+              <div class="card mb-3">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2">
+                    <span style="font-size: 20px;">🚨</span>
+                    <h4 style="margin: 0;">Urgent</h4>
+                  </div>
+                  <span class="text-sm text-muted">${urgentTodos.filter(t => state.preTodos[t.id]).length}/${urgentTodos.length}</span>
+                </div>
+                <div>
+                  ${urgentTodos.map(todo => `
+                    <div class="category-item" style="cursor: pointer; padding: var(--space-3) 0; border-bottom: 1px solid var(--border-light);" onclick="togglePreTodo('${todo.id}')">
+                      <div class="flex items-center gap-3">
+                        <div class="checkbox ${state.preTodos[todo.id] ? 'checked' : ''}">
+                          <span class="check-icon">✓</span>
+                        </div>
+                        <div style="flex: 1;">
+                          <div class="font-medium" style="font-size: var(--text-sm);">${todo.text}</div>
+                          ${todo.info ? `<div class="text-xs text-muted">${todo.info}</div>` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  `).join('')}
                 </div>
               </div>
-            `;
-          }).join('')}
-        </div>
+            ` : ''}
 
-        <h4 class="mb-3">Items per categorie</h4>
-        ${Object.entries(trip.items).map(([key, category]) => `
-          <div class="card mb-3">
-            <div class="flex items-center mb-3">
-              <span style="font-size: 24px; margin-right: 12px;">${category.icon}</span>
-              <h4>${category.name}</h4>
-            </div>
-            ${category.items.map((item, idx) => `
-              <div class="companion-item-row" style="margin-bottom: 12px;">
-                <div class="font-medium mb-2">${item.name}</div>
-                <div class="companion-checks">
-                  ${[{ name: 'Jij', id: 'self' }, ...trip.companions].map(person => {
-                    const checkId = `${key}_${idx}_${person.id}`;
-                    const isChecked = state.companionChecks[checkId];
-                    return `
-                      <div class="companion-check" onclick="toggleCompanionCheck('${checkId}')">
-                        <div class="companion-checkbox ${isChecked ? 'checked' : ''}">
-                          ${isChecked ? '✓' : ''}
+            <!-- Normal pre-travel todos -->
+            ${normalTodos.length > 0 ? `
+              <div class="card mb-4">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2">
+                    <span style="font-size: 20px;">📝</span>
+                    <h4 style="margin: 0;">Overige taken</h4>
+                  </div>
+                  <span class="text-sm text-muted">${normalTodos.filter(t => state.preTodos[t.id]).length}/${normalTodos.length}</span>
+                </div>
+                <div>
+                  ${normalTodos.map(todo => `
+                    <div class="category-item" style="cursor: pointer; padding: var(--space-3) 0; border-bottom: 1px solid var(--border-light);" onclick="togglePreTodo('${todo.id}')">
+                      <div class="flex items-center gap-3">
+                        <div class="checkbox ${state.preTodos[todo.id] ? 'checked' : ''}">
+                          <span class="check-icon">✓</span>
                         </div>
-                        <div class="text-xs text-muted">${person.name}</div>
+                        <div style="flex: 1;">
+                          <div class="font-medium" style="font-size: var(--text-sm);">${todo.text}</div>
+                          ${todo.info ? `<div class="text-xs text-muted">${todo.info}</div>` : ''}
+                        </div>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Companions progress with circular indicators -->
+            ${hasCompanions ? `
+              <div class="card mb-4">
+                <h3 style="margin: 0 0 var(--space-4) 0; font-size: var(--text-lg);">👥 Reisgenoten Pakstatus</h3>
+                <div class="companion-overview-grid">
+                  <!-- Self progress -->
+                  <div class="companion-overview-card" style="border-color: var(--brand);">
+                    <div class="companion-avatar-large">👤</div>
+                    <div class="companion-name">Jij</div>
+                    <div class="companion-progress-ring">
+                      <svg viewBox="0 0 36 36">
+                        <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path class="ring-fill" stroke-dasharray="${progress}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                      </svg>
+                      <span class="ring-text">${Math.round(progress)}%</span>
+                    </div>
+                    <div class="companion-stat">${packedItems}/${totalItems} items</div>
+                  </div>
+
+                  <!-- Companions progress -->
+                  ${trip.companions.map((companion) => {
+                    const companionStats = { checked: 0, total: 0 };
+                    Object.entries(trip.items).forEach(([catKey, cat]) => {
+                      cat.items.forEach((item, idx) => {
+                        const checkId = `${catKey}_${idx}_${companion.id}`;
+                        companionStats.total++;
+                        if (state.companionChecks[checkId]) companionStats.checked++;
+                      });
+                    });
+                    const companionProgress = companionStats.total > 0 ? Math.round((companionStats.checked / companionStats.total) * 100) : 0;
+
+                    return `
+                      <div class="companion-overview-card">
+                        <div class="companion-avatar-large">${companion.type === 'child' ? '👧' : companion.type === 'baby' ? '👶' : '👤'}</div>
+                        <div class="companion-name">${companion.name}</div>
+                        <div class="companion-progress-ring">
+                          <svg viewBox="0 0 36 36">
+                            <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            <path class="ring-fill" stroke-dasharray="${companionProgress}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                          </svg>
+                          <span class="ring-text">${companionProgress}%</span>
+                        </div>
+                        <div class="companion-stat">${companionStats.checked}/${companionStats.total} items</div>
                       </div>
                     `;
                   }).join('')}
                 </div>
               </div>
-            `).join('')}
-          </div>
-        `).join('')}
+
+              <!-- Detailed overview table -->
+              <div class="card mb-4">
+                <div class="flex items-center mb-3">
+                  <span style="font-size: 20px; margin-right: var(--space-2);">📊</span>
+                  <h4 style="margin: 0;">Gedetailleerd Overzicht</h4>
+                </div>
+                <div style="overflow-x: auto;">
+                  <table class="overview-table">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Jij</th>
+                        ${trip.companions.map(c => `<th>${c.name}</th>`).join('')}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${Object.entries(trip.items).map(([catKey, category]) =>
+                        category.items.map((item, idx) => {
+                          return `
+                            <tr>
+                              <td><span class="item-cat-icon">${category.icon}</span> ${item.name}</td>
+                              <td class="status-cell ${item.packed ? 'done' : 'pending'}">${item.packed ? '✅' : '⬜'}</td>
+                              ${trip.companions.map((companion) => {
+                                const checkId = `${catKey}_${idx}_${companion.id}`;
+                                const isChecked = state.companionChecks[checkId];
+                                return `
+                                  <td class="status-cell ${isChecked ? 'done' : 'pending'}" onclick="toggleCompanionCheck('${checkId}')">${isChecked ? '✅' : '⬜'}</td>
+                                `;
+                              }).join('')}
+                            </tr>
+                          `;
+                        }).join('')
+                      ).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ` : ''}
+          `;
+        })()}
       ` : ''}
 
       <div class="bottom-spacer"></div>
