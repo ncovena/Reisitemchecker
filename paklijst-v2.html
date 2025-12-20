@@ -2115,23 +2115,32 @@ const renderHome = () => {
         <div class="mb-4">
           <h3 class="mb-3">Actieve reizen</h3>
           ${state.trips.map(trip => `
-            <div class="trip-card mb-3" onclick="openTrip(${trip.id})">
-              <div class="trip-header">
-                <div class="trip-icon">${trip.icon}</div>
-                <div class="trip-info">
-                  <div class="trip-destination">${trip.destination}</div>
-                  <div class="trip-dates">${formatDate(trip.startDate)} - ${formatDate(trip.endDate)}</div>
+            <div class="trip-card mb-3" style="position: relative;">
+              <div onclick="openTrip(${trip.id})" style="cursor: pointer;">
+                <div class="trip-header">
+                  <div class="trip-icon">${trip.icon}</div>
+                  <div class="trip-info">
+                    <div class="trip-destination">${trip.destination}</div>
+                    <div class="trip-dates">${formatDate(trip.startDate)} - ${formatDate(trip.endDate)}</div>
+                  </div>
+                </div>
+                <div class="trip-progress">
+                  <div class="trip-progress-header">
+                    <span class="trip-progress-label">Ingepakt</span>
+                    <span class="trip-progress-value">${trip.progress}%</span>
+                  </div>
+                  <div class="progress-container">
+                    <div class="progress-fill ${trip.progress === 100 ? 'complete' : ''}" style="width: ${trip.progress}%"></div>
+                  </div>
                 </div>
               </div>
-              <div class="trip-progress">
-                <div class="trip-progress-header">
-                  <span class="trip-progress-label">Ingepakt</span>
-                  <span class="trip-progress-value">${trip.progress}%</span>
-                </div>
-                <div class="progress-container">
-                  <div class="progress-fill ${trip.progress === 100 ? 'complete' : ''}" style="width: ${trip.progress}%"></div>
-                </div>
-              </div>
+              <button
+                onclick="event.stopPropagation(); deleteTrip(${trip.id})"
+                style="position: absolute; top: 12px; right: 12px; background: var(--bg-tertiary); border: 1px solid var(--border-medium); color: var(--text-secondary); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;"
+                onmouseover="this.style.background='var(--error-light)'; this.style.color='var(--error)'; this.style.borderColor='var(--error)'"
+                onmouseout="this.style.background='var(--bg-tertiary)'; this.style.color='var(--text-secondary)'; this.style.borderColor='var(--border-medium)'"
+                title="Verwijder reis"
+              >🗑️</button>
             </div>
           `).join("")}
         </div>
@@ -3004,6 +3013,17 @@ window.openTrip = (id) => {
   if (trip) {
     state.currentTrip = trip;
     state.screen = "packing";
+    render();
+  }
+};
+
+window.deleteTrip = (id) => {
+  if (confirm('Weet je zeker dat je deze reis wilt verwijderen?')) {
+    state.trips = state.trips.filter(t => t.id !== id);
+    if (state.currentTrip && state.currentTrip.id === id) {
+      state.currentTrip = null;
+    }
+    saveState();
     render();
   }
 };
