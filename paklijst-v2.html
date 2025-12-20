@@ -1160,6 +1160,214 @@
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
+    /* ─────────────────────────────────────────────────────────────────
+       TAB NAVIGATION
+       ───────────────────────────────────────────────────────────────── */
+    .tab-nav {
+      display: flex;
+      gap: var(--space-2);
+      background: var(--bg-secondary);
+      padding: var(--space-1);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+
+    .tab {
+      flex: 1;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--text-secondary);
+    }
+
+    .tab:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+
+    .tab.active {
+      background: var(--brand-primary);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       QUANTITY CONTROLS
+       ───────────────────────────────────────────────────────────────── */
+    .category-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-medium);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .qty-btn:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--brand-primary);
+    }
+
+    .qty-btn:active {
+      transform: scale(0.95);
+    }
+
+    .qty-value {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 600;
+      font-size: var(--text-sm);
+      color: var(--text-primary);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       ADD ITEM BUTTON
+       ───────────────────────────────────────────────────────────────── */
+    .btn-add-item {
+      width: 100%;
+      padding: var(--space-3);
+      margin-top: var(--space-2);
+      border: 2px dashed var(--border-medium);
+      border-radius: var(--radius-md);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-add-item:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      background: var(--brand-light);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       COMPANION PROGRESS
+       ───────────────────────────────────────────────────────────────── */
+    .companion-progress {
+      cursor: pointer;
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+    }
+
+    .companion-progress:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .companion-item-row {
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .companion-item-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .companion-checks {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .companion-check {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-1);
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .companion-check:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .companion-checkbox {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .companion-checkbox.checked {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       BACKGROUND IMAGES (themed)
+       ───────────────────────────────────────────────────────────────── */
+    [data-theme="light"] body,
+    [data-theme="dark"] body {
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(13, 148, 136, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.08) 0%, transparent 50%);
+    }
+
+    [data-theme="classic"] body::before,
+    [data-theme="ocean"] body::before,
+    [data-theme="sunset"] body::before,
+    [data-theme="forest"] body::before,
+    [data-theme="midnight"] body::before,
+    [data-theme="neon"] body::before,
+    [data-theme="pastel"] body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: -1;
+      background-size: 100px 100px;
+      background-image:
+        linear-gradient(45deg, transparent 45%, currentColor 45%, currentColor 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, currentColor 45%, currentColor 55%, transparent 55%);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+    }
   </style>
 </head>
 <body>
@@ -1849,6 +2057,27 @@ const renderModal = () => {
           </div>
         </div>
       </div>`;
+  } else if (modal.type === 'addItem') {
+    const categoryKey = modal.categoryKey;
+    const category = state.currentTrip.items[categoryKey];
+    modalHtml = `
+      <div class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <h3 class="mb-4">Item toevoegen aan ${category.name}</h3>
+          <div class="mb-3">
+            <label class="text-sm text-muted mb-1" style="display:block;">Item naam</label>
+            <input type="text" class="input" id="item-name" placeholder="Bijv. Zonnebril, Powerbank...">
+          </div>
+          <div class="mb-4">
+            <label class="text-sm text-muted mb-1" style="display:block;">Gewicht (optioneel, in grammen)</label>
+            <input type="number" class="input" id="item-weight" placeholder="Bijv. 150">
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary" style="flex:1;" onclick="closeModal()">Annuleren</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="confirmAddItem()">Toevoegen</button>
+          </div>
+        </div>
+      </div>`;
   }
 
   document.getElementById("app").insertAdjacentHTML('beforeend', modalHtml);
@@ -2255,15 +2484,17 @@ const renderPacking = () => {
   const totalItems = Object.values(trip.items).reduce((acc, cat) => acc + cat.items.length, 0);
   const packedItems = Object.values(trip.items).reduce((acc, cat) => acc + cat.items.filter(i => i.packed).length, 0);
 
+  const hasCompanions = trip.companions && trip.companions.length > 0;
+
   return `
     <div class="container page">
       <div class="header">
         <div class="header-back" onclick="goHome()">←</div>
         <div class="header-title">${trip.destination.split(",")[0]}</div>
-        <div class="header-action">📤</div>
+        <div class="header-action" onclick="goToPreTodos()">📋</div>
       </div>
 
-      <div class="card card-elevated mb-6" style="background: linear-gradient(135deg, var(--brand-light) 0%, #E0F2FE 100%);">
+      <div class="card card-elevated mb-4" style="background: linear-gradient(135deg, var(--brand-light) 0%, #E0F2FE 100%);">
         <div class="flex items-center justify-between mb-3">
           <div>
             <div class="text-sm text-secondary">Voortgang</div>
@@ -2277,36 +2508,110 @@ const renderPacking = () => {
         <div class="text-sm text-secondary mt-2">${packedItems} van ${totalItems} items ingepakt</div>
       </div>
 
-      ${Object.entries(trip.items).map(([key, category]) => {
-        const isExpanded = state.expandedCategories.includes(key);
-        const catPacked = category.items.filter(i => i.packed).length;
-        const catTotal = category.items.length;
-
-        return `
-          <div class="category-section ${isExpanded ? 'expanded' : ''}">
-            <div class="category-header" onclick="toggleCategory('${key}')">
-              <div class="category-title">
-                <span class="category-icon">${category.icon}</span>
-                <span class="category-name">${category.name}</span>
-                <span class="category-count">${catPacked}/${catTotal}</span>
-              </div>
-              <span class="category-chevron">▼</span>
-            </div>
-            <div class="category-items">
-              ${category.items.map((item, idx) => `
-                <div class="category-item">
-                  <div class="checkbox-wrapper" onclick="toggleItem('${key}', ${idx})">
-                    <div class="checkbox ${item.packed ? 'checked' : ''}">
-                      <span class="check-icon">✓</span>
-                    </div>
-                    <span class="checkbox-label">${item.name}</span>
-                  </div>
-                </div>
-              `).join("")}
-            </div>
+      ${hasCompanions ? `
+        <div class="tab-nav mb-4">
+          <div class="tab ${state.listTab === 'paklijst' ? 'active' : ''}" onclick="switchTab('paklijst')">
+            📦 Paklijst
           </div>
-        `;
-      }).join("")}
+          <div class="tab ${state.listTab === 'overzicht' ? 'active' : ''}" onclick="switchTab('overzicht')">
+            👥 Overzicht
+          </div>
+        </div>
+      ` : ''}
+
+      ${state.listTab === 'paklijst' ? `
+        ${Object.entries(trip.items).map(([key, category]) => {
+          const isExpanded = state.expandedCategories.includes(key);
+          const catPacked = category.items.filter(i => i.packed).length;
+          const catTotal = category.items.length;
+
+          return `
+            <div class="category-section ${isExpanded ? 'expanded' : ''}">
+              <div class="category-header" onclick="toggleCategory('${key}')">
+                <div class="category-title">
+                  <span class="category-icon">${category.icon}</span>
+                  <span class="category-name">${category.name}</span>
+                  <span class="category-count">${catPacked}/${catTotal}</span>
+                </div>
+                <span class="category-chevron">▼</span>
+              </div>
+              <div class="category-items">
+                ${category.items.map((item, idx) => `
+                  <div class="category-item">
+                    <div class="checkbox-wrapper" onclick="toggleItem('${key}', ${idx})">
+                      <div class="checkbox ${item.packed ? 'checked' : ''}">
+                        <span class="check-icon">✓</span>
+                      </div>
+                      <span class="checkbox-label">${item.name} ${item.weight ? `<span class="text-xs text-muted">(${item.weight}g)</span>` : ''}</span>
+                    </div>
+                    <div class="quantity-controls">
+                      <button class="qty-btn" onclick="decreaseQuantity(event, '${key}', ${idx})">−</button>
+                      <span class="qty-value">${item.quantity || 1}</span>
+                      <button class="qty-btn" onclick="increaseQuantity(event, '${key}', ${idx})">+</button>
+                    </div>
+                  </div>
+                `).join("")}
+                <button class="btn-add-item" onclick="showAddItemModal('${key}')">
+                  + Voeg item toe
+                </button>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      ` : ''}
+
+      ${state.listTab === 'overzicht' && hasCompanions ? `
+        <div class="card mb-4">
+          <h3 class="mb-3">Voortgang per persoon</h3>
+          ${[{ name: trip.travelers && trip.travelers.includes('solo') ? 'Jij' : 'Jij', id: 'self' }, ...trip.companions].map((person) => {
+            const personChecks = state.companionChecks[person.id] || {};
+            const totalChecks = Object.keys(personChecks).length;
+            const completedChecks = Object.values(personChecks).filter(v => v).length;
+            const personProgress = totalChecks > 0 ? Math.round((completedChecks / totalChecks) * 100) : 0;
+
+            return `
+              <div class="companion-progress mb-4" onclick="showCompanionDetails('${person.id}')">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="font-semibold">${person.name}</div>
+                  <div class="text-sm text-muted">${completedChecks}/${totalChecks}</div>
+                </div>
+                <div class="progress-container" style="height: 8px;">
+                  <div class="progress-fill" style="width: ${personProgress}%;"></div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <h4 class="mb-3">Items per categorie</h4>
+        ${Object.entries(trip.items).map(([key, category]) => `
+          <div class="card mb-3">
+            <div class="flex items-center mb-3">
+              <span style="font-size: 24px; margin-right: 12px;">${category.icon}</span>
+              <h4>${category.name}</h4>
+            </div>
+            ${category.items.map((item, idx) => `
+              <div class="companion-item-row" style="margin-bottom: 12px;">
+                <div class="font-medium mb-2">${item.name}</div>
+                <div class="companion-checks">
+                  ${[{ name: 'Jij', id: 'self' }, ...trip.companions].map(person => {
+                    const checkId = `${key}_${idx}_${person.id}`;
+                    const isChecked = state.companionChecks[checkId];
+                    return `
+                      <div class="companion-check" onclick="toggleCompanionCheck('${checkId}')">
+                        <div class="companion-checkbox ${isChecked ? 'checked' : ''}">
+                          ${isChecked ? '✓' : ''}
+                        </div>
+                        <div class="text-xs text-muted">${person.name}</div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      ` : ''}
 
       <div class="bottom-spacer"></div>
     </div>
@@ -2769,6 +3074,97 @@ window.createConfetti = () => {
 
     setTimeout(() => confetti.remove(), 5000);
   }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NEW FEATURES - Tab switching, Quantity, Custom Items, Companion Checks
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Tab switching
+window.switchTab = (tab) => {
+  state.listTab = tab;
+  render();
+};
+
+// Quantity controls
+window.increaseQuantity = (event, categoryKey, itemIdx) => {
+  event.stopPropagation();
+  const item = state.currentTrip.items[categoryKey].items[itemIdx];
+  item.quantity = (item.quantity || 1) + 1;
+
+  // Update trip in trips array
+  const tripIdx = state.trips.findIndex(t => t.id === state.currentTrip.id);
+  if (tripIdx !== -1) {
+    state.trips[tripIdx] = state.currentTrip;
+  }
+
+  saveState();
+  render();
+};
+
+window.decreaseQuantity = (event, categoryKey, itemIdx) => {
+  event.stopPropagation();
+  const item = state.currentTrip.items[categoryKey].items[itemIdx];
+  if ((item.quantity || 1) > 1) {
+    item.quantity = (item.quantity || 1) - 1;
+
+    // Update trip in trips array
+    const tripIdx = state.trips.findIndex(t => t.id === state.currentTrip.id);
+    if (tripIdx !== -1) {
+      state.trips[tripIdx] = state.currentTrip;
+    }
+
+    saveState();
+    render();
+  }
+};
+
+// Custom items
+window.showAddItemModal = (categoryKey) => {
+  state.modal = { type: 'addItem', categoryKey };
+  render();
+};
+
+window.confirmAddItem = () => {
+  const nameInput = document.getElementById('item-name');
+  const weightInput = document.getElementById('item-weight');
+  const name = nameInput ? nameInput.value.trim() : '';
+  const weight = weightInput && weightInput.value ? parseInt(weightInput.value) : null;
+
+  if (!name) return;
+
+  const categoryKey = state.modal.categoryKey;
+  const newItem = {
+    name,
+    weight,
+    packed: false,
+    quantity: 1,
+    custom: true
+  };
+
+  state.currentTrip.items[categoryKey].items.push(newItem);
+
+  // Update trip in trips array
+  const tripIdx = state.trips.findIndex(t => t.id === state.currentTrip.id);
+  if (tripIdx !== -1) {
+    state.trips[tripIdx] = state.currentTrip;
+  }
+
+  saveState();
+  state.modal = null;
+  render();
+};
+
+// Companion checking
+window.toggleCompanionCheck = (checkId) => {
+  state.companionChecks[checkId] = !state.companionChecks[checkId];
+  saveState();
+  render();
+};
+
+window.showCompanionDetails = (personId) => {
+  // Future: could open a modal with detailed progress
+  console.log('Show details for:', personId);
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
