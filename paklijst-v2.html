@@ -782,6 +782,81 @@
     }
 
     /* ─────────────────────────────────────────────────────────────────
+       OPTION CARDS WITH BACKGROUND IMAGES
+       ───────────────────────────────────────────────────────────────── */
+    .option-card.with-bg {
+      background-color: #1a1a1a;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      padding: var(--space-3);
+    }
+
+    .option-card.with-bg:hover {
+      border-color: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .option-card.with-bg.selected {
+      border-color: var(--brand-primary);
+      box-shadow: 0 8px 32px rgba(13, 148, 136, 0.4), 0 0 0 3px var(--brand-primary);
+    }
+
+    .option-card.with-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%);
+      transition: all 0.2s ease;
+      z-index: 0;
+    }
+
+    .option-card.with-bg:hover::before {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%);
+    }
+
+    .option-card.with-bg.selected::before {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.3), rgba(13, 148, 136, 0.4));
+    }
+
+    .option-card.with-bg .option-content {
+      position: relative;
+      z-index: 1;
+      text-align: left;
+    }
+
+    .option-card.with-bg .option-label {
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      margin-bottom: 2px;
+    }
+
+    .option-card.with-bg .option-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .option-card.with-bg.selected .option-label,
+    .option-card.with-bg.selected .option-desc {
+      color: white;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
        HEADER / NAV
        ───────────────────────────────────────────────────────────────── */
     .header {
@@ -2337,15 +2412,27 @@ const renderDatesStep = () => {
 const renderTripTypeStep = () => {
   return `
     <div class="options-grid">
-      ${tripTypes.map(t => `
-        <div class="option-card ${state.newTrip.tripType.includes(t.value) ? 'selected' : ''}"
-             onclick="toggleTripType('${t.value}')">
-          <div class="option-check">✓</div>
-          <div class="option-icon">${t.icon}</div>
-          <div class="option-label">${t.label}</div>
-          <div class="option-desc">${t.desc}</div>
-        </div>
-      `).join("")}
+      ${tripTypes.map(t => {
+        const bgImg = optionImages[t.value];
+        const hasBg = !!bgImg;
+        return `
+          <div class="option-card ${hasBg ? 'with-bg' : ''} ${state.newTrip.tripType.includes(t.value) ? 'selected' : ''}"
+               onclick="toggleTripType('${t.value}')"
+               ${hasBg ? `style="background-image: url('${bgImg}')"` : ''}>
+            <div class="option-check">✓</div>
+            ${hasBg ? `
+              <div class="option-content">
+                <div class="option-label">${t.label}</div>
+                <div class="option-desc">${t.desc}</div>
+              </div>
+            ` : `
+              <div class="option-icon">${t.icon}</div>
+              <div class="option-label">${t.label}</div>
+              <div class="option-desc">${t.desc}</div>
+            `}
+          </div>
+        `;
+      }).join("")}
     </div>
   `;
 };
@@ -2353,15 +2440,27 @@ const renderTripTypeStep = () => {
 const renderTravelersStep = () => {
   return `
     <div class="options-grid">
-      ${travelers.map(t => `
-        <div class="option-card ${state.newTrip.travelers.includes(t.value) ? 'selected' : ''}"
-             onclick="toggleTravelers('${t.value}')">
-          <div class="option-check">✓</div>
-          <div class="option-icon">${t.icon}</div>
-          <div class="option-label">${t.label}</div>
-          <div class="option-desc">${t.desc}</div>
-        </div>
-      `).join("")}
+      ${travelers.map(t => {
+        const bgImg = optionImages[t.value];
+        const hasBg = !!bgImg;
+        return `
+          <div class="option-card ${hasBg ? 'with-bg' : ''} ${state.newTrip.travelers.includes(t.value) ? 'selected' : ''}"
+               onclick="toggleTravelers('${t.value}')"
+               ${hasBg ? `style="background-image: url('${bgImg}')"` : ''}>
+            <div class="option-check">✓</div>
+            ${hasBg ? `
+              <div class="option-content">
+                <div class="option-label">${t.label}</div>
+                <div class="option-desc">${t.desc}</div>
+              </div>
+            ` : `
+              <div class="option-icon">${t.icon}</div>
+              <div class="option-label">${t.label}</div>
+              <div class="option-desc">${t.desc}</div>
+            `}
+          </div>
+        `;
+      }).join("")}
     </div>
   `;
 };
@@ -2369,15 +2468,27 @@ const renderTravelersStep = () => {
 const renderAccommodationStep = () => {
   return `
     <div class="options-grid">
-      ${accommodations.map(a => `
-        <div class="option-card ${state.newTrip.accommodation.includes(a.value) ? 'selected' : ''}"
-             onclick="toggleAccommodation('${a.value}')">
-          <div class="option-check">✓</div>
-          <div class="option-icon">${a.icon}</div>
-          <div class="option-label">${a.label}</div>
-          <div class="option-desc">${a.desc}</div>
-        </div>
-      `).join("")}
+      ${accommodations.map(a => {
+        const bgImg = optionImages[a.value];
+        const hasBg = !!bgImg;
+        return `
+          <div class="option-card ${hasBg ? 'with-bg' : ''} ${state.newTrip.accommodation.includes(a.value) ? 'selected' : ''}"
+               onclick="toggleAccommodation('${a.value}')"
+               ${hasBg ? `style="background-image: url('${bgImg}')"` : ''}>
+            <div class="option-check">✓</div>
+            ${hasBg ? `
+              <div class="option-content">
+                <div class="option-label">${a.label}</div>
+                <div class="option-desc">${a.desc}</div>
+              </div>
+            ` : `
+              <div class="option-icon">${a.icon}</div>
+              <div class="option-label">${a.label}</div>
+              <div class="option-desc">${a.desc}</div>
+            `}
+          </div>
+        `;
+      }).join("")}
     </div>
   `;
 };
@@ -2385,15 +2496,27 @@ const renderAccommodationStep = () => {
 const renderTransportStep = () => {
   return `
     <div class="options-grid">
-      ${transports.map(t => `
-        <div class="option-card ${state.newTrip.transport.includes(t.value) ? 'selected' : ''}"
-             onclick="toggleTransport('${t.value}')">
-          <div class="option-check">✓</div>
-          <div class="option-icon">${t.icon}</div>
-          <div class="option-label">${t.label}</div>
-          <div class="option-desc">${t.desc}</div>
-        </div>
-      `).join("")}
+      ${transports.map(t => {
+        const bgImg = optionImages[t.value];
+        const hasBg = !!bgImg;
+        return `
+          <div class="option-card ${hasBg ? 'with-bg' : ''} ${state.newTrip.transport.includes(t.value) ? 'selected' : ''}"
+               onclick="toggleTransport('${t.value}')"
+               ${hasBg ? `style="background-image: url('${bgImg}')"` : ''}>
+            <div class="option-check">✓</div>
+            ${hasBg ? `
+              <div class="option-content">
+                <div class="option-label">${t.label}</div>
+                <div class="option-desc">${t.desc}</div>
+              </div>
+            ` : `
+              <div class="option-icon">${t.icon}</div>
+              <div class="option-label">${t.label}</div>
+              <div class="option-desc">${t.desc}</div>
+            `}
+          </div>
+        `;
+      }).join("")}
     </div>
   `;
 };
@@ -2401,14 +2524,27 @@ const renderTransportStep = () => {
 const renderActivitiesStep = () => {
   return `
     <div class="options-grid">
-      ${activities.map(a => `
-        <div class="option-card ${state.newTrip.activities.includes(a.value) ? 'selected' : ''}"
-             onclick="toggleActivity('${a.value}')">
-          <div class="option-check">✓</div>
-          <div class="option-icon">${a.icon}</div>
-          <div class="option-label">${a.label}</div>
-        </div>
-      `).join("")}
+      ${activities.map(a => {
+        const bgImg = optionImages[a.value];
+        const hasBg = !!bgImg;
+        return `
+          <div class="option-card ${hasBg ? 'with-bg' : ''} ${state.newTrip.activities.includes(a.value) ? 'selected' : ''}"
+               onclick="toggleActivity('${a.value}')"
+               ${hasBg ? `style="background-image: url('${bgImg}')"` : ''}>
+            <div class="option-check">✓</div>
+            ${hasBg ? `
+              <div class="option-content">
+                <div class="option-label">${a.label}</div>
+                ${a.desc ? `<div class="option-desc">${a.desc}</div>` : ''}
+              </div>
+            ` : `
+              <div class="option-icon">${a.icon}</div>
+              <div class="option-label">${a.label}</div>
+              ${a.desc ? `<div class="option-desc">${a.desc}</div>` : ''}
+            `}
+          </div>
+        `;
+      }).join("")}
     </div>
   `;
 };
